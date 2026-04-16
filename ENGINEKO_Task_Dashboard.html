@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ENGINEKO タスクダッシュボード</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', sans-serif;
+    background: #0f0f12;
+    color: #e8e8e8;
+    min-height: 100vh;
+    padding: 24px;
+  }
+  header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 28px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid #2a2a35;
+  }
+  header h1 {
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    color: #fff;
+  }
+  header .subtitle {
+    font-size: 12px;
+    color: #888;
+    margin-top: 4px;
+  }
+  .date-badge {
+    background: #1e1e28;
+    border: 1px solid #2a2a35;
+    border-radius: 8px;
+    padding: 8px 14px;
+    font-size: 12px;
+    color: #aaa;
+    text-align: right;
+  }
+  .date-badge strong { color: #fff; display: block; font-size: 14px; }
+
+  /* ========= KPI ROW ========= */
+  .kpi-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    margin-bottom: 24px;
+  }
+  .kpi {
+    background: #1a1a22;
+    border: 1px solid #2a2a35;
+    border-radius: 12px;
+    padding: 16px 18px;
+  }
+  .kpi .label { font-size: 11px; color: #888; text-transform: uppercase; letter-spacing: 0.06em; }
+  .kpi .value { font-size: 28px; font-weight: 700; margin-top: 4px; }
+  .kpi .sub { font-size: 11px; color: #666; margin-top: 2px; }
+  .kpi.red .value { color: #ff6b6b; }
+  .kpi.yellow .value { color: #ffd166; }
+  .kpi.green .value { color: #06d6a0; }
+  .kpi.blue .value { color: #74b9ff; }
+
+  /* ========= SECTION ========= */
+  .section-title {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #666;
+    margin-bottom: 10px;
+    padding-left: 2px;
+  }
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 24px; }
+  .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 24px; }
+  .col { display: flex; flex-direction: column; gap: 10px; }
+
+  /* ========= CARD ========= */
+  .card {
+    background: #1a1a22;
+    border: 1px solid #2a2a35;
+    border-radius: 12px;
+    padding: 16px 18px;
+  }
+  .card-title {
+    font-size: 12px;
+    font-weight: 600;
+    color: #aaa;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .card-title .dot {
+    width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0;
+  }
+
+  /* ========= TASK ITEMS ========= */
+  .task {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 9px 0;
+    border-bottom: 1px solid #232330;
+    font-size: 13px;
+    line-height: 1.5;
+  }
+  .task:last-child { border-bottom: none; padding-bottom: 0; }
+  .task-icon {
+    flex-shrink: 0;
+    width: 18px; height: 18px;
+    border-radius: 4px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 10px;
+    margin-top: 1px;
+  }
+  .task-icon.urgent { background: rgba(255,107,107,0.2); color: #ff6b6b; }
+  .task-icon.warn   { background: rgba(255,209,102,0.2); color: #ffd166; }
+  .task-icon.ok     { background: rgba(6,214,160,0.2);  color: #06d6a0; }
+  .task-icon.info   { background: rgba(116,185,255,0.2); color: #74b9ff; }
+  .task-icon.done   { background: rgba(108,117,125,0.15); color: #6c757d; }
+
+  .task-body { flex: 1; }
+  .task-name { color: #e0e0e0; }
+  .task-name.done-text { color: #555; text-decoration: line-through; }
+  .task-meta {
+    font-size: 11px;
+    color: #666;
+    margin-top: 2px;
+    display: flex; gap: 10px; flex-wrap: wrap;
+  }
+  .task-meta .tag {
+    background: #23232f;
+    border-radius: 4px;
+    padding: 1px 6px;
+    color: #888;
+  }
+  .task-meta .tag.red { color: #ff6b6b; background: rgba(255,107,107,0.1); }
+  .task-meta .tag.yellow { color: #ffd166; background: rgba(255,209,102,0.1); }
+  .task-meta .tag.green { color: #06d6a0; background: rgba(6,214,160,0.1); }
+  .task-meta .tag.blue { color: #74b9ff; background: rgba(116,185,255,0.1); }
+
+  /* ========= TIMELINE ========= */
+  .timeline { list-style: none; }
+  .timeline li {
+    display: flex;
+    gap: 14px;
+    padding: 8px 0;
+    border-bottom: 1px solid #232330;
+    font-size: 13px;
+    align-items: flex-start;
+  }
+  .timeline li:last-child { border-bottom: none; }
+  .tl-date {
+    min-width: 90px;
+    font-size: 12px;
+    font-weight: 600;
+    color: #888;
+    padding-top: 1px;
+  }
+  .tl-date.near { color: #ffd166; }
+  .tl-date.urgent { color: #ff6b6b; }
+  .tl-line {
+    width: 2px; min-height: 100%; background: #2a2a35;
+    flex-shrink: 0; margin-top: 6px;
+  }
+  .tl-content { flex: 1; color: #ccc; line-height: 1.5; }
+  .tl-content small { color: #666; font-size: 11px; display: block; margin-top: 2px; }
+
+  /* ========= EVENT PILLS ========= */
+  .event-list { display: flex; flex-direction: column; gap: 8px; }
+  .event-item {
+    border-left: 3px solid;
+    padding: 10px 14px;
+    border-radius: 0 8px 8px 0;
+    background: rgba(255,255,255,0.03);
+  }
+  .event-item.upcoming { border-color: #06d6a0; }
+  .event-item.planning { border-color: #ffd166; }
+  .event-item.tbd      { border-color: #74b9ff; }
+  .event-item .e-name { font-size: 14px; font-weight: 600; color: #e0e0e0; }
+  .event-item .e-date { font-size: 12px; color: #888; margin-top: 3px; }
+  .event-item .e-detail { font-size: 12px; color: #666; margin-top: 4px; line-height: 1.5; }
+
+  /* ========= COLLAB ========= */
+  .collab-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .collab-item {
+    background: #23232f;
+    border-radius: 8px;
+    padding: 10px 12px;
+    font-size: 12px;
+  }
+  .collab-item .c-name { font-weight: 600; color: #e0e0e0; margin-bottom: 2px; }
+  .collab-item .c-status {
+    display: inline-block;
+    font-size: 10px;
+    padding: 1px 6px;
+    border-radius: 4px;
+    margin-top: 4px;
+  }
+  .c-status.active  { background: rgba(6,214,160,0.15); color: #06d6a0; }
+  .c-status.pending { background: rgba(255,209,102,0.15); color: #ffd166; }
+  .c-status.explore { background: rgba(116,185,255,0.15); color: #74b9ff; }
+
+  /* ========= SOURCE TAG ========= */
+  .source-row {
+    display: flex; gap: 6px; margin-top: 20px; justify-content: flex-end;
+    font-size: 11px; color: #444;
+  }
+  .source-badge {
+    background: #1e1e28; border: 1px solid #2a2a35;
+    border-radius: 4px; padding: 3px 8px;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div>
+    <h1>🐱 ENGINEKO タスクダッシュボード</h1>
+    <div class="subtitle">Slack #05-コアメンバー / #06-all から自動生成</div>
+  </div>
+  <div class="date-badge">
+    <strong>2026年4月16日（木）</strong>
+    直近更新: 本日
+  </div>
+</header>
+
+<!-- KPI -->
+<div class="kpi-row">
+  <div class="kpi red">
+    <div class="label">🔴 緊急タスク</div>
+    <div class="value">3</div>
+    <div class="sub">今週中に対応必須</div>
+  </div>
+  <div class="kpi yellow">
+    <div class="label">🟡 進行中</div>
+    <div class="value">7</div>
+    <div class="sub">アクションが必要</div>
+  </div>
+  <div class="kpi green">
+    <div class="label">✅ 完了</div>
+    <div class="value">3</div>
+    <div class="sub">直近で完了済み</div>
+  </div>
+  <div class="kpi blue">
+    <div class="label">📅 今後のイベント</div>
+    <div class="value">5</div>
+    <div class="sub">確定 + 調整中</div>
+  </div>
+</div>
+
+<!-- ROW 1: 緊急 + タイムライン -->
+<div class="grid-2">
+
+  <!-- 緊急タスク -->
+  <div>
+    <div class="section-title">🔴 緊急タスク（今週中）</div>
+    <div class="card">
+      <div class="task">
+        <div class="task-icon urgent">!</div>
+        <div class="task-body">
+          <div class="task-name">箱の筆色を確定・佐賀ダンボールへ回答</div>
+          <div class="task-meta">
+            <span class="tag red">🗓 締切: 4/20（月）</span>
+            <span class="tag">担当: Daiki</span>
+            <span class="tag">プロダクト</span>
+          </div>
+        </div>
+      </div>
+      <div class="task">
+        <div class="task-icon urgent">!</div>
+        <div class="task-body">
+          <div class="task-name">4/17 定例MTG（ロット番号ディスカッション）</div>
+          <div class="task-meta">
+            <span class="tag red">🗓 明日 4/17（金）16:30〜17:30</span>
+            <span class="tag">全員</span>
+            <span class="tag">Goal: 翌日方針確定</span>
+          </div>
+        </div>
+      </div>
+      <div class="task">
+        <div class="task-icon urgent">!</div>
+        <div class="task-body">
+          <div class="task-name">商品名・カラー名をFigmaボードに記入</div>
+          <div class="task-meta">
+            <span class="tag red">🗓 4/17定例前まで</span>
+            <span class="tag">各自</span>
+            <span class="tag">Figma</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- タイムライン -->
+  <div>
+    <div class="section-title">📅 直近スケジュール</div>
+    <div class="card">
+      <ul class="timeline">
+        <li>
+          <div class="tl-date urgent">4/17（金）</div>
+          <div class="tl-content">
+            定例MTG 16:30〜17:30
+            <small>ロット番号方針 + ネクストアクション確認</small>
+          </div>
+        </li>
+        <li>
+          <div class="tl-date urgent">4/20（月）</div>
+          <div class="tl-content">
+            箱の筆色確定回答締切
+            <small>佐賀ダンボールへの返答</small>
+          </div>
+        </li>
+        <li>
+          <div class="tl-date near">4/22（水）</div>
+          <div class="tl-content">
+            発泡スチロール試作（もくもくはりねずみ 文京区）
+            <small>有希ちゃん + Daiki 午後予定</small>
+          </div>
+        </li>
+        <li>
+          <div class="tl-date near">4/25（土）箱完成予定</div>
+          <div class="tl-content">
+            箱が完成見込み
+            <small>佐賀ダンボール → 発送準備へ</small>
+          </div>
+        </li>
+        <li>
+          <div class="tl-date near">4/28（火）</div>
+          <div class="tl-content">
+            先行30個 発送
+            <small>4/30納品 → 5/1販売開始</small>
+          </div>
+        </li>
+        <li>
+          <div class="tl-date">5/1（金）</div>
+          <div class="tl-content">
+            箱 先行販売開始 🎉
+            <small>ECサイト engineko.com</small>
+          </div>
+        </li>
+        <li>
+          <div class="tl-date">6/27（土）</div>
+          <div class="tl-content">
+            OPEN NAKAMEGURO 出店
+            <small>11:00〜18:00 / 売上の20% / 有希ちゃん問い合わせ済</small>
+          </div>
+        </li>
+        <li>
+          <div class="tl-date">7月〜</div>
+          <div class="tl-content">
+            CBS（Choose Base Shibuya）出店開始
+            <small>1ヶ月分は自前負担 / 補助金申請中</small>
+          </div>
+        </li>
+        <li>
+          <div class="tl-date">8月</div>
+          <div class="tl-content">
+            GINZA SIX 出展（ステイ確定）
+            <small>補助金は8月下旬以降しか確保できず</small>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- ROW 2: 進行中タスク -->
+<div class="section-title">🟡 進行中タスク</div>
+<div class="grid-3">
+
+  <div class="card">
+    <div class="card-title"><span class="dot" style="background:#ffd166"></span>プロダクト</div>
+    <div class="task">
+      <div class="task-icon warn">▷</div>
+      <div class="task-body">
+        <div class="task-name">ネコちゃん入り発泡スチロール緩衝材の試作</div>
+        <div class="task-meta"><span class="tag yellow">4/22工房</span><span class="tag">有希・Daiki</span></div>
+      </div>
+    </div>
+    <div class="task">
+      <div class="task-icon warn">▷</div>
+      <div class="task-body">
+        <div class="task-name">箱の同梱コンセプトブックへのお手入れ方法掲載</div>
+        <div class="task-meta"><span class="tag">Misaki</span><span class="tag">復調次第対応</span></div>
+      </div>
+    </div>
+    <div class="task">
+      <div class="task-icon warn">▷</div>
+      <div class="task-body">
+        <div class="task-name">ECサイト コンテンツ拡充（来月に向けて）</div>
+        <div class="task-meta"><span class="tag">engineko.com</span><span class="tag">Daiki</span></div>
+      </div>
+    </div>
+    <div class="task">
+      <div class="task-icon warn">▷</div>
+      <div class="task-body">
+        <div class="task-name">富山の工房 撮影許可取得済み → 撮影実施</div>
+        <div class="task-meta"><span class="tag yellow">6月末までに10個金ライン</span><span class="tag">Daiki</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="dot" style="background:#74b9ff"></span>展示・イベント</div>
+    <div class="task">
+      <div class="task-icon info">▷</div>
+      <div class="task-body">
+        <div class="task-name">9月以降の出展場所を模索中</div>
+        <div class="task-meta"><span class="tag blue">CBS・GINZA SIX代替</span><span class="tag">Daiki</span></div>
+      </div>
+    </div>
+    <div class="task">
+      <div class="task-icon info">▷</div>
+      <div class="task-body">
+        <div class="task-name">GINZA SIX ブース制作（木工）業者の紹介依頼</div>
+        <div class="task-meta"><span class="tag">有希 → 紹介先を探している</span></div>
+      </div>
+    </div>
+    <div class="task">
+      <div class="task-icon info">▷</div>
+      <div class="task-body">
+        <div class="task-name">こえんバー × ドイツ人配信者 交流イベント企画</div>
+        <div class="task-meta"><span class="tag blue">5月半ば〜後半</span><span class="tag">Daiki</span></div>
+      </div>
+    </div>
+    <div class="task">
+      <div class="task-icon info">▷</div>
+      <div class="task-body">
+        <div class="task-name">BCCJ向け英語版PDF準備</div>
+        <div class="task-meta"><span class="tag">Ayato確認中</span><span class="tag">英語ブラッシュアップ</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="dot" style="background:#a29bfe"></span>補助金・資金</div>
+    <div class="task">
+      <div class="task-icon warn">▷</div>
+      <div class="task-body">
+        <div class="task-name">特別創業支援補助金 申請（最大400万円）</div>
+        <div class="task-meta"><span class="tag yellow">締切: 4/30</span><span class="tag">小河原ミサさん</span></div>
+      </div>
+    </div>
+    <div class="task">
+      <div class="task-icon warn">▷</div>
+      <div class="task-body">
+        <div class="task-name">グローバル枠補助金の検討（最大3000万円）</div>
+        <div class="task-meta"><span class="tag">海外旅費・通訳費も対象</span><span class="tag blue">フランス展開候補</span></div>
+      </div>
+    </div>
+    <div class="task">
+      <div class="task-icon info">▷</div>
+      <div class="task-body">
+        <div class="task-name">法人カード切替検討（ダイナースクラブ等）</div>
+        <div class="task-meta"><span class="tag">Daiki</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ROW 3: コラボ + 完了 -->
+<div class="grid-2">
+
+  <!-- コラボ -->
+  <div>
+    <div class="section-title">🤝 コラボ・連携</div>
+    <div class="card">
+      <div class="collab-grid">
+        <div class="collab-item">
+          <div class="c-name">佐野鍍金（金鍍金）</div>
+          <div style="font-size:11px; color:#888; margin-top:3px;">金・プラチナ加工コラボ。来週話す予定</div>
+          <span class="c-status pending">調整中</span>
+        </div>
+        <div class="collab-item">
+          <div class="c-name">カイカイキキ（奈良・村上隆）</div>
+          <div style="font-size:11px; color:#888; margin-top:3px;">進行中、ライセンス面あり</div>
+          <span class="c-status active">進行中</span>
+        </div>
+        <div class="collab-item">
+          <div class="c-name">柴田さん（写真家）</div>
+          <div style="font-size:11px; color:#888; margin-top:3px;">パリ16区アートフェス経由。資料できたら紹介資料を作る</div>
+          <span class="c-status explore">検討</span>
+        </div>
+        <div class="collab-item">
+          <div class="c-name">BCCJ（英国商工会）</div>
+          <div style="font-size:11px; color:#888; margin-top:3px;">Ayatokuん経由。海外展開の入口</div>
+          <span class="c-status explore">検討</span>
+        </div>
+        <div class="collab-item">
+          <div class="c-name">KAGUWА（店舗撮影）</div>
+          <div style="font-size:11px; color:#888; margin-top:3px;">ブランディング中の店舗で撮影許可取得済み</div>
+          <span class="c-status active">進行中</span>
+        </div>
+        <div class="collab-item">
+          <div class="c-name">イオン津田沼 POPAP</div>
+          <div style="font-size:11px; color:#888; margin-top:3px;">4〜9月の土日（隔週）委託販売。MAISON 12スペース</div>
+          <span class="c-status pending">調整中</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 完了 + 情報 -->
+  <div class="col">
+    <div>
+      <div class="section-title">✅ 直近で完了したタスク</div>
+      <div class="card">
+        <div class="task">
+          <div class="task-icon done">✓</div>
+          <div class="task-body">
+            <div class="task-name done-text">商品名変更（ECサイト）</div>
+            <div class="task-meta"><span class="tag">4/10 Done</span></div>
+          </div>
+        </div>
+        <div class="task">
+          <div class="task-icon done">✓</div>
+          <div class="task-body">
+            <div class="task-name done-text">KOMOJUでPayPay・銀行振込 決済申請</div>
+            <div class="task-meta"><span class="tag">4/5 Done</span></div>
+          </div>
+        </div>
+        <div class="task">
+          <div class="task-icon done">✓</div>
+          <div class="task-body">
+            <div class="task-name done-text">SNSアカウント管理スプレッドシート作成・Instaアカウント作成</div>
+            <div class="task-meta"><span class="tag">3/22 Done</span><span class="tag">古川さん</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <div class="section-title">📌 ウォッチ項目</div>
+      <div class="card">
+        <div class="task">
+          <div class="task-icon info">i</div>
+          <div class="task-body">
+            <div class="task-name">CBS 閉店情報が出ると動員増える可能性あり（10月以降も視野）</div>
+            <div class="task-meta"><span class="tag blue">情報収集中</span></div>
+          </div>
+        </div>
+        <div class="task">
+          <div class="task-icon info">i</div>
+          <div class="task-body">
+            <div class="task-name">パリ16区アートフェスト経由で欧州展開検討（マモルさん）</div>
+            <div class="task-meta"><span class="tag blue">紹介資料の質を上げる</span></div>
+          </div>
+        </div>
+        <div class="task">
+          <div class="task-icon info">i</div>
+          <div class="task-body">
+            <div class="task-name">競合がマネキネコ始めた件（情報ウォッチ）</div>
+            <div class="task-meta"><span class="tag">差別化戦略を検討</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="source-row">
+  <span class="source-badge">#05-engineko-コアメンバー</span>
+  <span class="source-badge">#06-engineko-all</span>
+  <span class="source-badge">Generated by Claude · 2026-04-16</span>
+</div>
+
+</body>
+</html>
