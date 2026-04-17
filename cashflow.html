@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ENGINEKO キャッシュフロー</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', sans-serif;
+    background: #f7f7fb;
+    color: #1a1a2e;
+    min-height: 100vh;
+    padding: 24px;
+    padding-top: 0;
+  }
+
+  /* ========= TOP NAV ========= */
+  .topnav {
+    background: #fff;
+    border-bottom: 1px solid #e8e8f0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 24px;
+    margin: 0 -24px 28px -24px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+  }
+  .nav-brand { font-size: 15px; font-weight: 700; color: #1a1a2e; letter-spacing: 0.06em; text-decoration: none; }
+  .nav-links { display: flex; gap: 4px; }
+  .nav-link { text-decoration: none; font-size: 13px; font-weight: 500; color: #888; padding: 6px 14px; border-radius: 8px; transition: background 0.15s, color 0.15s; }
+  .nav-link:hover { background: #f5f5fa; color: #1a1a2e; }
+  .nav-link.active { background: #eeecfa; color: #6b63c4; font-weight: 600; }
+
+  /* ========= HEADER ========= */
+  header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 28px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid #e8e8f0;
+  }
+  header h1 { font-size: 22px; font-weight: 700; letter-spacing: 0.08em; color: #1a1a2e; }
+  header .subtitle { font-size: 12px; color: #999; margin-top: 4px; }
+  .date-badge {
+    background: #fff;
+    border: 1px solid #e8e8f0;
+    border-radius: 8px;
+    padding: 8px 14px;
+    font-size: 12px;
+    color: #999;
+    text-align: right;
+  }
+  .date-badge strong { color: #1a1a2e; display: block; font-size: 14px; }
+
+  /* ========= KPI ROW ========= */
+  .kpi-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 24px; }
+  .kpi {
+    background: #fff;
+    border: 1px solid #e8e8f0;
+    border-radius: 12px;
+    padding: 16px 18px;
+  }
+  .kpi .label { font-size: 11px; color: #999; text-transform: uppercase; letter-spacing: 0.06em; }
+  .kpi .value { font-size: 26px; font-weight: 700; margin-top: 4px; }
+  .kpi .sub { font-size: 11px; color: #bbb; margin-top: 2px; }
+  .kpi.green .value  { color: #00a878; }
+  .kpi.red .value    { color: #e05c5c; }
+  .kpi.purple .value { color: #6b63c4; }
+  .kpi.blue .value   { color: #4a90d9; }
+
+  /* ========= SECTION ========= */
+  .section-title {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #aaa;
+    margin-bottom: 10px;
+    padding-left: 2px;
+  }
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 24px; }
+  .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 24px; }
+
+  /* ========= CARD ========= */
+  .card {
+    background: #fff;
+    border: 1px solid #e8e8f0;
+    border-radius: 12px;
+    padding: 16px 18px;
+  }
+  .card-title {
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    color: #aaa;
+    margin-bottom: 12px;
+  }
+  .card-title.color-purple { color: #6b63c4; }
+  .card-title.color-blue   { color: #4a90d9; }
+  .card-title.color-green  { color: #00a878; }
+  .card-title.color-red    { color: #e05c5c; }
+  .card-title.color-orange { color: #e07b39; }
+
+  /* ========= MONEY TABLE ========= */
+  .money-table { width: 100%; border-collapse: collapse; }
+  .money-table tr { border-bottom: 1px solid #f0f0f5; }
+  .money-table tr:last-child { border-bottom: none; }
+  .money-table td { padding: 9px 4px; font-size: 13px; vertical-align: middle; line-height: 1.5; }
+  .money-table td:first-child { color: #666; flex: 1; }
+  .money-table td:last-child { text-align: right; font-weight: 700; white-space: nowrap; }
+  .money-table .sub-row td { font-size: 11px; color: #aaa; padding: 3px 4px; }
+  .money-table .sub-row td:last-child { font-weight: 400; }
+  .money-table .total-row td { border-top: 2px solid #e8e8f0; padding-top: 12px; font-weight: 700; font-size: 14px; }
+  .money-table .total-row td:last-child { color: #6b63c4; }
+
+  /* ========= BADGE ========= */
+  .badge {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 700;
+    border-radius: 5px;
+    padding: 2px 8px;
+    letter-spacing: 0.04em;
+    margin-left: 4px;
+    vertical-align: middle;
+  }
+  .badge-red    { background: #fff0f0; color: #e05c5c; }
+  .badge-yellow { background: #fffbee; color: #c49010; }
+  .badge-green  { background: #f0fdf8; color: #00a878; }
+  .badge-purple { background: #eeecfa; color: #6b63c4; }
+  .badge-blue   { background: #eef4fd; color: #4a90d9; }
+
+  /* ========= SUBSIDY CARD ========= */
+  .subsidy-item {
+    border: 1px solid #e8e8f0;
+    border-radius: 10px;
+    padding: 14px 16px;
+    margin-bottom: 10px;
+    background: #fff;
+    position: relative;
+  }
+  .subsidy-item:last-child { margin-bottom: 0; }
+  .subsidy-name { font-size: 14px; font-weight: 700; color: #1a1a2e; margin-bottom: 4px; }
+  .subsidy-amount {
+    font-size: 20px;
+    font-weight: 700;
+    color: #00a878;
+    margin-bottom: 6px;
+  }
+  .subsidy-amount span { font-size: 12px; font-weight: 400; color: #999; margin-left: 6px; }
+  .subsidy-meta { font-size: 12px; color: #888; line-height: 1.6; }
+  .subsidy-deadline {
+    position: absolute;
+    top: 14px;
+    right: 16px;
+    font-size: 11px;
+    font-weight: 700;
+    color: #e05c5c;
+    background: #fff0f0;
+    border-radius: 5px;
+    padding: 2px 8px;
+  }
+
+  /* ========= FORECAST BAR ========= */
+  .forecast-bar-wrap { margin-top: 10px; }
+  .forecast-bar-label { display: flex; justify-content: space-between; font-size: 11px; color: #aaa; margin-bottom: 4px; }
+  .forecast-bar-track { background: #f0f0f5; border-radius: 99px; height: 8px; overflow: hidden; }
+  .forecast-bar-fill  { height: 8px; border-radius: 99px; background: linear-gradient(90deg, #6b63c4, #a09ee0); }
+
+  /* ========= NOTE ========= */
+  .note {
+    font-size: 12px;
+    color: #6b63c4;
+    background: rgba(107,99,196,0.07);
+    border-left: 3px solid #a09ee0;
+    border-radius: 0 6px 6px 0;
+    padding: 7px 10px;
+    margin-top: 10px;
+    line-height: 1.6;
+  }
+  .note-label { font-weight: 700; font-size: 11px; margin-bottom: 2px; color: #8880c8; letter-spacing: 0.04em; }
+</style>
+</head>
+<body>
+
+<nav class="topnav">
+  <a href="index.html" class="nav-brand">🐱 ENGINEKO</a>
+  <div class="nav-links">
+    <a href="index.html" class="nav-link">📋 タスクダッシュボード</a>
+    <a href="product.html" class="nav-link">📦 プロダクト</a>
+    <a href="cashflow.html" class="nav-link active">💰 キャッシュフロー</a>
+  </div>
+</nav>
+
+<header>
+  <div>
+    <h1>💰 キャッシュフロー</h1>
+    <div class="subtitle">経費・収入・補助金 ／ Slack #05-コアメンバー より</div>
+  </div>
+  <div class="date-badge">
+    <strong>2026年4月17日（金）</strong>
+    最終更新: 本日
+  </div>
+</header>
+
+<!-- KPI -->
+<div class="kpi-row">
+  <div class="kpi green">
+    <div class="label">💹 初年度売上目標</div>
+    <div class="value">400万</div>
+    <div class="sub">欧州B2B 5社想定</div>
+  </div>
+  <div class="kpi purple">
+    <div class="label">🎯 2年目目標</div>
+    <div class="value">1,000万</div>
+    <div class="sub">国内EC + 欧州拡大</div>
+  </div>
+  <div class="kpi blue">
+    <div class="label">🏦 補助金 最大合計</div>
+    <div class="value">3,700万</div>
+    <div class="sub">3補助金の合計上限</div>
+  </div>
+  <div class="kpi red">
+    <div class="label">⏰ 直近締切</div>
+    <div class="value">4/30</div>
+    <div class="sub">特別創業支援補助金</div>
+  </div>
+</div>
+
+<!-- 収入見込み + 経費 -->
+<div class="section-title">📊 収支概要（初年度見込み）</div>
+<div class="grid-2">
+
+  <div class="card">
+    <div class="card-title color-green">💹 収入見込み</div>
+    <table class="money-table">
+      <tr>
+        <td>国内販売（30個 × ¥50,000）</td>
+        <td style="color:#00a878;">¥1,500,000</td>
+      </tr>
+      <tr class="sub-row">
+        <td>初回出荷：30個（4/28発送）</td>
+        <td>単価 ¥50,000</td>
+      </tr>
+      <tr>
+        <td>欧州B2B（5社 × €800相当）</td>
+        <td style="color:#00a878;">¥4,000,000</td>
+      </tr>
+      <tr class="sub-row">
+        <td>€1 ≈ ¥160換算での試算</td>
+        <td>5社 × €800 × 10個想定</td>
+      </tr>
+      <tr class="total-row">
+        <td>初年度売上合計（目標）</td>
+        <td>¥4,000,000〜</td>
+      </tr>
+    </table>
+    <div class="forecast-bar-wrap">
+      <div class="forecast-bar-label"><span>進捗</span><span>達成率 推定 15%（初回出荷前）</span></div>
+      <div class="forecast-bar-track"><div class="forecast-bar-fill" style="width:15%;"></div></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title color-red">💸 主要経費項目</div>
+    <table class="money-table">
+      <tr>
+        <td>EU商標出願</td>
+        <td style="color:#e05c5c;">¥15〜25万</td>
+      </tr>
+      <tr class="sub-row">
+        <td>弁理士費用含む</td>
+        <td><span class="badge badge-yellow">検討中</span></td>
+      </tr>
+      <tr>
+        <td>ハーグ意匠出願</td>
+        <td style="color:#e05c5c;">¥10〜30万 + USD1,500〜3,000</td>
+      </tr>
+      <tr class="sub-row">
+        <td>WIPO経由・国際意匠登録</td>
+        <td><span class="badge badge-yellow">検討中</span></td>
+      </tr>
+      <tr>
+        <td>梱包資材（発泡スチロール等）</td>
+        <td style="color:#e05c5c;">要見積もり</td>
+      </tr>
+      <tr class="sub-row">
+        <td>ウレタン→発泡スチロール代替で抑制</td>
+        <td>30%節約見込み</td>
+      </tr>
+      <tr>
+        <td>試作・製造費（富山/文京区）</td>
+        <td style="color:#e05c5c;">要見積もり</td>
+      </tr>
+    </table>
+    <div class="note">
+      <div class="note-label">💡 仮説</div>
+      知財費用はINPIT補助金（最大300万・補助率1/2）を活用することで実質負担を半減できる見込み。補助金申請を経費確定と並行して進めるべき。
+    </div>
+  </div>
+
+</div>
+
+<!-- 補助金 -->
+<div class="section-title">🏦 補助金・助成金</div>
+<div class="grid-3">
+
+  <div>
+    <div class="subsidy-item">
+      <div class="subsidy-deadline">4/30締切</div>
+      <div class="subsidy-name">特別創業支援補助金</div>
+      <div class="subsidy-amount">400万円<span>最大</span></div>
+      <div class="subsidy-meta">
+        担当：小河原ミサさん<br>
+        申請書類の準備を今週中に完了させる必要あり。<br>
+        <span class="badge badge-red">要対応</span>
+      </div>
+    </div>
+  </div>
+
+  <div>
+    <div class="subsidy-item">
+      <div class="subsidy-name">INPIT 外国出願補助金</div>
+      <div class="subsidy-amount">300万円<span>最大</span></div>
+      <div class="subsidy-meta">
+        補助率：1/2<br>
+        EU商標・ハーグ意匠の出願費用に対して活用可能。<br>
+        知財費用の実質負担を半減できる。<br>
+        <span class="badge badge-blue">検討推奨</span>
+      </div>
+    </div>
+  </div>
+
+  <div>
+    <div class="subsidy-item">
+      <div class="subsidy-name">ものづくり補助金 グローバル枠</div>
+      <div class="subsidy-amount">3,000万円<span>最大</span></div>
+      <div class="subsidy-meta">
+        補助率：2/3<br>
+        海外展開・製造設備投資が対象。<br>
+        欧州B2B展開フェーズで申請検討。<br>
+        <span class="badge badge-purple">中長期</span>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- 2年目ロードマップ -->
+<div class="section-title">🗺️ 財務ロードマップ</div>
+<div class="card" style="margin-bottom:24px;">
+  <div class="card-title color-purple">年次目標</div>
+  <table class="money-table">
+    <tr>
+      <td style="width:100px;"><strong>2026年（初年度）</strong></td>
+      <td>国内30個出荷 ＋ 欧州5社開拓</td>
+      <td style="color:#00a878; text-align:right;">目標 ¥4,000,000</td>
+    </tr>
+    <tr class="sub-row">
+      <td></td>
+      <td>特別創業支援補助金（最大400万）活用 ／ INPIT申請</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><strong>2027年（2年目）</strong></td>
+      <td>欧州顧客拡大 ＋ 国内EC強化 ＋ 金ライン量産</td>
+      <td style="color:#6b63c4; text-align:right;">目標 ¥10,000,000</td>
+    </tr>
+    <tr class="sub-row">
+      <td></td>
+      <td>カイカイキキ・佐野鍍金コラボ本格化 ／ ものづくり補助金申請</td>
+      <td></td>
+    </tr>
+    <tr class="total-row">
+      <td><strong>補助金活用合計</strong></td>
+      <td>3補助金フル活用時</td>
+      <td>最大 ¥37,000,000</td>
+    </tr>
+  </table>
+</div>
+
+</body>
+</html>

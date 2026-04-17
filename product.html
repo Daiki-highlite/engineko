@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ENGINEKO プロダクト</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', sans-serif;
+    background: #f7f7fb;
+    color: #1a1a2e;
+    min-height: 100vh;
+    padding: 24px;
+    padding-top: 0;
+  }
+
+  /* ========= TOP NAV ========= */
+  .topnav {
+    background: #fff;
+    border-bottom: 1px solid #e8e8f0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 24px;
+    margin: 0 -24px 28px -24px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+  }
+  .nav-brand { font-size: 15px; font-weight: 700; color: #1a1a2e; letter-spacing: 0.06em; text-decoration: none; }
+  .nav-links { display: flex; gap: 4px; }
+  .nav-link { text-decoration: none; font-size: 13px; font-weight: 500; color: #888; padding: 6px 14px; border-radius: 8px; transition: background 0.15s, color 0.15s; }
+  .nav-link:hover { background: #f5f5fa; color: #1a1a2e; }
+  .nav-link.active { background: #eeecfa; color: #6b63c4; font-weight: 600; }
+
+  /* ========= HEADER ========= */
+  header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 28px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid #e8e8f0;
+  }
+  header h1 { font-size: 22px; font-weight: 700; letter-spacing: 0.08em; color: #1a1a2e; }
+  header .subtitle { font-size: 12px; color: #999; margin-top: 4px; }
+  .date-badge {
+    background: #fff;
+    border: 1px solid #e8e8f0;
+    border-radius: 8px;
+    padding: 8px 14px;
+    font-size: 12px;
+    color: #999;
+    text-align: right;
+  }
+  .date-badge strong { color: #1a1a2e; display: block; font-size: 14px; }
+
+  /* ========= SECTION ========= */
+  .section-title {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #aaa;
+    margin-bottom: 10px;
+    padding-left: 2px;
+  }
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 24px; }
+  .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 24px; }
+  .col { display: flex; flex-direction: column; gap: 10px; }
+
+  /* ========= CARD ========= */
+  .card {
+    background: #fff;
+    border: 1px solid #e8e8f0;
+    border-radius: 12px;
+    padding: 16px 18px;
+  }
+  .card-title {
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    color: #aaa;
+    margin-bottom: 12px;
+  }
+  .card-title.color-purple { color: #6b63c4; }
+  .card-title.color-blue   { color: #4a90d9; }
+  .card-title.color-green  { color: #00a878; }
+  .card-title.color-orange { color: #e07b39; }
+
+  /* ========= SPEC TABLE ========= */
+  .spec-table { width: 100%; border-collapse: collapse; }
+  .spec-table tr { border-bottom: 1px solid #f0f0f5; }
+  .spec-table tr:last-child { border-bottom: none; }
+  .spec-table td { padding: 9px 4px; font-size: 13px; vertical-align: top; line-height: 1.5; }
+  .spec-table td:first-child { color: #999; font-size: 11px; font-weight: 600; white-space: nowrap; padding-right: 16px; width: 110px; padding-top: 11px; }
+  .spec-table td:last-child { color: #1a1a2e; font-weight: 500; }
+
+  /* ========= STATUS BADGE ========= */
+  .badge {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 700;
+    border-radius: 5px;
+    padding: 2px 8px;
+    letter-spacing: 0.04em;
+    margin-left: 6px;
+    vertical-align: middle;
+  }
+  .badge-red    { background: #fff0f0; color: #e05c5c; }
+  .badge-yellow { background: #fffbee; color: #c49010; }
+  .badge-green  { background: #f0fdf8; color: #00a878; }
+  .badge-purple { background: #eeecfa; color: #6b63c4; }
+  .badge-blue   { background: #eef4fd; color: #4a90d9; }
+
+  /* ========= TIMELINE ========= */
+  .timeline { display: flex; flex-direction: column; gap: 0; }
+  .tl-item {
+    display: flex;
+    gap: 14px;
+    padding: 10px 0;
+    border-bottom: 1px solid #f0f0f5;
+  }
+  .tl-item:last-child { border-bottom: none; }
+  .tl-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    margin-top: 4px;
+    flex-shrink: 0;
+  }
+  .tl-dot.red    { background: #e05c5c; }
+  .tl-dot.yellow { background: #d4a017; }
+  .tl-dot.green  { background: #00a878; }
+  .tl-dot.purple { background: #6b63c4; }
+  .tl-dot.blue   { background: #4a90d9; }
+  .tl-date { font-size: 11px; color: #bbb; white-space: nowrap; width: 68px; flex-shrink: 0; padding-top: 2px; }
+  .tl-content { flex: 1; }
+  .tl-title { font-size: 13px; font-weight: 600; color: #1a1a2e; }
+  .tl-desc  { font-size: 12px; color: #888; margin-top: 2px; line-height: 1.5; }
+
+  /* ========= COLLAB ========= */
+  .collab-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .collab-item {
+    background: #f7f7fb;
+    border: 1px solid #eeeef5;
+    border-radius: 8px;
+    padding: 10px 12px;
+    font-size: 12px;
+  }
+  .collab-item .c-name { font-weight: 600; color: #1a1a2e; margin-bottom: 3px; }
+  .collab-item .c-role { color: #999; font-size: 11px; margin-bottom: 6px; }
+  .collab-item .c-detail { color: #666; font-size: 12px; line-height: 1.5; }
+
+  /* ========= NOTE ========= */
+  .note {
+    font-size: 12px;
+    color: #e07b39;
+    background: rgba(224,123,57,0.07);
+    border-left: 3px solid #e07b39;
+    border-radius: 0 6px 6px 0;
+    padding: 7px 10px;
+    margin-top: 8px;
+    line-height: 1.6;
+  }
+  .note-label { font-weight: 700; font-size: 11px; margin-bottom: 2px; color: #c46030; letter-spacing: 0.04em; }
+</style>
+</head>
+<body>
+
+<nav class="topnav">
+  <a href="index.html" class="nav-brand">🐱 ENGINEKO</a>
+  <div class="nav-links">
+    <a href="index.html" class="nav-link">📋 タスクダッシュボード</a>
+    <a href="product.html" class="nav-link active">📦 プロダクト</a>
+    <a href="cashflow.html" class="nav-link">💰 キャッシュフロー</a>
+  </div>
+</nav>
+
+<header>
+  <div>
+    <h1>📦 プロダクト情報</h1>
+    <div class="subtitle">製品仕様・素材・製造・流通 ／ Slack #05-コアメンバー より</div>
+  </div>
+  <div class="date-badge">
+    <strong>2026年4月17日（金）</strong>
+    最終更新: 本日
+  </div>
+</header>
+
+<!-- 基本仕様 + パッケージ -->
+<div class="grid-2">
+
+  <div class="card">
+    <div class="card-title color-purple">🐱 基本仕様</div>
+    <table class="spec-table">
+      <tr><td>商品名</td><td>ENGINEKO（エンジネコ）<br><span class="badge badge-yellow">検討中</span> <span style="font-size:12px;color:#888;">ENGIとの併用案あり</span></td></tr>
+      <tr><td>カテゴリ</td><td>陶器製招き猫</td></tr>
+      <tr><td>サイズ</td><td>高さ 約25cm × 幅 約15cm</td></tr>
+      <tr><td>単価（国内）</td><td>約 ¥50,000</td></tr>
+      <tr><td>単価（欧州）</td><td>€800（B2B想定）</td></tr>
+      <tr><td>初回出荷数</td><td>30個</td></tr>
+      <tr><td>販売開始</td><td>2026年5月1日（木）</td></tr>
+    </table>
+  </div>
+
+  <div class="card">
+    <div class="card-title color-blue">📦 梱包・パッケージ</div>
+    <table class="spec-table">
+      <tr><td>梱包箱</td><td>W20 × D20 × H25 cm<br><span style="font-size:12px;color:#888;">佐賀ダンボール製</span></td></tr>
+      <tr><td>化粧箱</td><td>貼り箱・白×グレートーン<br>筆押しロゴ入り</td></tr>
+      <tr><td>緩衝材</td><td>発泡スチロール 3層構造<br>下 5cm ／ 猫型中 10cm ／ 上 5cm</td></tr>
+      <tr><td>筆色</td><td><span class="badge badge-red">要確認</span> 4/20午前中に回答予定</td></tr>
+    </table>
+    <div class="note">
+      <div class="note-label">⚠️ 注意</div>
+      ウレタン緩衝材は中東情勢の影響で30%値上がりが懸念されるため、発泡スチロールで代替検討中。
+    </div>
+  </div>
+
+</div>
+
+<!-- カラーライン + コラボ -->
+<div class="section-title">🎨 カラーライン & コラボレーション</div>
+<div class="grid-2" style="margin-bottom:24px;">
+
+  <div class="card">
+    <div class="card-title color-orange">🎨 カラーライン展開</div>
+    <table class="spec-table">
+      <tr><td>金ライン</td><td>6月末までに10個目標<br><span class="badge badge-yellow">進行中</span></td></tr>
+      <tr><td>カラー名</td><td><span class="badge badge-red">未記入</span> Figmaへの記入が必要</td></tr>
+      <tr><td>商品名記入</td><td><span class="badge badge-red">未対応</span> 全色Figmaに入力待ち</td></tr>
+      <tr><td>ロット番号</td><td><span class="badge badge-red">要決定</span> 4/17定例MTGで決議</td></tr>
+    </table>
+  </div>
+
+  <div class="card">
+    <div class="card-title color-green">🤝 コラボレーション</div>
+    <div class="collab-grid">
+      <div class="collab-item">
+        <div class="c-name">佐野鍍金</div>
+        <div class="c-role">表面加工パートナー</div>
+        <div class="c-detail">金・プラチナメッキ加工。高級路線ラインでのコラボ検討中。</div>
+      </div>
+      <div class="collab-item">
+        <div class="c-name">カイカイキキ</div>
+        <div class="c-role">アート / 村上隆</div>
+        <div class="c-detail">コラボレーション交渉中。アート路線でのブランド価値向上を狙う。</div>
+      </div>
+      <div class="collab-item">
+        <div class="c-name">フジコウ（富山工房）</div>
+        <div class="c-role">主製造パートナー</div>
+        <div class="c-detail">本生産担当。量産フェーズの主軸パートナー。</div>
+      </div>
+      <div class="collab-item">
+        <div class="c-name">もくもくはりねずみ工房</div>
+        <div class="c-role">試作工房（文京区）</div>
+        <div class="c-detail">4/22 試作確認予定。</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- 製造スケジュール -->
+<div class="section-title">🗓️ 製造・出荷スケジュール</div>
+<div class="card" style="margin-bottom:24px;">
+  <div class="card-title color-purple">マイルストーン</div>
+  <div class="timeline">
+    <div class="tl-item">
+      <div class="tl-dot red"></div>
+      <div class="tl-date">4/17（本日）</div>
+      <div class="tl-content">
+        <div class="tl-title">定例MTG ／ ロット番号決定</div>
+        <div class="tl-desc">チーム全員で案A/案Bを持ち寄り30分以内に決議。Daikiがたたき台を準備。</div>
+      </div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-dot red"></div>
+      <div class="tl-date">4/20（月）</div>
+      <div class="tl-content">
+        <div class="tl-title">箱の筆色 回答期限</div>
+        <div class="tl-desc">サンプル実物確認後にDaikiが当日意思決定。午前中に回答送付目標。</div>
+      </div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-dot yellow"></div>
+      <div class="tl-date">4/22（水）</div>
+      <div class="tl-content">
+        <div class="tl-title">試作確認 ／ もくもくはりねずみ工房</div>
+        <div class="tl-desc">文京区の試作工房にて最終サンプル確認。</div>
+      </div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-dot yellow"></div>
+      <div class="tl-date">4/28（月）</div>
+      <div class="tl-content">
+        <div class="tl-title">初回出荷 30個</div>
+        <div class="tl-desc">国内向け初回ロット。梱包・検品完了後に発送。</div>
+      </div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-dot green"></div>
+      <div class="tl-date">5/1（木）</div>
+      <div class="tl-content">
+        <div class="tl-title">販売開始</div>
+        <div class="tl-desc">国内販売スタート。単価¥50,000。</div>
+      </div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-dot purple"></div>
+      <div class="tl-date">6月末</div>
+      <div class="tl-content">
+        <div class="tl-title">金ライン 10個 達成目標</div>
+        <div class="tl-desc">佐野鍍金との金・プラチナ加工コラボ。高付加価値ライン展開。</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 欧州展開 -->
+<div class="section-title">🌏 欧州展開</div>
+<div class="grid-3">
+  <div class="card">
+    <div class="card-title color-blue">📋 基本方針</div>
+    <table class="spec-table">
+      <tr><td>販売形態</td><td>B2B（ギャラリー・セレクトショップ）</td></tr>
+      <tr><td>単価</td><td>€800 / 個</td></tr>
+      <tr><td>初年度目標</td><td>5社取引</td></tr>
+      <tr><td>初年度売上</td><td>約 400万円</td></tr>
+    </table>
+  </div>
+  <div class="card">
+    <div class="card-title color-purple">🛡️ 知的財産</div>
+    <table class="spec-table">
+      <tr><td>EU商標</td><td>出願費用 約15〜25万円<br><span class="badge badge-yellow">検討中</span></td></tr>
+      <tr><td>ハーグ意匠</td><td>USD 1,500〜3,000<br>+ 10〜30万円<br><span class="badge badge-yellow">検討中</span></td></tr>
+    </table>
+  </div>
+  <div class="card">
+    <div class="card-title color-green">🎯 2年目目標</div>
+    <table class="spec-table">
+      <tr><td>年商目標</td><td>1,000万円</td></tr>
+      <tr><td>主要チャネル</td><td>欧州B2B ＋ 国内EC</td></tr>
+      <tr><td>補助金活用</td><td>INPIT外国出願補助<br>最大300万円（補助率1/2）</td></tr>
+    </table>
+  </div>
+</div>
+
+</body>
+</html>
