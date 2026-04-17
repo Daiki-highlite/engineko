@@ -4,6 +4,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>ENGINEKO タスクダッシュボード</title>
+<script>
+  const _h = 'f74b1d6fb6832e2da1b9845af2bd9c9d420b8c97c517c474f5371074fb7f9676';
+  if (sessionStorage.getItem('engineko_auth') !== _h) location.replace('login.html');
+</script>
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body {
@@ -29,11 +33,14 @@
     z-index: 100;
     box-shadow: 0 1px 4px rgba(0,0,0,0.04);
   }
-  .nav-brand { font-size: 15px; font-weight: 700; color: #1a1a2e; letter-spacing: 0.06em; text-decoration: none; }
+  .nav-brand { text-decoration: none; display: flex; align-items: center; }
+  .nav-brand img { height: 28px; width: auto; display: block; }
   .nav-links { display: flex; gap: 4px; }
   .nav-link { text-decoration: none; font-size: 13px; font-weight: 500; color: #888; padding: 6px 14px; border-radius: 8px; transition: background 0.15s, color 0.15s; }
   .nav-link:hover { background: #f5f5fa; color: #1a1a2e; }
   .nav-link.active { background: #eeecfa; color: #6b63c4; font-weight: 600; }
+  .nav-logout { text-decoration: none; font-size: 12px; color: #bbb; padding: 6px 10px; border-radius: 8px; cursor: pointer; background: none; border: none; font-family: inherit; }
+  .nav-logout:hover { background: #fff0f0; color: #e05c5c; }
 
   header {
     display: flex;
@@ -248,6 +255,62 @@
   .c-status.pending { background: rgba(212,160,23,0.10); color: #d4a017; }
   .c-status.explore { background: rgba(74,144,217,0.10); color: #4a90d9; }
 
+  /* ========= TEAM MEMBER CARDS ========= */
+  .grid-5 { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; margin-bottom: 24px; }
+  .member-card {
+    background: #fff;
+    border: 1px solid #e8e8f0;
+    border-radius: 12px;
+    padding: 14px;
+    border-top: 3px solid;
+    display: flex;
+    flex-direction: column;
+  }
+  .member-role-tag {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.07em;
+    border-radius: 5px;
+    padding: 2px 7px;
+    display: inline-block;
+    margin-bottom: 7px;
+    align-self: flex-start;
+  }
+  .member-name { font-size: 13px; font-weight: 700; color: #1a1a2e; }
+  .member-name-en { font-size: 10px; color: #bbb; margin-top: 1px; margin-bottom: 4px; }
+  .member-desc { font-size: 11px; color: #999; margin-bottom: 10px; line-height: 1.45; padding-bottom: 10px; border-bottom: 1px solid #f0f0f5; }
+  .member-task-list { display: flex; flex-direction: column; gap: 0; flex: 1; }
+  .member-task-item {
+    display: flex;
+    gap: 7px;
+    align-items: flex-start;
+    font-size: 11px;
+    line-height: 1.45;
+    padding: 6px 0;
+    border-bottom: 1px solid #f8f8fb;
+  }
+  .member-task-item:last-child { border-bottom: none; padding-bottom: 0; }
+  .mtask-dot {
+    width: 7px; height: 7px; border-radius: 50%;
+    flex-shrink: 0; margin-top: 3px;
+  }
+  .mtask-dot.urgent { background: #e05c5c; }
+  .mtask-dot.warn   { background: #d4a017; }
+  .mtask-dot.ok     { background: #00a878; }
+  .mtask-dot.done   { background: #ddd; }
+  .mtask-body { flex: 1; }
+  .mtask-text { color: #444; }
+  .mtask-text.done { color: #ccc; text-decoration: line-through; }
+  .mtask-date { font-size: 10px; color: #bbb; margin-top: 1px; }
+  .mtask-date.red { color: #e05c5c; }
+  .member-stat {
+    display: flex; gap: 0; margin-top: 10px; padding-top: 8px;
+    border-top: 1px solid #f0f0f5;
+  }
+  .member-stat-item { text-align: center; flex: 1; }
+  .member-stat-item .s-num { font-size: 15px; font-weight: 700; }
+  .member-stat-item .s-label { font-size: 9px; color: #bbb; letter-spacing: 0.04em; }
+
   /* ========= SOURCE TAG ========= */
   .source-row {
     display: flex; gap: 6px; margin-top: 20px; justify-content: flex-end;
@@ -262,17 +325,21 @@
 <body>
 
 <nav class="topnav">
-  <a href="index.html" class="nav-brand">🐱 ENGINEKO</a>
+  <a href="index.html" class="nav-brand"><img src="logo-side.png" alt="ENGINEKO"></a>
   <div class="nav-links">
     <a href="index.html" class="nav-link active">📋 タスクダッシュボード</a>
     <a href="product.html" class="nav-link">📦 プロダクト</a>
     <a href="cashflow.html" class="nav-link">💰 キャッシュフロー</a>
+    <button class="nav-logout" onclick="sessionStorage.clear();location.replace('login.html');">ログアウト</button>
   </div>
 </nav>
 
 <header>
   <div>
-    <h1>🐱 ENGINEKO タスクダッシュボード</h1>
+    <div style="display:flex;align-items:center;gap:14px;margin-bottom:4px;">
+      <img src="logo-side.png" alt="ENGINEKO" style="height:36px;width:auto;">
+      <h1 style="font-size:18px;font-weight:600;letter-spacing:0.06em;color:#1a1a2e;">タスクダッシュボード</h1>
+    </div>
     <div class="subtitle">Slack #05-コアメンバー / #06-all から自動生成</div>
   </div>
   <div class="date-badge">
@@ -303,6 +370,255 @@
     <div class="value">5</div>
     <div class="sub">確定 + 調整中</div>
   </div>
+</div>
+
+<!-- TEAM SECTION -->
+<div class="section-title">👥 チーム別タスク進捗</div>
+<div class="grid-5">
+
+  <!-- Daiki: Engine -->
+  <div class="member-card" style="border-top-color:#e05c5c;">
+    <span class="member-role-tag" style="background:rgba(224,92,92,0.10);color:#e05c5c;">⚙️ ENGINE</span>
+    <div class="member-name">早川 大貴</div>
+    <div class="member-name-en">Daiki Hayakawa</div>
+    <div class="member-desc">事業推進のための価値を作る</div>
+    <div class="member-task-list">
+      <div class="member-task-item">
+        <div class="mtask-dot urgent"></div>
+        <div class="mtask-body">
+          <div class="mtask-text">箱の筆色確定・佐賀ダンボールへ回答</div>
+          <div class="mtask-date red">締切 4/20（月）</div>
+        </div>
+      </div>
+      <div class="member-task-item">
+        <div class="mtask-dot urgent"></div>
+        <div class="mtask-body">
+          <div class="mtask-text">4/17定例MTG たたき台を持ち込む</div>
+          <div class="mtask-date red">本日 16:30〜</div>
+        </div>
+      </div>
+      <div class="member-task-item">
+        <div class="mtask-dot urgent"></div>
+        <div class="mtask-body">
+          <div class="mtask-text">商品名・カラー名 Figma先入力</div>
+          <div class="mtask-date red">4/17定例前まで</div>
+        </div>
+      </div>
+      <div class="member-task-item">
+        <div class="mtask-dot warn"></div>
+        <div class="mtask-body">
+          <div class="mtask-text">ECサイト コンテンツ拡充</div>
+          <div class="mtask-date">進行中</div>
+        </div>
+      </div>
+      <div class="member-task-item">
+        <div class="mtask-dot warn"></div>
+        <div class="mtask-body">
+          <div class="mtask-text">富山工房 撮影実施</div>
+          <div class="mtask-date">撮影許可取得済み</div>
+        </div>
+      </div>
+      <div class="member-task-item">
+        <div class="mtask-dot warn"></div>
+        <div class="mtask-body">
+          <div class="mtask-text">こえんバー×ドイツ人配信者 イベント企画</div>
+          <div class="mtask-date">5月半ば〜後半</div>
+        </div>
+      </div>
+    </div>
+    <div class="member-stat">
+      <div class="member-stat-item"><div class="s-num" style="color:#e05c5c;">3</div><div class="s-label">緊急</div></div>
+      <div class="member-stat-item"><div class="s-num" style="color:#d4a017;">3</div><div class="s-label">進行中</div></div>
+      <div class="member-stat-item"><div class="s-num" style="color:#00a878;">2</div><div class="s-label">完了</div></div>
+    </div>
+  </div>
+
+  <!-- Kota: Drive -->
+  <div class="member-card" style="border-top-color:#4a90d9;">
+    <span class="member-role-tag" style="background:rgba(74,144,217,0.10);color:#4a90d9;">🚀 DRIVE</span>
+    <div class="member-name">伊藤 孝太</div>
+    <div class="member-name-en">Kota Ito</div>
+    <div class="member-desc">事業の推進を行う</div>
+    <div class="member-task-list">
+      <div class="member-task-item">
+        <div class="mtask-dot urgent"></div>
+        <div class="mtask-body">
+          <div class="mtask-text">4/17定例MTG参加・ロット番号決議</div>
+          <div class="mtask-date red">本日 16:30〜</div>
+        </div>
+      </div>
+      <div class="member-task-item">
+        <div class="mtask-dot warn"></div>
+        <div class="mtask-body">
+          <div class="mtask-text">グローバル枠補助金の検討（最大3,000万）</div>
+          <div class="mtask-date">海外旅費・通訳費も対象</div>
+        </div>
+      </div>
+      <div class="member-task-item">
+        <div class="mtask-dot warn"></div>
+        <div class="mtask-body">
+          <div class="mtask-text">9月以降の出展場所を模索</div>
+          <div class="mtask-date">CBS・GINZA SIX代替</div>
+        </div>
+      </div>
+      <div class="member-task-item">
+        <div class="mtask-dot warn"></div>
+        <div class="mtask-body">
+          <div class="mtask-text">法人カード切替検討（ダイナース等）</div>
+          <div class="mtask-date">進行中</div>
+        </div>
+      </div>
+      <div class="member-task-item">
+        <div class="mtask-dot ok"></div>
+        <div class="mtask-body">
+          <div class="mtask-text done">KOMOJUでPayPay・銀行振込 決済申請</div>
+          <div class="mtask-date">4/5 完了</div>
+        </div>
+      </div>
+    </div>
+    <div class="member-stat">
+      <div class="member-stat-item"><div class="s-num" style="color:#e05c5c;">1</div><div class="s-label">緊急</div></div>
+      <div class="member-stat-item"><div class="s-num" style="color:#d4a017;">3</div><div class="s-label">進行中</div></div>
+      <div class="member-stat-item"><div class="s-num" style="color:#00a878;">1</div><div class="s-label">完了</div></div>
+    </div>
+  </div>
+
+  <!-- Misaki: Handle -->
+  <div class="member-card" style="border-top-color:#6b63c4;">
+    <span class="member-role-tag" style="background:rgba(107,99,196,0.10);color:#6b63c4;">🎯 HANDLE</span>
+    <div class="member-name">玉田 実咲</div>
+    <div class="member-name-en">Misaki Tamada</div>
+    <div class="member-desc">事業の印象を操作・整理する</div>
+    <div class="member-task-list">
+      <div class="member-task-item">
+        <div class="mtask-dot warn"></div>
+        <div class="mtask-body">
+          <div class="mtask-text">同梱コンセプトブック お手入れ方法掲載</div>
+          <div class="mtask-date">復調次第対応</div>
+        </div>
+      </div>
+      <div class="member-task-item">
+        <div class="mtask-dot warn"></div>
+        <div class="mtask-body">
+          <div class="mtask-text">BCCJ向け英語版PDF準備・ブラッシュアップ</div>
+          <div class="mtask-date">Ayato確認中</div>
+        </div>
+      </div>
+      <div class="member-task-item">
+        <div class="mtask-dot warn"></div>
+        <div class="mtask-body">
+          <div class="mtask-text">パリ16区アートフェス 紹介資料の質を上げる</div>
+          <div class="mtask-date">マモルさん経由</div>
+        </div>
+      </div>
+      <div class="member-task-item">
+        <div class="mtask-dot warn"></div>
+        <div class="mtask-body">
+          <div class="mtask-text">SNSコンテンツ管理・更新</div>
+          <div class="mtask-date">継続中</div>
+        </div>
+      </div>
+      <div class="member-task-item">
+        <div class="mtask-dot ok"></div>
+        <div class="mtask-body">
+          <div class="mtask-text done">SNSスプレッドシート作成・Instaアカウント作成</div>
+          <div class="mtask-date">3/22 完了</div>
+        </div>
+      </div>
+    </div>
+    <div class="member-stat">
+      <div class="member-stat-item"><div class="s-num" style="color:#e05c5c;">0</div><div class="s-label">緊急</div></div>
+      <div class="member-stat-item"><div class="s-num" style="color:#d4a017;">4</div><div class="s-label">進行中</div></div>
+      <div class="member-stat-item"><div class="s-num" style="color:#00a878;">1</div><div class="s-label">完了</div></div>
+    </div>
+  </div>
+
+  <!-- Yuki: Wheel -->
+  <div class="member-card" style="border-top-color:#00a878;">
+    <span class="member-role-tag" style="background:rgba(0,168,120,0.10);color:#00a878;">🛞 WHEEL</span>
+    <div class="member-name">薮田 有希</div>
+    <div class="member-name-en">Yuki Yabuta</div>
+    <div class="member-desc">事業を移動させる</div>
+    <div class="member-task-list">
+      <div class="member-task-item">
+        <div class="mtask-dot warn"></div>
+        <div class="mtask-body">
+          <div class="mtask-text">発泡スチロール試作 もくもくはりねずみ工房</div>
+          <div class="mtask-date">4/22（水）午後</div>
+        </div>
+      </div>
+      <div class="member-task-item">
+        <div class="mtask-dot warn"></div>
+        <div class="mtask-body">
+          <div class="mtask-text">GINZA SIX ブース制作（木工）業者の紹介</div>
+          <div class="mtask-date">紹介先を探している</div>
+        </div>
+      </div>
+      <div class="member-task-item">
+        <div class="mtask-dot warn"></div>
+        <div class="mtask-body">
+          <div class="mtask-text">OPEN NAKAMEGURO 出店準備</div>
+          <div class="mtask-date">6/27（土）問い合わせ済</div>
+        </div>
+      </div>
+      <div class="member-task-item">
+        <div class="mtask-dot warn"></div>
+        <div class="mtask-body">
+          <div class="mtask-text">イオン津田沼 POPUP 調整（MAISON 12）</div>
+          <div class="mtask-date">4〜9月 土日隔週</div>
+        </div>
+      </div>
+    </div>
+    <div class="member-stat">
+      <div class="member-stat-item"><div class="s-num" style="color:#e05c5c;">0</div><div class="s-label">緊急</div></div>
+      <div class="member-stat-item"><div class="s-num" style="color:#d4a017;">4</div><div class="s-label">進行中</div></div>
+      <div class="member-stat-item"><div class="s-num" style="color:#00a878;">0</div><div class="s-label">完了</div></div>
+    </div>
+  </div>
+
+  <!-- Ikumi: Load -->
+  <div class="member-card" style="border-top-color:#e07b39;">
+    <span class="member-role-tag" style="background:rgba(224,123,57,0.10);color:#e07b39;">📦 LOAD</span>
+    <div class="member-name">髙田 郁実</div>
+    <div class="member-name-en">Ikumi Takada</div>
+    <div class="member-desc">事業の道筋を整える</div>
+    <div class="member-task-list">
+      <div class="member-task-item">
+        <div class="mtask-dot urgent"></div>
+        <div class="mtask-body">
+          <div class="mtask-text">特別創業支援補助金 申請（最大400万円）</div>
+          <div class="mtask-date red">締切 4/30（木）</div>
+        </div>
+      </div>
+      <div class="member-task-item">
+        <div class="mtask-dot warn"></div>
+        <div class="mtask-body">
+          <div class="mtask-text">INPIT外国出願補助金 申請検討（最大300万）</div>
+          <div class="mtask-date">補助率1/2</div>
+        </div>
+      </div>
+      <div class="member-task-item">
+        <div class="mtask-dot warn"></div>
+        <div class="mtask-body">
+          <div class="mtask-text">EU商標・ハーグ意匠 出願ロードマップ整理</div>
+          <div class="mtask-date">知財費用 15〜25万</div>
+        </div>
+      </div>
+      <div class="member-task-item">
+        <div class="mtask-dot warn"></div>
+        <div class="mtask-body">
+          <div class="mtask-text">CBS（Choose Base Shibuya）交渉・準備</div>
+          <div class="mtask-date">7月〜 補助金申請中</div>
+        </div>
+      </div>
+    </div>
+    <div class="member-stat">
+      <div class="member-stat-item"><div class="s-num" style="color:#e05c5c;">1</div><div class="s-label">緊急</div></div>
+      <div class="member-stat-item"><div class="s-num" style="color:#d4a017;">3</div><div class="s-label">進行中</div></div>
+      <div class="member-stat-item"><div class="s-num" style="color:#00a878;">0</div><div class="s-label">完了</div></div>
+    </div>
+  </div>
+
 </div>
 
 <!-- ROW 1: 緊急 + タイムライン -->

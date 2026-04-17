@@ -4,6 +4,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>ENGINEKO プロダクト</title>
+<script>
+  const _h = 'f74b1d6fb6832e2da1b9845af2bd9c9d420b8c97c517c474f5371074fb7f9676';
+  if (sessionStorage.getItem('engineko_auth') !== _h) location.replace('login.html');
+</script>
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body {
@@ -29,11 +33,14 @@
     z-index: 100;
     box-shadow: 0 1px 4px rgba(0,0,0,0.04);
   }
-  .nav-brand { font-size: 15px; font-weight: 700; color: #1a1a2e; letter-spacing: 0.06em; text-decoration: none; }
+  .nav-brand { text-decoration: none; display: flex; align-items: center; }
+  .nav-brand img { height: 28px; width: auto; display: block; }
   .nav-links { display: flex; gap: 4px; }
   .nav-link { text-decoration: none; font-size: 13px; font-weight: 500; color: #888; padding: 6px 14px; border-radius: 8px; transition: background 0.15s, color 0.15s; }
   .nav-link:hover { background: #f5f5fa; color: #1a1a2e; }
   .nav-link.active { background: #eeecfa; color: #6b63c4; font-weight: 600; }
+  .nav-logout { text-decoration: none; font-size: 12px; color: #bbb; padding: 6px 10px; border-radius: 8px; cursor: pointer; background: none; border: none; font-family: inherit; }
+  .nav-logout:hover { background: #fff0f0; color: #e05c5c; }
 
   /* ========= HEADER ========= */
   header {
@@ -171,17 +178,21 @@
 <body>
 
 <nav class="topnav">
-  <a href="index.html" class="nav-brand">🐱 ENGINEKO</a>
+  <a href="index.html" class="nav-brand"><img src="logo-side.png" alt="ENGINEKO"></a>
   <div class="nav-links">
     <a href="index.html" class="nav-link">📋 タスクダッシュボード</a>
     <a href="product.html" class="nav-link active">📦 プロダクト</a>
     <a href="cashflow.html" class="nav-link">💰 キャッシュフロー</a>
+    <button class="nav-logout" onclick="sessionStorage.clear();location.replace('login.html');">ログアウト</button>
   </div>
 </nav>
 
 <header>
   <div>
-    <h1>📦 プロダクト情報</h1>
+    <div style="display:flex;align-items:center;gap:14px;margin-bottom:4px;">
+      <img src="logo-side.png" alt="ENGINEKO" style="height:36px;width:auto;">
+      <h1 style="font-size:18px;font-weight:600;letter-spacing:0.06em;color:#1a1a2e;">📦 プロダクト情報</h1>
+    </div>
     <div class="subtitle">製品仕様・素材・製造・流通 ／ Slack #05-コアメンバー より</div>
   </div>
   <div class="date-badge">
@@ -196,7 +207,7 @@
   <div class="card">
     <div class="card-title color-purple">🐱 基本仕様</div>
     <table class="spec-table">
-      <tr><td>商品名</td><td>ENGINEKO（エンジネコ）<br><span class="badge badge-yellow">検討中</span> <span style="font-size:12px;color:#888;">ENGIとの併用案あり</span></td></tr>
+      <tr><td>商品名</td><td>ENGINEKO（エンギネコ）<br><span class="badge badge-yellow">検討中</span> <span style="font-size:12px;color:#888;">ENGIとの併用案あり</span></td></tr>
       <tr><td>カテゴリ</td><td>陶器製招き猫</td></tr>
       <tr><td>サイズ</td><td>高さ 約25cm × 幅 約15cm</td></tr>
       <tr><td>単価（国内）</td><td>約 ¥50,000</td></tr>

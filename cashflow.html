@@ -4,6 +4,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>ENGINEKO キャッシュフロー</title>
+<script>
+  const _h = 'f74b1d6fb6832e2da1b9845af2bd9c9d420b8c97c517c474f5371074fb7f9676';
+  if (sessionStorage.getItem('engineko_auth') !== _h) location.replace('login.html');
+</script>
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body {
@@ -29,11 +33,14 @@
     z-index: 100;
     box-shadow: 0 1px 4px rgba(0,0,0,0.04);
   }
-  .nav-brand { font-size: 15px; font-weight: 700; color: #1a1a2e; letter-spacing: 0.06em; text-decoration: none; }
+  .nav-brand { text-decoration: none; display: flex; align-items: center; }
+  .nav-brand img { height: 28px; width: auto; display: block; }
   .nav-links { display: flex; gap: 4px; }
   .nav-link { text-decoration: none; font-size: 13px; font-weight: 500; color: #888; padding: 6px 14px; border-radius: 8px; transition: background 0.15s, color 0.15s; }
   .nav-link:hover { background: #f5f5fa; color: #1a1a2e; }
   .nav-link.active { background: #eeecfa; color: #6b63c4; font-weight: 600; }
+  .nav-logout { text-decoration: none; font-size: 12px; color: #bbb; padding: 6px 10px; border-radius: 8px; cursor: pointer; background: none; border: none; font-family: inherit; }
+  .nav-logout:hover { background: #fff0f0; color: #e05c5c; }
 
   /* ========= HEADER ========= */
   header {
@@ -189,17 +196,21 @@
 <body>
 
 <nav class="topnav">
-  <a href="index.html" class="nav-brand">🐱 ENGINEKO</a>
+  <a href="index.html" class="nav-brand"><img src="logo-side.png" alt="ENGINEKO"></a>
   <div class="nav-links">
     <a href="index.html" class="nav-link">📋 タスクダッシュボード</a>
     <a href="product.html" class="nav-link">📦 プロダクト</a>
     <a href="cashflow.html" class="nav-link active">💰 キャッシュフロー</a>
+    <button class="nav-logout" onclick="sessionStorage.clear();location.replace('login.html');">ログアウト</button>
   </div>
 </nav>
 
 <header>
   <div>
-    <h1>💰 キャッシュフロー</h1>
+    <div style="display:flex;align-items:center;gap:14px;margin-bottom:4px;">
+      <img src="logo-side.png" alt="ENGINEKO" style="height:36px;width:auto;">
+      <h1 style="font-size:18px;font-weight:600;letter-spacing:0.06em;color:#1a1a2e;">💰 キャッシュフロー</h1>
+    </div>
     <div class="subtitle">経費・収入・補助金 ／ Slack #05-コアメンバー より</div>
   </div>
   <div class="date-badge">

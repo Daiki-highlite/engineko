@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ENGINEKO — ログイン</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', sans-serif;
+    background: #f7f7fb;
+    color: #1a1a2e;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .login-wrap {
+    width: 100%;
+    max-width: 380px;
+    padding: 24px;
+  }
+
+  .login-card {
+    background: #fff;
+    border: 1px solid #e8e8f0;
+    border-radius: 16px;
+    padding: 40px 36px 36px;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.06);
+    text-align: center;
+  }
+
+  .login-logo {
+    height: 32px;
+    width: auto;
+    margin-bottom: 32px;
+  }
+
+  .login-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: #1a1a2e;
+    margin-bottom: 6px;
+    letter-spacing: 0.04em;
+  }
+
+  .login-desc {
+    font-size: 12px;
+    color: #aaa;
+    margin-bottom: 28px;
+    line-height: 1.6;
+  }
+
+  .input-wrap {
+    position: relative;
+    margin-bottom: 14px;
+  }
+
+  .pw-input {
+    width: 100%;
+    padding: 12px 44px 12px 16px;
+    border: 1px solid #e0e0ea;
+    border-radius: 10px;
+    font-size: 14px;
+    color: #1a1a2e;
+    background: #fafafa;
+    outline: none;
+    transition: border 0.15s, box-shadow 0.15s;
+    letter-spacing: 0.1em;
+    font-family: inherit;
+  }
+  .pw-input:focus {
+    border-color: #6b63c4;
+    box-shadow: 0 0 0 3px rgba(107,99,196,0.12);
+    background: #fff;
+  }
+
+  .toggle-pw {
+    position: absolute;
+    right: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #bbb;
+    font-size: 16px;
+    line-height: 1;
+    padding: 2px;
+  }
+  .toggle-pw:hover { color: #888; }
+
+  .login-btn {
+    width: 100%;
+    padding: 12px;
+    background: #1a1a2e;
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    letter-spacing: 0.06em;
+    transition: background 0.15s, transform 0.1s;
+    font-family: inherit;
+  }
+  .login-btn:hover { background: #2d2d44; }
+  .login-btn:active { transform: scale(0.98); }
+  .login-btn:disabled { background: #ccc; cursor: not-allowed; }
+
+  .error-msg {
+    display: none;
+    margin-top: 14px;
+    font-size: 12px;
+    color: #e05c5c;
+    background: rgba(224,92,92,0.08);
+    border-radius: 8px;
+    padding: 8px 12px;
+  }
+  .error-msg.show { display: block; }
+
+  .login-footer {
+    margin-top: 24px;
+    font-size: 11px;
+    color: #ccc;
+  }
+</style>
+</head>
+<body>
+
+<div class="login-wrap">
+  <div class="login-card">
+    <img src="logo-side.png" alt="ENGINEKO" class="login-logo">
+    <div class="login-title">メンバー専用ページ</div>
+    <div class="login-desc">このページはENGINEKOチームメンバー専用です。<br>パスワードを入力してください。</div>
+
+    <div class="input-wrap">
+      <input
+        type="password"
+        id="pw"
+        class="pw-input"
+        placeholder="パスワード"
+        autocomplete="current-password"
+        autofocus
+      >
+      <button class="toggle-pw" type="button" id="togglePw" title="表示切替">👁</button>
+    </div>
+
+    <button class="login-btn" id="loginBtn">ログイン</button>
+
+    <div class="error-msg" id="errMsg">パスワードが違います。もう一度お試しください。</div>
+
+    <div class="login-footer">ENGINEKO Internal Dashboard</div>
+  </div>
+</div>
+
+<script>
+  // パスワードは「engineko2026」です（変更する場合は下記ハッシュを差し替えてください）
+  // 新しいハッシュは Terminal で: echo -n "新パスワード" | sha256sum
+  const PASS_HASH = 'f74b1d6fb6832e2da1b9845af2bd9c9d420b8c97c517c474f5371074fb7f9676';
+
+  const pwInput   = document.getElementById('pw');
+  const loginBtn  = document.getElementById('loginBtn');
+  const errMsg    = document.getElementById('errMsg');
+  const togglePw  = document.getElementById('togglePw');
+
+  // すでにログイン済みならリダイレクト
+  if (sessionStorage.getItem('engineko_auth') === PASS_HASH) {
+    location.replace('index.html');
+  }
+
+  // パスワード表示切替
+  togglePw.addEventListener('click', () => {
+    pwInput.type = pwInput.type === 'password' ? 'text' : 'password';
+    togglePw.textContent = pwInput.type === 'password' ? '👁' : '🙈';
+  });
+
+  // Enterキーでもログイン
+  pwInput.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') loginBtn.click();
+  });
+
+  // ログイン処理
+  loginBtn.addEventListener('click', async () => {
+    const input = pwInput.value;
+    if (!input) return;
+
+    loginBtn.disabled = true;
+    loginBtn.textContent = '確認中...';
+
+    const encoder = new TextEncoder();
+    const data = encoder.encode(input);
+    const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+    const hashArray = Array.from(new Uint8Array(hashBuffer));
+    const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+
+    if (hashHex === PASS_HASH) {
+      sessionStorage.setItem('engineko_auth', PASS_HASH);
+      location.replace('index.html');
+    } else {
+      errMsg.classList.add('show');
+      pwInput.value = '';
+      pwInput.focus();
+      loginBtn.disabled = false;
+      loginBtn.textContent = 'ログイン';
+    }
+  });
+</script>
+
+</body>
+</html>
