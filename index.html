@@ -8,8 +8,8 @@
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body {
     font-family: 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', sans-serif;
-    background: #0f0f12;
-    color: #e8e8e8;
+    background: #f7f7fb;
+    color: #1a1a2e;
     min-height: 100vh;
     padding: 24px;
   }
@@ -19,29 +19,29 @@
     justify-content: space-between;
     margin-bottom: 28px;
     padding-bottom: 16px;
-    border-bottom: 1px solid #2a2a35;
+    border-bottom: 1px solid #e8e8f0;
   }
   header h1 {
     font-size: 22px;
     font-weight: 700;
     letter-spacing: 0.08em;
-    color: #fff;
+    color: #1a1a2e;
   }
   header .subtitle {
     font-size: 12px;
-    color: #888;
+    color: #999;
     margin-top: 4px;
   }
   .date-badge {
-    background: #1e1e28;
-    border: 1px solid #2a2a35;
+    background: #fff;
+    border: 1px solid #e8e8f0;
     border-radius: 8px;
     padding: 8px 14px;
     font-size: 12px;
-    color: #aaa;
+    color: #999;
     text-align: right;
   }
-  .date-badge strong { color: #fff; display: block; font-size: 14px; }
+  .date-badge strong { color: #1a1a2e; display: block; font-size: 14px; }
 
   /* ========= KPI ROW ========= */
   .kpi-row {
@@ -51,25 +51,25 @@
     margin-bottom: 24px;
   }
   .kpi {
-    background: #1a1a22;
-    border: 1px solid #2a2a35;
+    background: #fff;
+    border: 1px solid #e8e8f0;
     border-radius: 12px;
     padding: 16px 18px;
   }
-  .kpi .label { font-size: 11px; color: #888; text-transform: uppercase; letter-spacing: 0.06em; }
+  .kpi .label { font-size: 11px; color: #999; text-transform: uppercase; letter-spacing: 0.06em; }
   .kpi .value { font-size: 28px; font-weight: 700; margin-top: 4px; }
-  .kpi .sub { font-size: 11px; color: #666; margin-top: 2px; }
-  .kpi.red .value { color: #ff6b6b; }
-  .kpi.yellow .value { color: #ffd166; }
-  .kpi.green .value { color: #06d6a0; }
-  .kpi.blue .value { color: #74b9ff; }
+  .kpi .sub { font-size: 11px; color: #bbb; margin-top: 2px; }
+  .kpi.red .value { color: #e05c5c; }
+  .kpi.yellow .value { color: #d4a017; }
+  .kpi.green .value { color: #00a878; }
+  .kpi.blue .value { color: #4a90d9; }
 
   /* ========= SECTION ========= */
   .section-title {
     font-size: 11px;
     text-transform: uppercase;
     letter-spacing: 0.1em;
-    color: #666;
+    color: #aaa;
     margin-bottom: 10px;
     padding-left: 2px;
   }
@@ -79,15 +79,15 @@
 
   /* ========= CARD ========= */
   .card {
-    background: #1a1a22;
-    border: 1px solid #2a2a35;
+    background: #fff;
+    border: 1px solid #e8e8f0;
     border-radius: 12px;
     padding: 16px 18px;
   }
   .card-title {
     font-size: 12px;
     font-weight: 600;
-    color: #aaa;
+    color: #999;
     text-transform: uppercase;
     letter-spacing: 0.08em;
     margin-bottom: 12px;
@@ -105,7 +105,7 @@
     align-items: flex-start;
     gap: 10px;
     padding: 9px 0;
-    border-bottom: 1px solid #232330;
+    border-bottom: 1px solid #f0f0f5;
     font-size: 13px;
     line-height: 1.5;
   }
@@ -118,31 +118,50 @@
     font-size: 10px;
     margin-top: 1px;
   }
-  .task-icon.urgent { background: rgba(255,107,107,0.2); color: #ff6b6b; }
-  .task-icon.warn   { background: rgba(255,209,102,0.2); color: #ffd166; }
-  .task-icon.ok     { background: rgba(6,214,160,0.2);  color: #06d6a0; }
-  .task-icon.info   { background: rgba(116,185,255,0.2); color: #74b9ff; }
-  .task-icon.done   { background: rgba(108,117,125,0.15); color: #6c757d; }
+  .task-icon.urgent { background: rgba(224,92,92,0.12); color: #e05c5c; }
+  .task-icon.warn   { background: rgba(212,160,23,0.12); color: #d4a017; }
+  .task-icon.ok     { background: rgba(0,168,120,0.12);  color: #00a878; }
+  .task-icon.info   { background: rgba(74,144,217,0.12); color: #4a90d9; }
+  .task-icon.done   { background: rgba(180,180,190,0.15); color: #bbb; }
 
   .task-body { flex: 1; }
-  .task-name { color: #e0e0e0; }
-  .task-name.done-text { color: #555; text-decoration: line-through; }
+  .task-name { color: #1a1a2e; }
+  .task-name.done-text { color: #ccc; text-decoration: line-through; }
   .task-meta {
     font-size: 11px;
-    color: #666;
-    margin-top: 2px;
+    color: #999;
+    margin-top: 4px;
     display: flex; gap: 10px; flex-wrap: wrap;
   }
   .task-meta .tag {
-    background: #23232f;
+    background: #f0f0f5;
     border-radius: 4px;
     padding: 1px 6px;
     color: #888;
   }
-  .task-meta .tag.red { color: #ff6b6b; background: rgba(255,107,107,0.1); }
-  .task-meta .tag.yellow { color: #ffd166; background: rgba(255,209,102,0.1); }
-  .task-meta .tag.green { color: #06d6a0; background: rgba(6,214,160,0.1); }
-  .task-meta .tag.blue { color: #74b9ff; background: rgba(116,185,255,0.1); }
+  .task-meta .tag.red   { color: #e05c5c; background: rgba(224,92,92,0.08); }
+  .task-meta .tag.yellow { color: #d4a017; background: rgba(212,160,23,0.08); }
+  .task-meta .tag.green  { color: #00a878; background: rgba(0,168,120,0.08); }
+  .task-meta .tag.blue   { color: #4a90d9; background: rgba(74,144,217,0.08); }
+
+  /* ========= HYPOTHESIS ========= */
+  .hypothesis {
+    font-size: 12px;
+    color: #6b63c4;
+    background: rgba(107,99,196,0.07);
+    border-left: 3px solid #a09ee0;
+    border-radius: 0 6px 6px 0;
+    padding: 7px 10px;
+    margin-top: 8px;
+    line-height: 1.6;
+  }
+  .hypothesis-label {
+    font-weight: 700;
+    font-size: 11px;
+    letter-spacing: 0.04em;
+    margin-bottom: 2px;
+    color: #8880c8;
+  }
 
   /* ========= TIMELINE ========= */
   .timeline { list-style: none; }
@@ -150,7 +169,7 @@
     display: flex;
     gap: 14px;
     padding: 8px 0;
-    border-bottom: 1px solid #232330;
+    border-bottom: 1px solid #f0f0f5;
     font-size: 13px;
     align-items: flex-start;
   }
@@ -159,17 +178,17 @@
     min-width: 90px;
     font-size: 12px;
     font-weight: 600;
-    color: #888;
+    color: #aaa;
     padding-top: 1px;
   }
-  .tl-date.near { color: #ffd166; }
-  .tl-date.urgent { color: #ff6b6b; }
+  .tl-date.near { color: #d4a017; }
+  .tl-date.urgent { color: #e05c5c; }
   .tl-line {
-    width: 2px; min-height: 100%; background: #2a2a35;
+    width: 2px; min-height: 100%; background: #e8e8f0;
     flex-shrink: 0; margin-top: 6px;
   }
-  .tl-content { flex: 1; color: #ccc; line-height: 1.5; }
-  .tl-content small { color: #666; font-size: 11px; display: block; margin-top: 2px; }
+  .tl-content { flex: 1; color: #444; line-height: 1.5; }
+  .tl-content small { color: #aaa; font-size: 11px; display: block; margin-top: 2px; }
 
   /* ========= EVENT PILLS ========= */
   .event-list { display: flex; flex-direction: column; gap: 8px; }
@@ -177,24 +196,25 @@
     border-left: 3px solid;
     padding: 10px 14px;
     border-radius: 0 8px 8px 0;
-    background: rgba(255,255,255,0.03);
+    background: rgba(0,0,0,0.02);
   }
-  .event-item.upcoming { border-color: #06d6a0; }
-  .event-item.planning { border-color: #ffd166; }
-  .event-item.tbd      { border-color: #74b9ff; }
-  .event-item .e-name { font-size: 14px; font-weight: 600; color: #e0e0e0; }
-  .event-item .e-date { font-size: 12px; color: #888; margin-top: 3px; }
-  .event-item .e-detail { font-size: 12px; color: #666; margin-top: 4px; line-height: 1.5; }
+  .event-item.upcoming { border-color: #00a878; }
+  .event-item.planning { border-color: #d4a017; }
+  .event-item.tbd      { border-color: #4a90d9; }
+  .event-item .e-name { font-size: 14px; font-weight: 600; color: #1a1a2e; }
+  .event-item .e-date { font-size: 12px; color: #999; margin-top: 3px; }
+  .event-item .e-detail { font-size: 12px; color: #888; margin-top: 4px; line-height: 1.5; }
 
   /* ========= COLLAB ========= */
   .collab-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
   .collab-item {
-    background: #23232f;
+    background: #f7f7fb;
+    border: 1px solid #eeeef5;
     border-radius: 8px;
     padding: 10px 12px;
     font-size: 12px;
   }
-  .collab-item .c-name { font-weight: 600; color: #e0e0e0; margin-bottom: 2px; }
+  .collab-item .c-name { font-weight: 600; color: #1a1a2e; margin-bottom: 2px; }
   .collab-item .c-status {
     display: inline-block;
     font-size: 10px;
@@ -202,17 +222,17 @@
     border-radius: 4px;
     margin-top: 4px;
   }
-  .c-status.active  { background: rgba(6,214,160,0.15); color: #06d6a0; }
-  .c-status.pending { background: rgba(255,209,102,0.15); color: #ffd166; }
-  .c-status.explore { background: rgba(116,185,255,0.15); color: #74b9ff; }
+  .c-status.active  { background: rgba(0,168,120,0.10); color: #00a878; }
+  .c-status.pending { background: rgba(212,160,23,0.10); color: #d4a017; }
+  .c-status.explore { background: rgba(74,144,217,0.10); color: #4a90d9; }
 
   /* ========= SOURCE TAG ========= */
   .source-row {
     display: flex; gap: 6px; margin-top: 20px; justify-content: flex-end;
-    font-size: 11px; color: #444;
+    font-size: 11px; color: #bbb;
   }
   .source-badge {
-    background: #1e1e28; border: 1px solid #2a2a35;
+    background: #fff; border: 1px solid #e8e8f0;
     border-radius: 4px; padding: 3px 8px;
   }
 </style>
@@ -225,7 +245,7 @@
     <div class="subtitle">Slack #05-コアメンバー / #06-all から自動生成</div>
   </div>
   <div class="date-badge">
-    <strong>2026年4月16日（木）</strong>
+    <strong>2026年4月17日（金）</strong>
     直近更新: 本日
   </div>
 </header>
@@ -261,6 +281,7 @@
   <div>
     <div class="section-title">🔴 緊急タスク（今週中）</div>
     <div class="card">
+
       <div class="task">
         <div class="task-icon urgent">!</div>
         <div class="task-body">
@@ -270,19 +291,29 @@
             <span class="tag">担当: Daiki</span>
             <span class="tag">プロダクト</span>
           </div>
+          <div class="hypothesis">
+            <div class="hypothesis-label">💡 仮説</div>
+            最終サンプルの実物確認ができないまま色選定が先延ばしになっている可能性。サンプルを手元に取り寄せ、Daikiが当日中に意思決定する体制を作れば4/20午前中には回答送付できるはず。
+          </div>
         </div>
       </div>
+
       <div class="task">
         <div class="task-icon urgent">!</div>
         <div class="task-body">
           <div class="task-name">4/17 定例MTG（ロット番号ディスカッション）</div>
           <div class="task-meta">
-            <span class="tag red">🗓 明日 4/17（金）16:30〜17:30</span>
+            <span class="tag red">🗓 本日 4/17（金）16:30〜17:30</span>
             <span class="tag">全員</span>
             <span class="tag">Goal: 翌日方針確定</span>
           </div>
+          <div class="hypothesis">
+            <div class="hypothesis-label">💡 仮説</div>
+            ロット番号の管理粒度（シリアル管理か枠番号かなど）でチームの認識がズレており、論点が整理されていないまま当日を迎えている可能性。Daikiが「案A / 案B」のたたき台を事前に作って持ち込むと、30分以内に決議できるはず。
+          </div>
         </div>
       </div>
+
       <div class="task">
         <div class="task-icon urgent">!</div>
         <div class="task-body">
@@ -292,8 +323,13 @@
             <span class="tag">各自</span>
             <span class="tag">Figma</span>
           </div>
+          <div class="hypothesis">
+            <div class="hypothesis-label">💡 仮説</div>
+            各自の入力フォーマット認識がズレており「何をどの粒度で書くか」が不明確なため手が止まっている可能性。Daikiが1商品分の記入例を先にFigmaへ入れれば、他メンバーが即追従できて定例前に揃う。
+          </div>
         </div>
       </div>
+
     </div>
   </div>
 
@@ -375,7 +411,7 @@
 <div class="grid-3">
 
   <div class="card">
-    <div class="card-title"><span class="dot" style="background:#ffd166"></span>プロダクト</div>
+    <div class="card-title"><span class="dot" style="background:#d4a017"></span>プロダクト</div>
     <div class="task">
       <div class="task-icon warn">▷</div>
       <div class="task-body">
@@ -407,7 +443,7 @@
   </div>
 
   <div class="card">
-    <div class="card-title"><span class="dot" style="background:#74b9ff"></span>展示・イベント</div>
+    <div class="card-title"><span class="dot" style="background:#4a90d9"></span>展示・イベント</div>
     <div class="task">
       <div class="task-icon info">▷</div>
       <div class="task-body">
@@ -474,32 +510,32 @@
       <div class="collab-grid">
         <div class="collab-item">
           <div class="c-name">佐野鍍金（金鍍金）</div>
-          <div style="font-size:11px; color:#888; margin-top:3px;">金・プラチナ加工コラボ。来週話す予定</div>
+          <div style="font-size:11px; color:#999; margin-top:3px;">金・プラチナ加工コラボ。来週話す予定</div>
           <span class="c-status pending">調整中</span>
         </div>
         <div class="collab-item">
           <div class="c-name">カイカイキキ（奈良・村上隆）</div>
-          <div style="font-size:11px; color:#888; margin-top:3px;">進行中、ライセンス面あり</div>
+          <div style="font-size:11px; color:#999; margin-top:3px;">進行中、ライセンス面あり</div>
           <span class="c-status active">進行中</span>
         </div>
         <div class="collab-item">
           <div class="c-name">柴田さん（写真家）</div>
-          <div style="font-size:11px; color:#888; margin-top:3px;">パリ16区アートフェス経由。資料できたら紹介資料を作る</div>
+          <div style="font-size:11px; color:#999; margin-top:3px;">パリ16区アートフェス経由。資料できたら紹介資料を作る</div>
           <span class="c-status explore">検討</span>
         </div>
         <div class="collab-item">
           <div class="c-name">BCCJ（英国商工会）</div>
-          <div style="font-size:11px; color:#888; margin-top:3px;">Ayatokuん経由。海外展開の入口</div>
+          <div style="font-size:11px; color:#999; margin-top:3px;">Ayatokuん経由。海外展開の入口</div>
           <span class="c-status explore">検討</span>
         </div>
         <div class="collab-item">
           <div class="c-name">KAGUWА（店舗撮影）</div>
-          <div style="font-size:11px; color:#888; margin-top:3px;">ブランディング中の店舗で撮影許可取得済み</div>
+          <div style="font-size:11px; color:#999; margin-top:3px;">ブランディング中の店舗で撮影許可取得済み</div>
           <span class="c-status active">進行中</span>
         </div>
         <div class="collab-item">
           <div class="c-name">イオン津田沼 POPAP</div>
-          <div style="font-size:11px; color:#888; margin-top:3px;">4〜9月の土日（隔週）委託販売。MAISON 12スペース</div>
+          <div style="font-size:11px; color:#999; margin-top:3px;">4〜9月の土日（隔週）委託販売。MAISON 12スペース</div>
           <span class="c-status pending">調整中</span>
         </div>
       </div>
@@ -567,7 +603,7 @@
 <div class="source-row">
   <span class="source-badge">#05-engineko-コアメンバー</span>
   <span class="source-badge">#06-engineko-all</span>
-  <span class="source-badge">Generated by Claude · 2026-04-16</span>
+  <span class="source-badge">Generated by Claude · 2026-04-17</span>
 </div>
 
 </body>
