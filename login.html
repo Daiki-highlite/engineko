@@ -5,11 +5,27 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>ENGINEKO — ログイン</title>
 <style>
+  @import url('https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap');
+  :root {
+    --paper:      #FAFAF8;
+    --ink:        #232323;
+    --ink-3:      #6B6B6B;
+    --ink-4:      #9A9A9A;
+    --ink-5:      #C8C8C8;
+    --border:     #E0E0DC;
+    --surface:    #F5F5F2;
+    --silver-dark: #5A6870;
+    --silver:      #8AABBA;
+    --silver-light:#BACCDA;
+    --silver-pale: #EBF1F4;
+    --t:          220ms cubic-bezier(0.25, 0.1, 0.25, 1);
+    --t-spring:   400ms cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body {
-    font-family: 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', sans-serif;
-    background: #f7f7fb;
-    color: #1a1a2e;
+    font-family: 'Zen Kaku Gothic New', 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', sans-serif;
+    background: #FAFAF8;
+    color: #232323;
     min-height: 100vh;
     display: flex;
     align-items: center;
@@ -24,7 +40,7 @@
 
   .login-card {
     background: #fff;
-    border: 1px solid #e8e8f0;
+    border: 1px solid #E0E0DC;
     border-radius: 16px;
     padding: 40px 36px 36px;
     box-shadow: 0 4px 24px rgba(0,0,0,0.06);
@@ -40,14 +56,14 @@
   .login-title {
     font-size: 14px;
     font-weight: 600;
-    color: #1a1a2e;
+    color: #232323;
     margin-bottom: 6px;
     letter-spacing: 0.04em;
   }
 
   .login-desc {
     font-size: 12px;
-    color: #aaa;
+    color: #9A9A9A;
     margin-bottom: 28px;
     line-height: 1.6;
   }
@@ -60,19 +76,19 @@
   .pw-input {
     width: 100%;
     padding: 12px 44px 12px 16px;
-    border: 1px solid #e0e0ea;
+    border: 1px solid #E0E0DC;
     border-radius: 10px;
     font-size: 14px;
-    color: #1a1a2e;
-    background: #fafafa;
+    color: #232323;
+    background: #FAFAF8;
     outline: none;
-    transition: border 0.15s, box-shadow 0.15s;
+    transition: border 220ms cubic-bezier(0.25, 0.1, 0.25, 1), box-shadow 220ms cubic-bezier(0.25, 0.1, 0.25, 1);
     letter-spacing: 0.1em;
     font-family: inherit;
   }
   .pw-input:focus {
-    border-color: #6b63c4;
-    box-shadow: 0 0 0 3px rgba(107,99,196,0.12);
+    border-color: #8AABBA;
+    box-shadow: 0 0 0 3px rgba(138,171,186,0.18);
     background: #fff;
   }
 
@@ -84,7 +100,7 @@
     background: none;
     border: none;
     cursor: pointer;
-    color: #bbb;
+    color: #C8C8C8;
     font-size: 16px;
     line-height: 1;
     padding: 2px;
@@ -94,7 +110,7 @@
   .login-btn {
     width: 100%;
     padding: 12px;
-    background: #1a1a2e;
+    background: #232323;
     color: #fff;
     border: none;
     border-radius: 10px;
@@ -102,7 +118,7 @@
     font-weight: 600;
     cursor: pointer;
     letter-spacing: 0.06em;
-    transition: background 0.15s, transform 0.1s;
+    transition: background 220ms cubic-bezier(0.25, 0.1, 0.25, 1), transform 220ms cubic-bezier(0.25, 0.1, 0.25, 1);
     font-family: inherit;
   }
   .login-btn:hover { background: #2d2d44; }

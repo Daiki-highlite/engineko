@@ -9,11 +9,27 @@
   if (sessionStorage.getItem('engineko_auth') !== _h) location.replace('login.html');
 </script>
 <style>
+  @import url('https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap');
+  :root {
+    --paper:      #FAFAF8;
+    --ink:        #232323;
+    --ink-3:      #6B6B6B;
+    --ink-4:      #9A9A9A;
+    --ink-5:      #C8C8C8;
+    --border:     #E0E0DC;
+    --surface:    #F5F5F2;
+    --silver-dark: #5A6870;
+    --silver:      #8AABBA;
+    --silver-light:#BACCDA;
+    --silver-pale: #EBF1F4;
+    --t:          220ms cubic-bezier(0.25, 0.1, 0.25, 1);
+    --t-spring:   400ms cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body {
-    font-family: 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', sans-serif;
-    background: #f7f7fb;
-    color: #1a1a2e;
+    font-family: 'Zen Kaku Gothic New', 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', sans-serif;
+    background: #FAFAF8;
+    color: #232323;
     min-height: 100vh;
     padding: 24px;
     padding-top: 0;
@@ -22,7 +38,7 @@
   /* ========= TOP NAV ========= */
   .topnav {
     background: #fff;
-    border-bottom: 1px solid #e8e8f0;
+    border-bottom: 1px solid #E0E0DC;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -36,10 +52,10 @@
   .nav-brand { text-decoration: none; display: flex; align-items: center; }
   .nav-brand img { height: 28px; width: auto; display: block; }
   .nav-links { display: flex; gap: 4px; }
-  .nav-link { text-decoration: none; font-size: 13px; font-weight: 500; color: #888; padding: 6px 14px; border-radius: 8px; transition: background 0.15s, color 0.15s; }
-  .nav-link:hover { background: #f5f5fa; color: #1a1a2e; }
-  .nav-link.active { background: #eeecfa; color: #6b63c4; font-weight: 600; }
-  .nav-logout { text-decoration: none; font-size: 12px; color: #bbb; padding: 6px 10px; border-radius: 8px; cursor: pointer; background: none; border: none; font-family: inherit; }
+  .nav-link { text-decoration: none; font-size: 13px; font-weight: 500; color: #6B6B6B; padding: 6px 14px; border-radius: 8px; transition: background 220ms cubic-bezier(0.25, 0.1, 0.25, 1), color 220ms cubic-bezier(0.25, 0.1, 0.25, 1); }
+  .nav-link:hover { background: #F5F5F2; color: #232323; }
+  .nav-link.active { background: #EBF1F4; color: #5A6870; font-weight: 600; }
+  .nav-logout { text-decoration: none; font-size: 12px; color: #C8C8C8; padding: 6px 10px; border-radius: 8px; cursor: pointer; background: none; border: none; font-family: inherit; }
   .nav-logout:hover { background: #fff0f0; color: #e05c5c; }
 
   /* ========= HEADER ========= */
@@ -49,35 +65,35 @@
     justify-content: space-between;
     margin-bottom: 28px;
     padding-bottom: 16px;
-    border-bottom: 1px solid #e8e8f0;
+    border-bottom: 1px solid #E0E0DC;
   }
-  header h1 { font-size: 22px; font-weight: 700; letter-spacing: 0.08em; color: #1a1a2e; }
-  header .subtitle { font-size: 12px; color: #999; margin-top: 4px; }
+  header h1 { font-size: 22px; font-weight: 700; letter-spacing: 0.08em; color: #232323; }
+  header .subtitle { font-size: 12px; color: #9A9A9A; margin-top: 4px; }
   .date-badge {
     background: #fff;
-    border: 1px solid #e8e8f0;
+    border: 1px solid #E0E0DC;
     border-radius: 8px;
     padding: 8px 14px;
     font-size: 12px;
-    color: #999;
+    color: #9A9A9A;
     text-align: right;
   }
-  .date-badge strong { color: #1a1a2e; display: block; font-size: 14px; }
+  .date-badge strong { color: #232323; display: block; font-size: 14px; }
 
   /* ========= KPI ROW ========= */
   .kpi-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 24px; }
   .kpi {
     background: #fff;
-    border: 1px solid #e8e8f0;
+    border: 1px solid #E0E0DC;
     border-radius: 12px;
     padding: 16px 18px;
   }
-  .kpi .label { font-size: 11px; color: #999; text-transform: uppercase; letter-spacing: 0.06em; }
+  .kpi .label { font-size: 11px; color: #9A9A9A; text-transform: uppercase; letter-spacing: 0.06em; }
   .kpi .value { font-size: 26px; font-weight: 700; margin-top: 4px; }
-  .kpi .sub { font-size: 11px; color: #bbb; margin-top: 2px; }
+  .kpi .sub { font-size: 11px; color: #C8C8C8; margin-top: 2px; }
   .kpi.green .value  { color: #00a878; }
   .kpi.red .value    { color: #e05c5c; }
-  .kpi.purple .value { color: #6b63c4; }
+  .kpi.purple .value { color: #5A6870; }
   .kpi.blue .value   { color: #4a90d9; }
 
   /* ========= SECTION ========= */
@@ -85,7 +101,7 @@
     font-size: 11px;
     text-transform: uppercase;
     letter-spacing: 0.1em;
-    color: #aaa;
+    color: #9A9A9A;
     margin-bottom: 10px;
     padding-left: 2px;
   }
@@ -95,7 +111,7 @@
   /* ========= CARD ========= */
   .card {
     background: #fff;
-    border: 1px solid #e8e8f0;
+    border: 1px solid #E0E0DC;
     border-radius: 12px;
     padding: 16px 18px;
   }
@@ -104,10 +120,10 @@
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.07em;
-    color: #aaa;
+    color: #9A9A9A;
     margin-bottom: 12px;
   }
-  .card-title.color-purple { color: #6b63c4; }
+  .card-title.color-purple { color: #5A6870; }
   .card-title.color-blue   { color: #4a90d9; }
   .card-title.color-green  { color: #00a878; }
   .card-title.color-red    { color: #e05c5c; }
@@ -115,15 +131,15 @@
 
   /* ========= MONEY TABLE ========= */
   .money-table { width: 100%; border-collapse: collapse; }
-  .money-table tr { border-bottom: 1px solid #f0f0f5; }
+  .money-table tr { border-bottom: 1px solid #F0F0EC; }
   .money-table tr:last-child { border-bottom: none; }
   .money-table td { padding: 9px 4px; font-size: 13px; vertical-align: middle; line-height: 1.5; }
   .money-table td:first-child { color: #666; flex: 1; }
   .money-table td:last-child { text-align: right; font-weight: 700; white-space: nowrap; }
-  .money-table .sub-row td { font-size: 11px; color: #aaa; padding: 3px 4px; }
+  .money-table .sub-row td { font-size: 11px; color: #9A9A9A; padding: 3px 4px; }
   .money-table .sub-row td:last-child { font-weight: 400; }
-  .money-table .total-row td { border-top: 2px solid #e8e8f0; padding-top: 12px; font-weight: 700; font-size: 14px; }
-  .money-table .total-row td:last-child { color: #6b63c4; }
+  .money-table .total-row td { border-top: 2px solid #E0E0DC; padding-top: 12px; font-weight: 700; font-size: 14px; }
+  .money-table .total-row td:last-child { color: #5A6870; }
 
   /* ========= BADGE ========= */
   .badge {
@@ -139,12 +155,12 @@
   .badge-red    { background: #fff0f0; color: #e05c5c; }
   .badge-yellow { background: #fffbee; color: #c49010; }
   .badge-green  { background: #f0fdf8; color: #00a878; }
-  .badge-purple { background: #eeecfa; color: #6b63c4; }
+  .badge-purple { background: #EBF1F4; color: #5A6870; }
   .badge-blue   { background: #eef4fd; color: #4a90d9; }
 
   /* ========= SUBSIDY CARD ========= */
   .subsidy-item {
-    border: 1px solid #e8e8f0;
+    border: 1px solid #E0E0DC;
     border-radius: 10px;
     padding: 14px 16px;
     margin-bottom: 10px;
@@ -152,15 +168,15 @@
     position: relative;
   }
   .subsidy-item:last-child { margin-bottom: 0; }
-  .subsidy-name { font-size: 14px; font-weight: 700; color: #1a1a2e; margin-bottom: 4px; }
+  .subsidy-name { font-size: 14px; font-weight: 700; color: #232323; margin-bottom: 4px; }
   .subsidy-amount {
     font-size: 20px;
     font-weight: 700;
     color: #00a878;
     margin-bottom: 6px;
   }
-  .subsidy-amount span { font-size: 12px; font-weight: 400; color: #999; margin-left: 6px; }
-  .subsidy-meta { font-size: 12px; color: #888; line-height: 1.6; }
+  .subsidy-amount span { font-size: 12px; font-weight: 400; color: #9A9A9A; margin-left: 6px; }
+  .subsidy-meta { font-size: 12px; color: #6B6B6B; line-height: 1.6; }
   .subsidy-deadline {
     position: absolute;
     top: 14px;
@@ -175,22 +191,22 @@
 
   /* ========= FORECAST BAR ========= */
   .forecast-bar-wrap { margin-top: 10px; }
-  .forecast-bar-label { display: flex; justify-content: space-between; font-size: 11px; color: #aaa; margin-bottom: 4px; }
-  .forecast-bar-track { background: #f0f0f5; border-radius: 99px; height: 8px; overflow: hidden; }
-  .forecast-bar-fill  { height: 8px; border-radius: 99px; background: linear-gradient(90deg, #6b63c4, #a09ee0); }
+  .forecast-bar-label { display: flex; justify-content: space-between; font-size: 11px; color: #9A9A9A; margin-bottom: 4px; }
+  .forecast-bar-track { background: #F0F0EC; border-radius: 99px; height: 8px; overflow: hidden; }
+  .forecast-bar-fill  { height: 8px; border-radius: 99px; background: linear-gradient(90deg, #8AABBA, #BACCDA); }
 
   /* ========= NOTE ========= */
   .note {
     font-size: 12px;
-    color: #6b63c4;
-    background: rgba(107,99,196,0.07);
-    border-left: 3px solid #a09ee0;
+    color: #5A6870;
+    background: rgba(138,171,186,0.10);
+    border-left: 3px solid #BACCDA;
     border-radius: 0 6px 6px 0;
     padding: 7px 10px;
     margin-top: 10px;
     line-height: 1.6;
   }
-  .note-label { font-weight: 700; font-size: 11px; margin-bottom: 2px; color: #8880c8; letter-spacing: 0.04em; }
+  .note-label { font-weight: 700; font-size: 11px; margin-bottom: 2px; color: #6B6B6B0c8; letter-spacing: 0.04em; }
 </style>
 </head>
 <body>
@@ -201,6 +217,7 @@
     <a href="index.html" class="nav-link">📋 タスクダッシュボード</a>
     <a href="product.html" class="nav-link">📦 プロダクト</a>
     <a href="cashflow.html" class="nav-link active">💰 キャッシュフロー</a>
+    <a href="/ENGINEKO Design System.html" class="nav-link" target="_blank" style="color:#5A6870;letter-spacing:0.05em;">✦ デザインシステム</a>
     <button class="nav-logout" onclick="sessionStorage.clear();location.replace('login.html');">ログアウト</button>
   </div>
 </nav>
@@ -209,7 +226,7 @@
   <div>
     <div style="display:flex;align-items:center;gap:14px;margin-bottom:4px;">
       <img src="logo-side.png" alt="ENGINEKO" style="height:36px;width:auto;">
-      <h1 style="font-size:18px;font-weight:600;letter-spacing:0.06em;color:#1a1a2e;">💰 キャッシュフロー</h1>
+      <h1 style="font-size:18px;font-weight:600;letter-spacing:0.06em;color:#232323;">💰 キャッシュフロー</h1>
     </div>
     <div class="subtitle">経費・収入・補助金 ／ Slack #05-コアメンバー より</div>
   </div>
@@ -380,7 +397,7 @@
     <tr>
       <td><strong>2027年（2年目）</strong></td>
       <td>欧州顧客拡大 ＋ 国内EC強化 ＋ 金ライン量産</td>
-      <td style="color:#6b63c4; text-align:right;">目標 ¥10,000,000</td>
+      <td style="color:#5A6870; text-align:right;">目標 ¥10,000,000</td>
     </tr>
     <tr class="sub-row">
       <td></td>
