@@ -9,11 +9,27 @@
   if (sessionStorage.getItem('engineko_auth') !== _h) location.replace('login.html');
 </script>
 <style>
+  @import url('https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap');
+  :root {
+    --paper:      #FAFAF8;
+    --ink:        #232323;
+    --ink-3:      #6B6B6B;
+    --ink-4:      #9A9A9A;
+    --ink-5:      #C8C8C8;
+    --border:     #E0E0DC;
+    --surface:    #F5F5F2;
+    --gold-dark:  #8A6D3B;
+    --gold:       #B8965A;
+    --gold-light: #D4B483;
+    --gold-pale:  #F2E8D5;
+    --t:          220ms cubic-bezier(0.25, 0.1, 0.25, 1);
+    --t-spring:   400ms cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body {
-    font-family: 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', sans-serif;
-    background: #f7f7fb;
-    color: #1a1a2e;
+    font-family: 'Zen Kaku Gothic New', 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', sans-serif;
+    background: #FAFAF8;
+    color: #232323;
     min-height: 100vh;
     padding: 24px;
     padding-top: 0;
@@ -22,7 +38,7 @@
   /* ========= TOP NAV ========= */
   .topnav {
     background: #fff;
-    border-bottom: 1px solid #e8e8f0;
+    border-bottom: 1px solid #E0E0DC;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -36,10 +52,10 @@
   .nav-brand { text-decoration: none; display: flex; align-items: center; }
   .nav-brand img { height: 28px; width: auto; display: block; }
   .nav-links { display: flex; gap: 4px; }
-  .nav-link { text-decoration: none; font-size: 13px; font-weight: 500; color: #888; padding: 6px 14px; border-radius: 8px; transition: background 0.15s, color 0.15s; }
-  .nav-link:hover { background: #f5f5fa; color: #1a1a2e; }
-  .nav-link.active { background: #eeecfa; color: #6b63c4; font-weight: 600; }
-  .nav-logout { text-decoration: none; font-size: 12px; color: #bbb; padding: 6px 10px; border-radius: 8px; cursor: pointer; background: none; border: none; font-family: inherit; }
+  .nav-link { text-decoration: none; font-size: 13px; font-weight: 500; color: #6B6B6B; padding: 6px 14px; border-radius: 8px; transition: background 220ms cubic-bezier(0.25, 0.1, 0.25, 1), color 220ms cubic-bezier(0.25, 0.1, 0.25, 1); }
+  .nav-link:hover { background: #F5F5F2; color: #232323; }
+  .nav-link.active { background: #F2E8D5; color: #8A6D3B; font-weight: 600; }
+  .nav-logout { text-decoration: none; font-size: 12px; color: #C8C8C8; padding: 6px 10px; border-radius: 8px; cursor: pointer; background: none; border: none; font-family: inherit; }
   .nav-logout:hover { background: #fff0f0; color: #e05c5c; }
 
   header {
@@ -48,29 +64,29 @@
     justify-content: space-between;
     margin-bottom: 28px;
     padding-bottom: 16px;
-    border-bottom: 1px solid #e8e8f0;
+    border-bottom: 1px solid #E0E0DC;
   }
   header h1 {
     font-size: 22px;
     font-weight: 700;
     letter-spacing: 0.08em;
-    color: #1a1a2e;
+    color: #232323;
   }
   header .subtitle {
     font-size: 12px;
-    color: #999;
+    color: #9A9A9A;
     margin-top: 4px;
   }
   .date-badge {
     background: #fff;
-    border: 1px solid #e8e8f0;
+    border: 1px solid #E0E0DC;
     border-radius: 8px;
     padding: 8px 14px;
     font-size: 12px;
-    color: #999;
+    color: #9A9A9A;
     text-align: right;
   }
-  .date-badge strong { color: #1a1a2e; display: block; font-size: 14px; }
+  .date-badge strong { color: #232323; display: block; font-size: 14px; }
 
   /* ========= KPI ROW ========= */
   .kpi-row {
@@ -81,13 +97,13 @@
   }
   .kpi {
     background: #fff;
-    border: 1px solid #e8e8f0;
+    border: 1px solid #E0E0DC;
     border-radius: 12px;
     padding: 16px 18px;
   }
-  .kpi .label { font-size: 11px; color: #999; text-transform: uppercase; letter-spacing: 0.06em; }
+  .kpi .label { font-size: 11px; color: #9A9A9A; text-transform: uppercase; letter-spacing: 0.06em; }
   .kpi .value { font-size: 28px; font-weight: 700; margin-top: 4px; }
-  .kpi .sub { font-size: 11px; color: #bbb; margin-top: 2px; }
+  .kpi .sub { font-size: 11px; color: #C8C8C8; margin-top: 2px; }
   .kpi.red .value { color: #e05c5c; }
   .kpi.yellow .value { color: #d4a017; }
   .kpi.green .value { color: #00a878; }
@@ -98,7 +114,7 @@
     font-size: 11px;
     text-transform: uppercase;
     letter-spacing: 0.1em;
-    color: #aaa;
+    color: #9A9A9A;
     margin-bottom: 10px;
     padding-left: 2px;
   }
@@ -109,14 +125,14 @@
   /* ========= CARD ========= */
   .card {
     background: #fff;
-    border: 1px solid #e8e8f0;
+    border: 1px solid #E0E0DC;
     border-radius: 12px;
     padding: 16px 18px;
   }
   .card-title {
     font-size: 12px;
     font-weight: 600;
-    color: #999;
+    color: #9A9A9A;
     text-transform: uppercase;
     letter-spacing: 0.08em;
     margin-bottom: 12px;
@@ -134,7 +150,7 @@
     align-items: flex-start;
     gap: 10px;
     padding: 9px 0;
-    border-bottom: 1px solid #f0f0f5;
+    border-bottom: 1px solid #F0F0EC;
     font-size: 13px;
     line-height: 1.5;
   }
@@ -151,22 +167,22 @@
   .task-icon.warn   { background: rgba(212,160,23,0.12); color: #d4a017; }
   .task-icon.ok     { background: rgba(0,168,120,0.12);  color: #00a878; }
   .task-icon.info   { background: rgba(74,144,217,0.12); color: #4a90d9; }
-  .task-icon.done   { background: rgba(180,180,190,0.15); color: #bbb; }
+  .task-icon.done   { background: rgba(180,180,190,0.15); color: #C8C8C8; }
 
   .task-body { flex: 1; }
-  .task-name { color: #1a1a2e; }
+  .task-name { color: #232323; }
   .task-name.done-text { color: #ccc; text-decoration: line-through; }
   .task-meta {
     font-size: 11px;
-    color: #999;
+    color: #9A9A9A;
     margin-top: 4px;
     display: flex; gap: 10px; flex-wrap: wrap;
   }
   .task-meta .tag {
-    background: #f0f0f5;
+    background: #F0F0EC;
     border-radius: 4px;
     padding: 1px 6px;
-    color: #888;
+    color: #6B6B6B;
   }
   .task-meta .tag.red   { color: #e05c5c; background: rgba(224,92,92,0.08); }
   .task-meta .tag.yellow { color: #d4a017; background: rgba(212,160,23,0.08); }
@@ -176,9 +192,9 @@
   /* ========= HYPOTHESIS ========= */
   .hypothesis {
     font-size: 12px;
-    color: #6b63c4;
-    background: rgba(107,99,196,0.07);
-    border-left: 3px solid #a09ee0;
+    color: #B8965A;
+    background: rgba(184,150,90,0.08);
+    border-left: 3px solid #D4B483;
     border-radius: 0 6px 6px 0;
     padding: 7px 10px;
     margin-top: 8px;
@@ -189,7 +205,7 @@
     font-size: 11px;
     letter-spacing: 0.04em;
     margin-bottom: 2px;
-    color: #8880c8;
+    color: #6B6B6B0c8;
   }
 
   /* ========= TIMELINE ========= */
@@ -198,7 +214,7 @@
     display: flex;
     gap: 14px;
     padding: 8px 0;
-    border-bottom: 1px solid #f0f0f5;
+    border-bottom: 1px solid #F0F0EC;
     font-size: 13px;
     align-items: flex-start;
   }
@@ -207,17 +223,17 @@
     min-width: 90px;
     font-size: 12px;
     font-weight: 600;
-    color: #aaa;
+    color: #9A9A9A;
     padding-top: 1px;
   }
   .tl-date.near { color: #d4a017; }
   .tl-date.urgent { color: #e05c5c; }
   .tl-line {
-    width: 2px; min-height: 100%; background: #e8e8f0;
+    width: 2px; min-height: 100%; background: #E0E0DC;
     flex-shrink: 0; margin-top: 6px;
   }
   .tl-content { flex: 1; color: #444; line-height: 1.5; }
-  .tl-content small { color: #aaa; font-size: 11px; display: block; margin-top: 2px; }
+  .tl-content small { color: #9A9A9A; font-size: 11px; display: block; margin-top: 2px; }
 
   /* ========= EVENT PILLS ========= */
   .event-list { display: flex; flex-direction: column; gap: 8px; }
@@ -230,20 +246,20 @@
   .event-item.upcoming { border-color: #00a878; }
   .event-item.planning { border-color: #d4a017; }
   .event-item.tbd      { border-color: #4a90d9; }
-  .event-item .e-name { font-size: 14px; font-weight: 600; color: #1a1a2e; }
-  .event-item .e-date { font-size: 12px; color: #999; margin-top: 3px; }
-  .event-item .e-detail { font-size: 12px; color: #888; margin-top: 4px; line-height: 1.5; }
+  .event-item .e-name { font-size: 14px; font-weight: 600; color: #232323; }
+  .event-item .e-date { font-size: 12px; color: #9A9A9A; margin-top: 3px; }
+  .event-item .e-detail { font-size: 12px; color: #6B6B6B; margin-top: 4px; line-height: 1.5; }
 
   /* ========= COLLAB ========= */
   .collab-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
   .collab-item {
     background: #f7f7fb;
-    border: 1px solid #eeeef5;
+    border: 1px solid #F5F5F2;
     border-radius: 8px;
     padding: 10px 12px;
     font-size: 12px;
   }
-  .collab-item .c-name { font-weight: 600; color: #1a1a2e; margin-bottom: 2px; }
+  .collab-item .c-name { font-weight: 600; color: #232323; margin-bottom: 2px; }
   .collab-item .c-status {
     display: inline-block;
     font-size: 10px;
@@ -259,7 +275,7 @@
   .grid-5 { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; margin-bottom: 24px; }
   .member-card {
     background: #fff;
-    border: 1px solid #e8e8f0;
+    border: 1px solid #E0E0DC;
     border-radius: 12px;
     padding: 14px;
     border-top: 3px solid;
@@ -276,9 +292,9 @@
     margin-bottom: 7px;
     align-self: flex-start;
   }
-  .member-name { font-size: 13px; font-weight: 700; color: #1a1a2e; }
-  .member-name-en { font-size: 10px; color: #bbb; margin-top: 1px; margin-bottom: 4px; }
-  .member-desc { font-size: 11px; color: #999; margin-bottom: 10px; line-height: 1.45; padding-bottom: 10px; border-bottom: 1px solid #f0f0f5; }
+  .member-name { font-size: 13px; font-weight: 700; color: #232323; }
+  .member-name-en { font-size: 10px; color: #C8C8C8; margin-top: 1px; margin-bottom: 4px; }
+  .member-desc { font-size: 11px; color: #9A9A9A; margin-bottom: 10px; line-height: 1.45; padding-bottom: 10px; border-bottom: 1px solid #F0F0EC; }
   .member-task-list { display: flex; flex-direction: column; gap: 0; flex: 1; }
   .member-task-item {
     display: flex;
@@ -301,23 +317,23 @@
   .mtask-body { flex: 1; }
   .mtask-text { color: #444; }
   .mtask-text.done { color: #ccc; text-decoration: line-through; }
-  .mtask-date { font-size: 10px; color: #bbb; margin-top: 1px; }
+  .mtask-date { font-size: 10px; color: #C8C8C8; margin-top: 1px; }
   .mtask-date.red { color: #e05c5c; }
   .member-stat {
     display: flex; gap: 0; margin-top: 10px; padding-top: 8px;
-    border-top: 1px solid #f0f0f5;
+    border-top: 1px solid #F0F0EC;
   }
   .member-stat-item { text-align: center; flex: 1; }
   .member-stat-item .s-num { font-size: 15px; font-weight: 700; }
-  .member-stat-item .s-label { font-size: 9px; color: #bbb; letter-spacing: 0.04em; }
+  .member-stat-item .s-label { font-size: 9px; color: #C8C8C8; letter-spacing: 0.04em; }
 
   /* ========= SOURCE TAG ========= */
   .source-row {
     display: flex; gap: 6px; margin-top: 20px; justify-content: flex-end;
-    font-size: 11px; color: #bbb;
+    font-size: 11px; color: #C8C8C8;
   }
   .source-badge {
-    background: #fff; border: 1px solid #e8e8f0;
+    background: #fff; border: 1px solid #E0E0DC;
     border-radius: 4px; padding: 3px 8px;
   }
 </style>
@@ -338,7 +354,7 @@
   <div>
     <div style="display:flex;align-items:center;gap:14px;margin-bottom:4px;">
       <img src="logo-side.png" alt="ENGINEKO" style="height:36px;width:auto;">
-      <h1 style="font-size:18px;font-weight:600;letter-spacing:0.06em;color:#1a1a2e;">タスクダッシュボード</h1>
+      <h1 style="font-size:18px;font-weight:600;letter-spacing:0.06em;color:#232323;">タスクダッシュボード</h1>
     </div>
     <div class="subtitle">Slack #05-コアメンバー / #06-all から自動生成</div>
   </div>
@@ -512,8 +528,8 @@
   </div>
 
   <!-- Misaki: Handle -->
-  <div class="member-card" style="border-top-color:#6b63c4;">
-    <span class="member-role-tag" style="background:rgba(107,99,196,0.10);color:#6b63c4;">🎯 HANDLE</span>
+  <div class="member-card" style="border-top-color:#5B7B8A;">
+    <span class="member-role-tag" style="background:rgba(91,123,138,0.10);color:#5B7B8A;">🎯 HANDLE</span>
     <div class="member-name">玉田 実咲</div>
     <div class="member-name-en">Misaki Tamada</div>
     <div class="member-desc">事業の印象を操作・整理する</div>
@@ -869,7 +885,7 @@
   </div>
 
   <div class="card">
-    <div class="card-title"><span class="dot" style="background:#a29bfe"></span>補助金・資金</div>
+    <div class="card-title"><span class="dot" style="background:#B8965A"></span>補助金・資金</div>
     <div class="task">
       <div class="task-icon warn">▷</div>
       <div class="task-body">
