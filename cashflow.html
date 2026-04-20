@@ -18,10 +18,10 @@
     --ink-5:      #C8C8C8;
     --border:     #E0E0DC;
     --surface:    #F5F5F2;
-    --gold-dark:  #8A6D3B;
-    --gold:       #B8965A;
-    --gold-light: #D4B483;
-    --gold-pale:  #F2E8D5;
+    --silver-dark: #5A6870;
+    --silver:      #8AABBA;
+    --silver-light:#BACCDA;
+    --silver-pale: #EBF1F4;
     --t:          220ms cubic-bezier(0.25, 0.1, 0.25, 1);
     --t-spring:   400ms cubic-bezier(0.34, 1.56, 0.64, 1);
   }
@@ -54,7 +54,7 @@
   .nav-links { display: flex; gap: 4px; }
   .nav-link { text-decoration: none; font-size: 13px; font-weight: 500; color: #6B6B6B; padding: 6px 14px; border-radius: 8px; transition: background 220ms cubic-bezier(0.25, 0.1, 0.25, 1), color 220ms cubic-bezier(0.25, 0.1, 0.25, 1); }
   .nav-link:hover { background: #F5F5F2; color: #232323; }
-  .nav-link.active { background: #F2E8D5; color: #8A6D3B; font-weight: 600; }
+  .nav-link.active { background: #EBF1F4; color: #5A6870; font-weight: 600; }
   .nav-logout { text-decoration: none; font-size: 12px; color: #C8C8C8; padding: 6px 10px; border-radius: 8px; cursor: pointer; background: none; border: none; font-family: inherit; }
   .nav-logout:hover { background: #fff0f0; color: #e05c5c; }
 
@@ -93,7 +93,7 @@
   .kpi .sub { font-size: 11px; color: #C8C8C8; margin-top: 2px; }
   .kpi.green .value  { color: #00a878; }
   .kpi.red .value    { color: #e05c5c; }
-  .kpi.purple .value { color: #8A6D3B; }
+  .kpi.purple .value { color: #5A6870; }
   .kpi.blue .value   { color: #4a90d9; }
 
   /* ========= SECTION ========= */
@@ -123,7 +123,7 @@
     color: #9A9A9A;
     margin-bottom: 12px;
   }
-  .card-title.color-purple { color: #8A6D3B; }
+  .card-title.color-purple { color: #5A6870; }
   .card-title.color-blue   { color: #4a90d9; }
   .card-title.color-green  { color: #00a878; }
   .card-title.color-red    { color: #e05c5c; }
@@ -139,7 +139,7 @@
   .money-table .sub-row td { font-size: 11px; color: #9A9A9A; padding: 3px 4px; }
   .money-table .sub-row td:last-child { font-weight: 400; }
   .money-table .total-row td { border-top: 2px solid #E0E0DC; padding-top: 12px; font-weight: 700; font-size: 14px; }
-  .money-table .total-row td:last-child { color: #8A6D3B; }
+  .money-table .total-row td:last-child { color: #5A6870; }
 
   /* ========= BADGE ========= */
   .badge {
@@ -155,7 +155,7 @@
   .badge-red    { background: #fff0f0; color: #e05c5c; }
   .badge-yellow { background: #fffbee; color: #c49010; }
   .badge-green  { background: #f0fdf8; color: #00a878; }
-  .badge-purple { background: #F2E8D5; color: #8A6D3B; }
+  .badge-purple { background: #EBF1F4; color: #5A6870; }
   .badge-blue   { background: #eef4fd; color: #4a90d9; }
 
   /* ========= SUBSIDY CARD ========= */
@@ -193,14 +193,14 @@
   .forecast-bar-wrap { margin-top: 10px; }
   .forecast-bar-label { display: flex; justify-content: space-between; font-size: 11px; color: #9A9A9A; margin-bottom: 4px; }
   .forecast-bar-track { background: #F0F0EC; border-radius: 99px; height: 8px; overflow: hidden; }
-  .forecast-bar-fill  { height: 8px; border-radius: 99px; background: linear-gradient(90deg, #B8965A, #D4B483); }
+  .forecast-bar-fill  { height: 8px; border-radius: 99px; background: linear-gradient(90deg, #8AABBA, #BACCDA); }
 
   /* ========= NOTE ========= */
   .note {
     font-size: 12px;
-    color: #8A6D3B;
-    background: rgba(184,150,90,0.08);
-    border-left: 3px solid #D4B483;
+    color: #5A6870;
+    background: rgba(138,171,186,0.10);
+    border-left: 3px solid #BACCDA;
     border-radius: 0 6px 6px 0;
     padding: 7px 10px;
     margin-top: 10px;
@@ -217,6 +217,7 @@
     <a href="index.html" class="nav-link">📋 タスクダッシュボード</a>
     <a href="product.html" class="nav-link">📦 プロダクト</a>
     <a href="cashflow.html" class="nav-link active">💰 キャッシュフロー</a>
+    <a href="/ENGINEKO Design System.html" class="nav-link" target="_blank" style="color:#5A6870;letter-spacing:0.05em;">✦ デザインシステム</a>
     <button class="nav-logout" onclick="sessionStorage.clear();location.replace('login.html');">ログアウト</button>
   </div>
 </nav>
@@ -396,7 +397,7 @@
     <tr>
       <td><strong>2027年（2年目）</strong></td>
       <td>欧州顧客拡大 ＋ 国内EC強化 ＋ 金ライン量産</td>
-      <td style="color:#8A6D3B; text-align:right;">目標 ¥10,000,000</td>
+      <td style="color:#5A6870; text-align:right;">目標 ¥10,000,000</td>
     </tr>
     <tr class="sub-row">
       <td></td>

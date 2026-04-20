@@ -18,10 +18,10 @@
     --ink-5:      #C8C8C8;
     --border:     #E0E0DC;
     --surface:    #F5F5F2;
-    --gold-dark:  #8A6D3B;
-    --gold:       #B8965A;
-    --gold-light: #D4B483;
-    --gold-pale:  #F2E8D5;
+    --silver-dark: #5A6870;
+    --silver:      #8AABBA;
+    --silver-light:#BACCDA;
+    --silver-pale: #EBF1F4;
     --t:          220ms cubic-bezier(0.25, 0.1, 0.25, 1);
     --t-spring:   400ms cubic-bezier(0.34, 1.56, 0.64, 1);
   }
@@ -54,7 +54,7 @@
   .nav-links { display: flex; gap: 4px; }
   .nav-link { text-decoration: none; font-size: 13px; font-weight: 500; color: #6B6B6B; padding: 6px 14px; border-radius: 8px; transition: background 220ms cubic-bezier(0.25, 0.1, 0.25, 1), color 220ms cubic-bezier(0.25, 0.1, 0.25, 1); }
   .nav-link:hover { background: #F5F5F2; color: #232323; }
-  .nav-link.active { background: #F2E8D5; color: #8A6D3B; font-weight: 600; }
+  .nav-link.active { background: #EBF1F4; color: #5A6870; font-weight: 600; }
   .nav-logout { text-decoration: none; font-size: 12px; color: #C8C8C8; padding: 6px 10px; border-radius: 8px; cursor: pointer; background: none; border: none; font-family: inherit; }
   .nav-logout:hover { background: #fff0f0; color: #e05c5c; }
 
@@ -192,9 +192,9 @@
   /* ========= HYPOTHESIS ========= */
   .hypothesis {
     font-size: 12px;
-    color: #B8965A;
-    background: rgba(184,150,90,0.08);
-    border-left: 3px solid #D4B483;
+    color: #8AABBA;
+    background: rgba(138,171,186,0.10);
+    border-left: 3px solid #BACCDA;
     border-radius: 0 6px 6px 0;
     padding: 7px 10px;
     margin-top: 8px;
@@ -346,6 +346,7 @@
     <a href="index.html" class="nav-link active">📋 タスクダッシュボード</a>
     <a href="product.html" class="nav-link">📦 プロダクト</a>
     <a href="cashflow.html" class="nav-link">💰 キャッシュフロー</a>
+    <a href="/ENGINEKO Design System.html" class="nav-link" target="_blank" style="color:#5A6870;letter-spacing:0.05em;">✦ デザインシステム</a>
     <button class="nav-logout" onclick="sessionStorage.clear();location.replace('login.html');">ログアウト</button>
   </div>
 </nav>
@@ -885,7 +886,7 @@
   </div>
 
   <div class="card">
-    <div class="card-title"><span class="dot" style="background:#B8965A"></span>補助金・資金</div>
+    <div class="card-title"><span class="dot" style="background:#8AABBA"></span>補助金・資金</div>
     <div class="task">
       <div class="task-icon warn">▷</div>
       <div class="task-body">
