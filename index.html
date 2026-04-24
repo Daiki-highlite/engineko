@@ -327,6 +327,68 @@
   .member-stat-item .s-num { font-size: 15px; font-weight: 700; }
   .member-stat-item .s-label { font-size: 9px; color: #C8C8C8; letter-spacing: 0.04em; }
 
+  /* ========= CLAUDE INSTRUCTIONS ========= */
+  .claude-log {
+    background: #fff;
+    border: 1px solid #E0E0DC;
+    border-radius: 12px;
+    padding: 16px 18px;
+  }
+  .ci-item {
+    display: flex;
+    gap: 12px;
+    padding: 12px 0;
+    border-bottom: 1px dashed #F0F0EC;
+  }
+  .ci-item:first-child { padding-top: 2px; }
+  .ci-item:last-child { border-bottom: none; padding-bottom: 2px; }
+  .ci-meta {
+    min-width: 132px;
+    font-size: 11px;
+    color: #9A9A9A;
+  }
+  .ci-meta .ci-id {
+    display: inline-block;
+    font-family: 'SFMono-Regular', Menlo, monospace;
+    font-size: 10px;
+    color: #5A6870;
+    background: #EBF1F4;
+    border-radius: 3px;
+    padding: 1px 5px;
+    margin-right: 4px;
+  }
+  .ci-meta .ci-date { display: block; margin-top: 3px; color: #6B6B6B; font-weight: 600; }
+  .ci-meta .ci-from { display: block; margin-top: 1px; color: #9A9A9A; font-size: 11px; }
+  .ci-body { flex: 1; font-size: 13px; line-height: 1.55; color: #232323; }
+  .ci-body .ci-text {
+    background: rgba(138,171,186,0.08);
+    border-left: 3px solid #BACCDA;
+    border-radius: 0 6px 6px 0;
+    padding: 7px 10px;
+    color: #444;
+    margin-bottom: 6px;
+    font-size: 12px;
+  }
+  .ci-body .ci-impl {
+    font-size: 11px;
+    color: #6B6B6B;
+    margin-top: 4px;
+    line-height: 1.5;
+  }
+  .ci-body .ci-impl strong { color: #232323; font-weight: 600; }
+  .ci-status {
+    display: inline-block;
+    font-size: 10px;
+    padding: 2px 7px;
+    border-radius: 4px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    margin-top: 6px;
+  }
+  .ci-status.done    { background: rgba(0,168,120,0.10); color: #00a878; }
+  .ci-status.wip     { background: rgba(212,160,23,0.10); color: #d4a017; }
+  .ci-status.todo    { background: rgba(224,92,92,0.10);  color: #e05c5c; }
+
   /* ========= SOURCE TAG ========= */
   .source-row {
     display: flex; gap: 6px; margin-top: 20px; justify-content: flex-end;
@@ -361,7 +423,7 @@
     <div class="subtitle">Slack #05-コアメンバー / #06-all から自動生成</div>
   </div>
   <div class="date-badge">
-    <strong>2026年4月19日（日）</strong>
+    <strong>2026年4月24日（金）</strong>
     直近更新: 本日
   </div>
 </header>
@@ -370,7 +432,7 @@
 <div class="kpi-row">
   <div class="kpi red">
     <div class="label">🔴 緊急タスク</div>
-    <div class="value">2</div>
+    <div class="value">5</div>
     <div class="sub">今週中に対応必須</div>
   </div>
   <div class="kpi yellow">
@@ -380,12 +442,12 @@
   </div>
   <div class="kpi green">
     <div class="label">✅ 完了</div>
-    <div class="value">9</div>
+    <div class="value">12</div>
     <div class="sub">直近で完了済み</div>
   </div>
   <div class="kpi blue">
     <div class="label">📅 今後のイベント</div>
-    <div class="value">4</div>
+    <div class="value">6</div>
     <div class="sub">確定 + 調整中</div>
   </div>
 </div>
@@ -402,73 +464,80 @@
     <div class="member-desc">事業推進のための価値を作る</div>
     <div class="member-task-list">
       <div class="member-task-item">
-        <div class="mtask-dot ok"></div>
+        <div class="mtask-dot urgent"></div>
         <div class="mtask-body">
-          <div class="mtask-text done">箱の筆色確定・佐賀ダンボールへ回答</div>
-          <div class="mtask-date">完了</div>
-        </div>
-      </div>
-      <div class="member-task-item">
-        <div class="mtask-dot ok"></div>
-        <div class="mtask-body">
-          <div class="mtask-text done">商品名・カラー名 Figmaへ記入</div>
-          <div class="mtask-date">完了</div>
+          <div class="mtask-text">型屋に行って撮影</div>
+          <div class="mtask-date red">今週中</div>
         </div>
       </div>
       <div class="member-task-item">
         <div class="mtask-dot urgent"></div>
         <div class="mtask-body">
-          <div class="mtask-text">ポップアップ什器レンタルの会社に返信</div>
+          <div class="mtask-text">フジコウさんと製造進める</div>
           <div class="mtask-date red">今週中</div>
         </div>
       </div>
       <div class="member-task-item">
         <div class="mtask-dot warn"></div>
         <div class="mtask-body">
-          <div class="mtask-text">フジコウさんと製造進める</div>
-          <div class="mtask-date">撮影日程リマインド済</div>
+          <div class="mtask-text">アーティストライン仲間集め資料作成</div>
+          <div class="mtask-date">構成着手・未達</div>
         </div>
       </div>
       <div class="member-task-item">
         <div class="mtask-dot warn"></div>
         <div class="mtask-body">
-          <div class="mtask-text">補助金申請の確認と資料準備</div>
-          <div class="mtask-date">面談終了・資料アップデート要</div>
-        </div>
-      </div>
-      <div class="member-task-item">
-        <div class="mtask-dot warn"></div>
-        <div class="mtask-body">
-          <div class="mtask-text">佐賀ダンボールさんと箱進める</div>
-          <div class="mtask-date">25日に最初の10個届く</div>
-        </div>
-      </div>
-      <div class="member-task-item">
-        <div class="mtask-dot warn"></div>
-        <div class="mtask-body">
-          <div class="mtask-text">ウレタン代替緩衝材を調べる・もくはりで制作</div>
-          <div class="mtask-date">素材購入はまだ</div>
-        </div>
-      </div>
-      <div class="member-task-item">
-        <div class="mtask-dot warn"></div>
-        <div class="mtask-body">
-          <div class="mtask-text">ECサイト・営業資料の拡充</div>
+          <div class="mtask-text">営業資料・紹介資料の拡充</div>
           <div class="mtask-date">物が揃ったら本格化</div>
         </div>
       </div>
       <div class="member-task-item">
-        <div class="mtask-dot ok"></div>
+        <div class="mtask-dot warn"></div>
+        <div class="mtask-body">
+          <div class="mtask-text">ECサイトの拡充</div>
+          <div class="mtask-date">進行中</div>
+        </div>
+      </div>
+      <div class="member-task-item">
+        <div class="mtask-dot warn"></div>
         <div class="mtask-body">
           <div class="mtask-text">coen × ドイツ人配信者 イベント企画</div>
           <div class="mtask-date">5月後半予定</div>
         </div>
       </div>
+      <div class="member-task-item">
+        <div class="mtask-dot ok done"></div>
+        <div class="mtask-body">
+          <div class="mtask-text done">ポップアップ什器レンタル会社に返信</div>
+          <div class="mtask-date">GW明け訪問予定</div>
+        </div>
+      </div>
+      <div class="member-task-item">
+        <div class="mtask-dot ok done"></div>
+        <div class="mtask-body">
+          <div class="mtask-text done">補助金申請の確認と資料準備</div>
+          <div class="mtask-date">完了</div>
+        </div>
+      </div>
+      <div class="member-task-item">
+        <div class="mtask-dot ok done"></div>
+        <div class="mtask-body">
+          <div class="mtask-text done">もくはり試作・ハンコ購入・coenアイディエーション</div>
+          <div class="mtask-date">完了</div>
+        </div>
+      </div>
+      <div class="member-task-item">
+        <div class="mtask-dot ok"></div>
+        <div class="mtask-body">
+          <div class="mtask-text">SNSコンテンツ詳細設計・展開</div>
+          <div class="mtask-date">今後予定</div>
+        </div>
+      </div>
     </div>
     <div class="member-stat">
-      <div class="member-stat-item"><div class="s-num" style="color:#e05c5c;">1</div><div class="s-label">緊急</div></div>
-      <div class="member-stat-item"><div class="s-num" style="color:#d4a017;">5</div><div class="s-label">進行中</div></div>
-      <div class="member-stat-item"><div class="s-num" style="color:#00a878;">2</div><div class="s-label">完了</div></div>
+      <div class="member-stat-item"><div class="s-num" style="color:#e05c5c;">2</div><div class="s-label">緊急</div></div>
+      <div class="member-stat-item"><div class="s-num" style="color:#d4a017;">4</div><div class="s-label">進行中</div></div>
+      <div class="member-stat-item"><div class="s-num" style="color:#00a878;">5</div><div class="s-label">完了</div></div>
     </div>
   </div>
 
@@ -480,52 +549,45 @@
     <div class="member-desc">事業の推進を行う</div>
     <div class="member-task-list">
       <div class="member-task-item">
-        <div class="mtask-dot ok done"></div>
+        <div class="mtask-dot urgent"></div>
         <div class="mtask-body">
-          <div class="mtask-text done">ストーリー設計</div>
-          <div class="mtask-date">完了</div>
-        </div>
-      </div>
-      <div class="member-task-item">
-        <div class="mtask-dot ok done"></div>
-        <div class="mtask-body">
-          <div class="mtask-text done">商品名WS設計</div>
-          <div class="mtask-date">完了</div>
-        </div>
-      </div>
-      <div class="member-task-item">
-        <div class="mtask-dot ok done"></div>
-        <div class="mtask-body">
-          <div class="mtask-text done">Figma記入</div>
-          <div class="mtask-date">完了</div>
+          <div class="mtask-text">羽車への再度問い合わせ</div>
+          <div class="mtask-date red">今週中</div>
         </div>
       </div>
       <div class="member-task-item">
         <div class="mtask-dot warn"></div>
         <div class="mtask-body">
-          <div class="mtask-text">ロット番号ディスカッション資料作成</div>
+          <div class="mtask-text">羽車さんとの調整</div>
           <div class="mtask-date">進行中</div>
         </div>
       </div>
       <div class="member-task-item">
-        <div class="mtask-dot ok"></div>
+        <div class="mtask-dot ok done"></div>
         <div class="mtask-body">
-          <div class="mtask-text">次週定例MTG時間調整</div>
-          <div class="mtask-date">調整中</div>
+          <div class="mtask-text done">羽車への問い合わせ</div>
+          <div class="mtask-date">完了</div>
+        </div>
+      </div>
+      <div class="member-task-item">
+        <div class="mtask-dot ok done"></div>
+        <div class="mtask-body">
+          <div class="mtask-text done">仁和寺さんと打ち合わせ同席・事業プレゼン</div>
+          <div class="mtask-date">完了</div>
         </div>
       </div>
       <div class="member-task-item">
         <div class="mtask-dot ok"></div>
         <div class="mtask-body">
-          <div class="mtask-text">Trello→ダッシュボード Stat統合</div>
+          <div class="mtask-text">仁和寺ポップアップ検討・ロケハン調整</div>
           <div class="mtask-date">今後予定</div>
         </div>
       </div>
     </div>
     <div class="member-stat">
-      <div class="member-stat-item"><div class="s-num" style="color:#e05c5c;">0</div><div class="s-label">緊急</div></div>
+      <div class="member-stat-item"><div class="s-num" style="color:#e05c5c;">1</div><div class="s-label">緊急</div></div>
       <div class="member-stat-item"><div class="s-num" style="color:#d4a017;">1</div><div class="s-label">進行中</div></div>
-      <div class="member-stat-item"><div class="s-num" style="color:#00a878;">3</div><div class="s-label">完了</div></div>
+      <div class="member-stat-item"><div class="s-num" style="color:#00a878;">2</div><div class="s-label">完了</div></div>
     </div>
   </div>
 
@@ -537,44 +599,44 @@
     <div class="member-desc">事業の印象を操作・整理する</div>
     <div class="member-task-list">
       <div class="member-task-item">
-        <div class="mtask-dot ok done"></div>
-        <div class="mtask-body">
-          <div class="mtask-text done">CBSタスクTrello洗い出し</div>
-          <div class="mtask-date">完了</div>
-        </div>
-      </div>
-      <div class="member-task-item">
         <div class="mtask-dot urgent"></div>
         <div class="mtask-body">
-          <div class="mtask-text">ロット番号MTG議論</div>
+          <div class="mtask-text">コンセプトブック構成案 修正</div>
           <div class="mtask-date red">今週中</div>
         </div>
       </div>
       <div class="member-task-item">
         <div class="mtask-dot warn"></div>
         <div class="mtask-body">
-          <div class="mtask-text">コンセプトブック構成案</div>
-          <div class="mtask-date">会員名称・登録方法・色名が必要</div>
+          <div class="mtask-text">CBSとの調整（POPUP日程検討）</div>
+          <div class="mtask-date">進行中</div>
+        </div>
+      </div>
+      <div class="member-task-item">
+        <div class="mtask-dot ok done"></div>
+        <div class="mtask-body">
+          <div class="mtask-text done">血統書デザイン</div>
+          <div class="mtask-date">完了</div>
+        </div>
+      </div>
+      <div class="member-task-item">
+        <div class="mtask-dot ok done"></div>
+        <div class="mtask-body">
+          <div class="mtask-text done">4/22 もくはり 発泡スチロール試作</div>
+          <div class="mtask-date">完了</div>
         </div>
       </div>
       <div class="member-task-item">
         <div class="mtask-dot ok"></div>
         <div class="mtask-body">
           <div class="mtask-text">コンセプトブックデザイン</div>
-          <div class="mtask-date">今後予定</div>
+          <div class="mtask-date">撮影データ頂戴次第</div>
         </div>
       </div>
       <div class="member-task-item">
         <div class="mtask-dot ok"></div>
         <div class="mtask-body">
-          <div class="mtask-text">4/22 工房試作</div>
-          <div class="mtask-date">4/22予定</div>
-        </div>
-      </div>
-      <div class="member-task-item">
-        <div class="mtask-dot ok"></div>
-        <div class="mtask-body">
-          <div class="mtask-text">ブランドキャッチコピー策定</div>
+          <div class="mtask-text">中目黒POPUP準備タスク 巻き取り検討</div>
           <div class="mtask-date">今後予定</div>
         </div>
       </div>
@@ -582,7 +644,7 @@
     <div class="member-stat">
       <div class="member-stat-item"><div class="s-num" style="color:#e05c5c;">1</div><div class="s-label">緊急</div></div>
       <div class="member-stat-item"><div class="s-num" style="color:#d4a017;">1</div><div class="s-label">進行中</div></div>
-      <div class="member-stat-item"><div class="s-num" style="color:#00a878;">1</div><div class="s-label">完了</div></div>
+      <div class="member-stat-item"><div class="s-num" style="color:#00a878;">2</div><div class="s-label">完了</div></div>
     </div>
   </div>
 
@@ -594,51 +656,51 @@
     <div class="member-desc">事業を移動させる</div>
     <div class="member-task-list">
       <div class="member-task-item">
+        <div class="mtask-dot warn"></div>
+        <div class="mtask-body">
+          <div class="mtask-text">津田沼イオン 物販 7〜9月</div>
+          <div class="mtask-date">返信次第で確定</div>
+        </div>
+      </div>
+      <div class="member-task-item">
+        <div class="mtask-dot warn"></div>
+        <div class="mtask-body">
+          <div class="mtask-text">中目黒イベント 6/27 コンセプト詰め</div>
+          <div class="mtask-date">他ブランド発表待ち</div>
+        </div>
+      </div>
+      <div class="member-task-item">
+        <div class="mtask-dot warn"></div>
+        <div class="mtask-body">
+          <div class="mtask-text">重野さん経由 大丸さん接触</div>
+          <div class="mtask-date">日程調整これから</div>
+        </div>
+      </div>
+      <div class="member-task-item">
         <div class="mtask-dot ok done"></div>
         <div class="mtask-body">
-          <div class="mtask-text done">発泡スチロール加工連絡（4/22・5/1調整済）</div>
+          <div class="mtask-text done">津田沼イオン物販 イベント後連絡</div>
           <div class="mtask-date">完了</div>
         </div>
       </div>
       <div class="member-task-item">
         <div class="mtask-dot ok done"></div>
         <div class="mtask-body">
-          <div class="mtask-text done">POPUP会場リスト追加</div>
+          <div class="mtask-text done">中目黒イベント 6/27(土) 確定</div>
           <div class="mtask-date">完了</div>
         </div>
       </div>
       <div class="member-task-item">
-        <div class="mtask-dot warn"></div>
-        <div class="mtask-body">
-          <div class="mtask-text">重野さん経由 大丸接触</div>
-          <div class="mtask-date">進行中</div>
-        </div>
-      </div>
-      <div class="member-task-item">
-        <div class="mtask-dot warn"></div>
-        <div class="mtask-body">
-          <div class="mtask-text">安い発泡スチロール探し</div>
-          <div class="mtask-date">進行中</div>
-        </div>
-      </div>
-      <div class="member-task-item">
         <div class="mtask-dot ok"></div>
         <div class="mtask-body">
-          <div class="mtask-text">イオン津田沼 POPUP（7〜9月）</div>
-          <div class="mtask-date">7〜9月予定</div>
-        </div>
-      </div>
-      <div class="member-task-item">
-        <div class="mtask-dot ok"></div>
-        <div class="mtask-body">
-          <div class="mtask-text">OPEN NAKAMEGURO 出店</div>
-          <div class="mtask-date">6/27予定</div>
+          <div class="mtask-text">中目黒POPUP 必要なもの洗い出し</div>
+          <div class="mtask-date">5月半ばから準備</div>
         </div>
       </div>
     </div>
     <div class="member-stat">
       <div class="member-stat-item"><div class="s-num" style="color:#e05c5c;">0</div><div class="s-label">緊急</div></div>
-      <div class="member-stat-item"><div class="s-num" style="color:#d4a017;">2</div><div class="s-label">進行中</div></div>
+      <div class="member-stat-item"><div class="s-num" style="color:#d4a017;">3</div><div class="s-label">進行中</div></div>
       <div class="member-stat-item"><div class="s-num" style="color:#00a878;">2</div><div class="s-label">完了</div></div>
     </div>
   </div>
@@ -651,24 +713,31 @@
     <div class="member-desc">事業の道筋を整える</div>
     <div class="member-task-list">
       <div class="member-task-item">
-        <div class="mtask-dot ok done"></div>
+        <div class="mtask-dot urgent"></div>
         <div class="mtask-body">
-          <div class="mtask-text done">商標周りの書類提出</div>
-          <div class="mtask-date">完了</div>
-        </div>
-      </div>
-      <div class="member-task-item">
-        <div class="mtask-dot warn"></div>
-        <div class="mtask-body">
-          <div class="mtask-text">仁和寺POPUPイベント調整</div>
-          <div class="mtask-date">進行中</div>
+          <div class="mtask-text">仁和寺 コミュニケーション議論・方針決定</div>
+          <div class="mtask-date red">本日MTGで共有</div>
         </div>
       </div>
       <div class="member-task-item">
         <div class="mtask-dot warn"></div>
         <div class="mtask-body">
           <div class="mtask-text">収支管理シート作成</div>
+          <div class="mtask-date">Claude回り踏まえて進行</div>
+        </div>
+      </div>
+      <div class="member-task-item">
+        <div class="mtask-dot warn"></div>
+        <div class="mtask-body">
+          <div class="mtask-text">会員コミュニティリサーチ</div>
           <div class="mtask-date">進行中</div>
+        </div>
+      </div>
+      <div class="member-task-item">
+        <div class="mtask-dot ok done"></div>
+        <div class="mtask-body">
+          <div class="mtask-text done">仁和寺 1st アプローチ</div>
+          <div class="mtask-date">完了</div>
         </div>
       </div>
       <div class="member-task-item">
@@ -682,7 +751,7 @@
         <div class="mtask-dot ok"></div>
         <div class="mtask-body">
           <div class="mtask-text">商標権/意匠権 後続手続き</div>
-          <div class="mtask-date">今後予定</div>
+          <div class="mtask-date">審査待ち</div>
         </div>
       </div>
       <div class="member-task-item">
@@ -694,7 +763,7 @@
       </div>
     </div>
     <div class="member-stat">
-      <div class="member-stat-item"><div class="s-num" style="color:#e05c5c;">0</div><div class="s-label">緊急</div></div>
+      <div class="member-stat-item"><div class="s-num" style="color:#e05c5c;">1</div><div class="s-label">緊急</div></div>
       <div class="member-stat-item"><div class="s-num" style="color:#d4a017;">2</div><div class="s-label">進行中</div></div>
       <div class="member-stat-item"><div class="s-num" style="color:#00a878;">1</div><div class="s-label">完了</div></div>
     </div>
@@ -713,15 +782,15 @@
       <div class="task">
         <div class="task-icon urgent">!</div>
         <div class="task-body">
-          <div class="task-name">ポップアップ什器レンタルの会社に返信</div>
+          <div class="task-name">型屋に行って撮影</div>
           <div class="task-meta">
             <span class="tag red">🗓 今週中</span>
             <span class="tag">担当: Daiki</span>
-            <span class="tag">POPUP準備</span>
+            <span class="tag">製造・撮影</span>
           </div>
           <div class="hypothesis">
             <div class="hypothesis-label">💡 仮説</div>
-            返信が遅れると什器の在庫確保やスケジュール調整が間に合わなくなる可能性。まずレンタル条件・料金を確認し、今週中に諾否を返答すれば次のステップへ進める。
+            型屋での撮影は製造プロセスを記録してストーリー訴求に使える素材になる可能性。今週中に現地取材と撮影を済ませておけば、コンセプトブックやEC素材としてすぐ流用できる。
           </div>
         </div>
       </div>
@@ -729,15 +798,63 @@
       <div class="task">
         <div class="task-icon urgent">!</div>
         <div class="task-body">
-          <div class="task-name">ロット番号MTG議論（玉田担当）</div>
+          <div class="task-name">フジコウさんと製造進める</div>
           <div class="task-meta">
             <span class="tag red">🗓 今週中</span>
-            <span class="tag">担当: Misaki</span>
-            <span class="tag">プロダクト管理</span>
+            <span class="tag">担当: Daiki</span>
+            <span class="tag">製造</span>
           </div>
           <div class="hypothesis">
             <div class="hypothesis-label">💡 仮説</div>
-            ロット番号の管理粒度でチームの認識にズレがある可能性。Misakiが論点（シリアル管理 vs 枠番号）を整理した資料を持ち込み、今週中に方針を確定させると後続のデザイン・製造工程がスムーズに進む。
+            製造リードタイムは読めない部分が多いため、4月中に次のマイルストーンを握らないと5/1販売開始に間に合わないリスク。フジコウさんと工程と日程を詰めれば先行販売の在庫確保が確実になる。
+          </div>
+        </div>
+      </div>
+
+      <div class="task">
+        <div class="task-icon urgent">!</div>
+        <div class="task-body">
+          <div class="task-name">羽車への再度問い合わせ</div>
+          <div class="task-meta">
+            <span class="tag red">🗓 今週中</span>
+            <span class="tag">担当: Kota</span>
+            <span class="tag">ベンダー調整</span>
+          </div>
+          <div class="hypothesis">
+            <div class="hypothesis-label">💡 仮説</div>
+            羽車さん側の回答が止まっているとコンセプトブックやパッケージ周りが着手できない。今週中に再度ヒアリングし条件を握れば、製造・デザインの後工程を同時並行で進められる。
+          </div>
+        </div>
+      </div>
+
+      <div class="task">
+        <div class="task-icon urgent">!</div>
+        <div class="task-body">
+          <div class="task-name">コンセプトブック構成案 修正</div>
+          <div class="task-meta">
+            <span class="tag red">🗓 今週中</span>
+            <span class="tag">担当: Misaki</span>
+            <span class="tag">ブランド設計</span>
+          </div>
+          <div class="hypothesis">
+            <div class="hypothesis-label">💡 仮説</div>
+            構成案を確定させないと撮影データが揃ってもデザインに落とし込めず、5月の発送に同梱するコンセプトブックが間に合わない可能性。今週中に構成を固めれば撮影データ着次第デザインを走らせられる。
+          </div>
+        </div>
+      </div>
+
+      <div class="task">
+        <div class="task-icon urgent">!</div>
+        <div class="task-body">
+          <div class="task-name">仁和寺 コミュニケーション議論・方針決定</div>
+          <div class="task-meta">
+            <span class="tag red">🗓 本日MTG</span>
+            <span class="tag">担当: Ikumi</span>
+            <span class="tag">ステークホルダー</span>
+          </div>
+          <div class="hypothesis">
+            <div class="hypothesis-label">💡 仮説</div>
+            仁和寺さんは今後のPOPUP・長期的な信頼関係のキーステークホルダー。コミュニケーションの窓口・温度感・スピード感を今日のMTGで揃えれば、Kota・Ikumiの動きの重複/抜け漏れがなくなる。
           </div>
         </div>
       </div>
@@ -751,31 +868,17 @@
     <div class="card">
       <ul class="timeline">
         <li>
-          <div class="tl-date urgent">4/17（金）</div>
+          <div class="tl-date urgent">4/24（金）本日</div>
           <div class="tl-content">
-            定例MTG 16:30〜17:30
-            <small>ロット番号方針 + ネクストアクション確認</small>
+            定例MTG
+            <small>仁和寺コミュニケーション方針決定 + 各メンバー進捗共有</small>
           </div>
         </li>
         <li>
-          <div class="tl-date urgent">4/20（月）</div>
+          <div class="tl-date urgent">4/25（土）</div>
           <div class="tl-content">
-            箱の筆色確定回答締切
-            <small>佐賀ダンボールへの返答</small>
-          </div>
-        </li>
-        <li>
-          <div class="tl-date near">4/22（水）</div>
-          <div class="tl-content">
-            発泡スチロール試作（もくもくはりねずみ 文京区）
-            <small>有希ちゃん + Daiki 午後予定</small>
-          </div>
-        </li>
-        <li>
-          <div class="tl-date near">4/25（土）箱完成予定</div>
-          <div class="tl-content">
-            箱が完成見込み
-            <small>佐賀ダンボール → 発送準備へ</small>
+            箱 最初の10個が佐賀ダンボールから届く
+            <small>先行発送の素材確保</small>
           </div>
         </li>
         <li>
@@ -786,17 +889,31 @@
           </div>
         </li>
         <li>
-          <div class="tl-date">5/1（金）</div>
+          <div class="tl-date near">5/1（金）</div>
           <div class="tl-content">
-            箱 先行販売開始 🎉
+            箱 先行販売開始 🎉 / もくはり2回目作業
             <small>ECサイト engineko.com</small>
+          </div>
+        </li>
+        <li>
+          <div class="tl-date">5月後半</div>
+          <div class="tl-content">
+            coen × ドイツ人配信者 交流イベント
+            <small>Daiki 企画詰め中</small>
           </div>
         </li>
         <li>
           <div class="tl-date">6/27（土）</div>
           <div class="tl-content">
-            OPEN NAKAMEGURO 出店
-            <small>11:00〜18:00 / 売上の20% / 有希ちゃん問い合わせ済</small>
+            OPEN NAKAMEGURO 出店（確定）
+            <small>11:00〜18:00 / 売上の20% / 他ブランド発表待ち</small>
+          </div>
+        </li>
+        <li>
+          <div class="tl-date">7〜9月</div>
+          <div class="tl-content">
+            津田沼イオン 物販
+            <small>Yuki 調整中・返信待ち</small>
           </div>
         </li>
         <li>
@@ -1012,10 +1129,54 @@
   </div>
 </div>
 
+<!-- CLAUDE INSTRUCTIONS LOG -->
+<div class="section-title">📝 Claudeへの指示ログ（Slackの「to Claude」コメント）</div>
+<div class="claude-log">
+
+  <div class="ci-item">
+    <div class="ci-meta">
+      <span class="ci-id">#002</span>
+      <span class="ci-date">2026-04-24 14:50</span>
+      <span class="ci-from">早川 大貴</span>
+    </div>
+    <div class="ci-body">
+      <div class="ci-text">ダッシュボードに仕様が都度描かれる仕様にして</div>
+      <div class="ci-impl">
+        <strong>実装：</strong>
+        Slack `to Claude` コメントを毎回吸い上げ、本セクションに履歴として描画する仕組みを追加。
+        `claude-instructions.md` に指示ログを蓄積し、ダッシュボードには直近3件を自動展開する。
+      </div>
+      <span class="ci-status done">✅ 実装済み</span>
+    </div>
+  </div>
+
+  <div class="ci-item">
+    <div class="ci-meta">
+      <span class="ci-id">#001</span>
+      <span class="ci-date">2026-04-17 10:58</span>
+      <span class="ci-from">早川 大貴</span>
+    </div>
+    <div class="ci-body">
+      <div class="ci-text">Slack投稿を読み取って各種進捗を自動生成するダッシュボードの設計（Trello運用との統合方針）</div>
+      <div class="ci-impl">
+        <strong>実装：</strong>
+        `anthropic-skills:engineko-update` スキルを整備。毎週金曜の定例前にSlackから吸い上げ、
+        `index.html` を更新して GitHub Pages に反映する運用を確立。
+      </div>
+      <span class="ci-status done">✅ 実装済み（継続運用中）</span>
+    </div>
+  </div>
+
+  <div style="margin-top:10px; font-size:11px; color:#9A9A9A; text-align:right;">
+    詳細な履歴・運用ルールは <code style="background:#F5F5F2;padding:2px 6px;border-radius:4px;">claude-instructions.md</code> を参照
+  </div>
+
+</div>
+
 <div class="source-row">
   <span class="source-badge">#05-engineko-コアメンバー</span>
   <span class="source-badge">#06-engineko-all</span>
-  <span class="source-badge">Generated by Claude · 2026-04-17</span>
+  <span class="source-badge">Generated by Claude · 2026-04-24</span>
 </div>
 
 </body>
