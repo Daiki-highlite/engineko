@@ -1102,9 +1102,53 @@
   </div>
 </div>
 
+<!-- ROW 4: 撮影協力候補地リスト -->
+<div class="section-title">📸 撮影協力してくれそうな場所リスト</div>
+<div class="card" style="margin-bottom: 24px;">
+  <div style="font-size:11px; color:#9A9A9A; margin-bottom:10px; line-height:1.6;">
+    商品撮影・ブランドビジュアル制作にあたり、外観・店内・什器を借りられそうな候補地。
+    アポ取り→条件確認→撮影日確定の順で進行。新候補があれば随時追記。
+  </div>
+  <div class="collab-grid">
+    <div class="collab-item">
+      <div class="c-name">KAGUWA</div>
+      <div style="font-size:11px; color:#999; margin-top:3px;">ブランディング中の店舗で撮影許可取得済み。スケジュール調整中。</div>
+      <span class="c-status active">許可取得済</span>
+    </div>
+    <div class="collab-item">
+      <div class="c-name">津田沼イオン</div>
+      <div style="font-size:11px; color:#999; margin-top:3px;">POPAP出店スペース（MAISON 12）と並行で撮影打診を検討。</div>
+      <span class="c-status pending">打診予定</span>
+    </div>
+    <div class="collab-item">
+      <div class="c-name">coen</div>
+      <div style="font-size:11px; color:#999; margin-top:3px;">店舗・什器の撮影協力候補。担当者特定とアポ取りから着手。</div>
+      <span class="c-status explore">候補</span>
+    </div>
+  </div>
+</div>
+
 <!-- CLAUDE INSTRUCTIONS LOG -->
 <div class="section-title">📝 Claudeへの指示ログ（Slackの「to Claude」コメント）</div>
 <div class="claude-log">
+
+  <div class="ci-item">
+    <div class="ci-meta">
+      <span class="ci-id">#005</span>
+      <span class="ci-date">2026-05-01</span>
+      <span class="ci-from">早川 大貴</span>
+    </div>
+    <div class="ci-body">
+      <div class="ci-text">ENGINEKOダッシュボードに「撮影協力してくれそうな場所リスト」を追加。対象は KAGUWA／津田沼イオン／coen。</div>
+      <div class="ci-impl">
+        <strong>実装：</strong>
+        Row 3（コラボ・連携）の下に新セクション「📸 撮影協力してくれそうな場所リスト」を追加。
+        既存の <code style="background:#F5F5F2;padding:1px 5px;border-radius:3px;">collab-grid</code> スタイルを流用し、
+        ステータスバッジ（許可取得済／打診予定）で進捗を可視化。新候補が出たら同じカード形式で追記する運用。
+      </div>
+      <span class="ci-status done">✅ 実装済み</span>
+    </div>
+  </div>
 
   <div class="ci-item">
     <div class="ci-meta">
