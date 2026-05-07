@@ -195,6 +195,72 @@
   .forecast-bar-track { background: #F0F0EC; border-radius: 99px; height: 8px; overflow: hidden; }
   .forecast-bar-fill  { height: 8px; border-radius: 99px; background: linear-gradient(90deg, #8AABBA, #BACCDA); }
 
+  /* ========= ACTUAL PAID LOG ========= */
+  .actual-table { width: 100%; border-collapse: collapse; }
+  .actual-table thead th {
+    text-align: left;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #9A9A9A;
+    font-weight: 600;
+    padding: 6px 8px;
+    border-bottom: 1px solid #E0E0DC;
+  }
+  .actual-table thead th.amt { text-align: right; }
+  .actual-table tbody tr { border-bottom: 1px solid #F5F5F2; }
+  .actual-table tbody tr:last-child { border-bottom: none; }
+  .actual-table tbody td {
+    font-size: 12.5px;
+    color: #444;
+    padding: 9px 8px;
+    vertical-align: top;
+    line-height: 1.5;
+  }
+  .actual-table tbody td.date { color: #6B6B6B; white-space: nowrap; font-variant-numeric: tabular-nums; }
+  .actual-table tbody td.item { color: #232323; font-weight: 500; }
+  .actual-table tbody td.amt {
+    text-align: right;
+    color: #e05c5c;
+    font-weight: 700;
+    white-space: nowrap;
+    font-variant-numeric: tabular-nums;
+  }
+  .actual-table tbody td.payer { color: #6B6B6B; white-space: nowrap; }
+  .actual-table tbody td.memo { color: #9A9A9A; font-size: 11.5px; }
+  .actual-table tbody td.memo a { color: #4a90d9; text-decoration: none; }
+  .actual-table tbody td.memo a:hover { text-decoration: underline; }
+  .actual-empty {
+    padding: 22px 12px;
+    text-align: center;
+    font-size: 12px;
+    color: #9A9A9A;
+    background: #FAFAF8;
+    border: 1px dashed #E0E0DC;
+    border-radius: 8px;
+  }
+  .actual-summary {
+    display: flex;
+    gap: 14px;
+    margin-bottom: 12px;
+    flex-wrap: wrap;
+  }
+  .actual-summary .pill {
+    background: #F5F5F2;
+    border-radius: 6px;
+    padding: 6px 12px;
+    font-size: 11px;
+    color: #6B6B6B;
+  }
+  .actual-summary .pill strong {
+    color: #232323;
+    font-size: 14px;
+    font-weight: 700;
+    margin-left: 4px;
+    font-variant-numeric: tabular-nums;
+  }
+  .actual-summary .pill.red strong { color: #e05c5c; }
+
   /* ========= NOTE ========= */
   .note {
     font-size: 12px;
@@ -218,6 +284,7 @@
     <a href="product.html" class="nav-link">📦 プロダクト</a>
     <a href="cashflow.html" class="nav-link active">💰 キャッシュフロー</a>
     <a href="en-process.html" class="nav-link">◆ EN process</a>
+    <a href="sns.html" class="nav-link">📷 SNS 100投稿</a>
     <a href="ENGINEKO%20Design%20System.html" class="nav-link" target="_blank" style="color:#5A6870;letter-spacing:0.05em;">✦ デザインシステム</a>
     <button class="nav-logout" onclick="sessionStorage.clear();location.replace('login.html');">ログアウト</button>
   </div>
@@ -251,7 +318,7 @@
   </div>
   <div class="kpi blue">
     <div class="label">🏦 補助金 最大合計</div>
-    <div class="value">3,700万</div>
+    <div class="value">3,600万</div>
     <div class="sub">3補助金の合計上限</div>
   </div>
   <div class="kpi red">
@@ -343,6 +410,63 @@
 
 </div>
 
+<!-- 実際に払った金額（実績ログ） -->
+<div class="section-title">💴 実際に払った金額（実績ログ）</div>
+<div class="card" style="margin-bottom: 24px;">
+  <div class="card-title color-red">💸 支出実績</div>
+
+  <div class="actual-summary">
+    <div class="pill red">今月実績合計 <strong id="actual-month-total">¥0</strong></div>
+    <div class="pill red">累計（FY2026） <strong id="actual-fy-total">¥0</strong></div>
+    <div class="pill">記録件数 <strong id="actual-count">0</strong></div>
+  </div>
+
+  <table class="actual-table">
+    <thead>
+      <tr>
+        <th style="width:90px;">日付</th>
+        <th>項目</th>
+        <th class="amt" style="width:110px;">金額</th>
+        <th style="width:100px;">支払者</th>
+        <th>メモ・出典</th>
+      </tr>
+    </thead>
+    <tbody id="actual-tbody">
+      <!-- Slack「to Claude（cashflow）」または「払った／振込／立替」キーワードで吸い上げて自動追記 -->
+      <tr data-date="2026-05-01" data-amount="22946">
+        <td class="date">2026/05/01</td>
+        <td class="item">先行の箱（外箱・梱包資材）<br><span style="font-size:11px;color:#9A9A9A;">請求支払い完了</span></td>
+        <td class="amt">¥22,946</td>
+        <td class="payer">早川 大貴</td>
+        <td class="memo"><a href="https://highlite-brand.slack.com/archives/C0A5564Q0QN/p1777618150498549?thread_ts=1777618123.631469&cid=C0A5564Q0QN" target="_blank">Slackメモ</a></td>
+      </tr>
+      <tr data-date="2026-05-01" data-amount="988">
+        <td class="date">2026/05/01</td>
+        <td class="item">エアークッション（梱包緩衝材・テスト分）<br><span style="font-size:11px;color:#9A9A9A;">メルカリ／出品者: 猫じゃん</span></td>
+        <td class="amt">¥988</td>
+        <td class="payer">早川 大貴</td>
+        <td class="memo"><a href="https://highlite-brand.slack.com/archives/C0A5564Q0QN/p1777600012363259?thread_ts=1777010130.043879&cid=C0A5564Q0QN" target="_blank">Slackメモ</a></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="actual-empty" id="actual-empty">
+    まだ実績データはありません。<br>
+    Slack <code style="background:#fff;padding:1px 5px;border-radius:3px;">#05-engineko-コアメンバー</code> で
+    「払った」「振り込んだ」「立て替えた」「支払い完了」などのキーワードや
+    <code style="background:#fff;padding:1px 5px;border-radius:3px;">to Claude（cashflow）</code>
+    タグ付きメモが投稿されると、次回更新時にここへ自動追記されます。
+  </div>
+
+  <div class="note" style="margin-top:14px;">
+    <div class="note-label">📝 運用ルール</div>
+    Slackメモから取り込む項目：<strong>日付・項目・金額・支払者・出典リンク</strong>。
+    Claude が週次更新タイミングで <code style="background:#fff;padding:1px 5px;border-radius:3px;">engineko-update</code> スキル経由で吸い上げる。
+    取り込みに迷うものはここに <span class="badge badge-yellow">要確認</span> 付きで仮登録 →
+    次回定例で確定する運用。
+  </div>
+</div>
+
 <!-- 補助金 -->
 <div class="section-title">🏦 補助金・助成金</div>
 <div class="grid-3">
@@ -351,9 +475,9 @@
     <div class="subsidy-item">
       <div class="subsidy-deadline">4/30締切</div>
       <div class="subsidy-name">特別創業支援補助金</div>
-      <div class="subsidy-amount">400万円<span>最大</span></div>
+      <div class="subsidy-amount">300万円<span>最大</span></div>
       <div class="subsidy-meta">
-        担当：小河原ミサさん<br>
+        担当：早川 大貴<br>
         申請書類の準備を今週中に完了させる必要あり。<br>
         <span class="badge badge-red">要対応</span>
       </div>
@@ -400,7 +524,7 @@
     </tr>
     <tr class="sub-row">
       <td></td>
-      <td>特別創業支援補助金（最大400万）活用 ／ INPIT申請</td>
+      <td>特別創業支援補助金（最大300万）活用 ／ INPIT申請</td>
       <td></td>
     </tr>
     <tr>
@@ -416,10 +540,37 @@
     <tr class="total-row">
       <td><strong>補助金活用合計</strong></td>
       <td>3補助金フル活用時</td>
-      <td>最大 ¥37,000,000</td>
+      <td>最大 ¥36,000,000</td>
     </tr>
   </table>
 </div>
+
+<script>
+  // 実績ログ：行数に応じてempty状態を切り替え＋合計を自動計算
+  (function() {
+    const tbody = document.getElementById('actual-tbody');
+    const empty = document.getElementById('actual-empty');
+    if (!tbody || !empty) return;
+    const rows = tbody.querySelectorAll('tr[data-amount]');
+    if (rows.length === 0) return;
+    empty.style.display = 'none';
+    const now = new Date();
+    let monthTotal = 0;
+    let fyTotal = 0;
+    rows.forEach(r => {
+      const amt = parseInt(r.dataset.amount, 10) || 0;
+      const d = new Date(r.dataset.date);
+      fyTotal += amt;
+      if (d.getFullYear() === now.getFullYear() && d.getMonth() === now.getMonth()) {
+        monthTotal += amt;
+      }
+    });
+    const fmt = n => '¥' + n.toLocaleString('ja-JP');
+    document.getElementById('actual-month-total').textContent = fmt(monthTotal);
+    document.getElementById('actual-fy-total').textContent = fmt(fyTotal);
+    document.getElementById('actual-count').textContent = rows.length;
+  })();
+</script>
 
 </body>
 </html>

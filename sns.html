@@ -1,0 +1,1602 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SNS 100投稿プラン｜ENGINEKO</title>
+<script>
+  const _h = 'f74b1d6fb6832e2da1b9845af2bd9c9d420b8c97c517c474f5371074fb7f9676';
+  if (sessionStorage.getItem('engineko_auth') !== _h) location.replace('login.html');
+</script>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap');
+  :root {
+    --paper:      #FAFAF8;
+    --ink:        #232323;
+    --ink-3:      #6B6B6B;
+    --ink-4:      #9A9A9A;
+    --ink-5:      #C8C8C8;
+    --border:     #E0E0DC;
+    --surface:    #F5F5F2;
+    --silver-dark: #5A6870;
+    --silver:      #8AABBA;
+    --silver-light:#BACCDA;
+    --silver-pale: #EBF1F4;
+    --t:          220ms cubic-bezier(0.25, 0.1, 0.25, 1);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Zen Kaku Gothic New', 'Hiragino Kaku Gothic ProN', sans-serif;
+    background: var(--paper);
+    color: var(--ink);
+    min-height: 100vh;
+    padding: 24px;
+    padding-top: 0;
+  }
+
+  /* TOP NAV */
+  .topnav {
+    background: #fff; border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 12px 24px; margin: 0 -24px 28px -24px;
+    position: sticky; top: 0; z-index: 100;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+  }
+  .nav-brand { text-decoration: none; display: flex; align-items: center; }
+  .nav-brand img { height: 28px; width: auto; display: block; }
+  .nav-links { display: flex; gap: 4px; flex-wrap: wrap; }
+  .nav-link {
+    text-decoration: none; font-size: 13px; font-weight: 500; color: var(--ink-3);
+    padding: 6px 14px; border-radius: 8px; transition: background var(--t), color var(--t);
+  }
+  .nav-link:hover { background: var(--surface); color: var(--ink); }
+  .nav-link.active { background: var(--silver-pale); color: var(--silver-dark); font-weight: 600; }
+  .nav-logout {
+    text-decoration: none; font-size: 12px; color: var(--ink-5);
+    padding: 6px 10px; border-radius: 8px; cursor: pointer;
+    background: none; border: none; font-family: inherit;
+  }
+  .nav-logout:hover { background: #fff0f0; color: #e05c5c; }
+
+  header {
+    display: flex; align-items: flex-end; justify-content: space-between;
+    margin-bottom: 24px; padding-bottom: 16px; border-bottom: 1px solid var(--border);
+  }
+  header .brand-row { display: flex; align-items: center; gap: 14px; margin-bottom: 6px; }
+  header img { height: 36px; width: auto; }
+  header h1 { font-size: 18px; font-weight: 600; letter-spacing: 0.06em; color: var(--ink); }
+  header .subtitle { font-size: 12px; color: var(--ink-4); }
+  .date-badge {
+    background: #fff; border: 1px solid var(--border); border-radius: 8px;
+    padding: 8px 14px; font-size: 12px; color: var(--ink-4); text-align: right;
+  }
+  .date-badge strong { color: var(--ink); display: block; font-size: 14px; }
+
+  /* KPI */
+  .kpi-row {
+    display: grid; grid-template-columns: repeat(4, 1fr);
+    gap: 12px; margin-bottom: 24px;
+  }
+  .kpi {
+    background: #fff; border: 1px solid var(--border);
+    border-radius: 10px; padding: 14px 16px;
+  }
+  .kpi .label { font-size: 11px; color: var(--ink-4); letter-spacing: 0.04em; margin-bottom: 4px; }
+  .kpi .value { font-size: 28px; font-weight: 700; color: var(--ink); line-height: 1; }
+  .kpi .sub { font-size: 11px; color: var(--ink-4); margin-top: 6px; }
+  .kpi .progress {
+    height: 4px; background: var(--surface); border-radius: 2px;
+    overflow: hidden; margin-top: 8px;
+  }
+  .kpi .progress > span {
+    display: block; height: 100%; background: var(--silver-dark);
+    transition: width var(--t);
+  }
+
+  /* SECTION TITLE */
+  .section-title {
+    font-size: 13px; font-weight: 700; color: var(--ink);
+    letter-spacing: 0.08em; margin: 28px 0 14px;
+    padding-bottom: 8px; border-bottom: 1px solid var(--border);
+  }
+  .section-title .meta { font-size: 11px; color: var(--ink-4); font-weight: 400; margin-left: 10px; letter-spacing: 0; }
+
+  /* TOOLBAR */
+  .toolbar {
+    background: #fff; border: 1px solid var(--border); border-radius: 10px;
+    padding: 12px 14px; margin-bottom: 14px;
+    display: grid; grid-template-columns: repeat(5, 1fr) auto; gap: 10px;
+    align-items: center;
+  }
+  .toolbar label { font-size: 11px; color: var(--ink-4); display: block; margin-bottom: 4px; letter-spacing: 0.04em; }
+  .toolbar select, .toolbar input {
+    width: 100%; font-family: inherit; font-size: 12px;
+    padding: 6px 8px; border: 1px solid var(--border); border-radius: 6px;
+    background: #fff; color: var(--ink);
+  }
+  .toolbar .view-toggle {
+    display: flex; gap: 4px; align-items: flex-end; padding-bottom: 1px;
+  }
+  .toolbar button.tg {
+    font-family: inherit; font-size: 12px; padding: 6px 12px;
+    border: 1px solid var(--border); background: #fff; color: var(--ink-3);
+    border-radius: 6px; cursor: pointer; transition: all var(--t);
+  }
+  .toolbar button.tg.active { background: var(--ink); color: #fff; border-color: var(--ink); }
+
+  /* SERIES LEGEND */
+  .legend {
+    display: flex; flex-wrap: wrap; gap: 6px;
+    margin-bottom: 14px;
+  }
+  .legend .chip {
+    font-size: 11px; padding: 4px 10px; border-radius: 999px;
+    border: 1px solid var(--border); background: #fff; color: var(--ink-3);
+    cursor: pointer; transition: all var(--t); user-select: none;
+  }
+  .legend .chip.active { color: #fff; border-color: transparent; }
+  .legend .chip .count { color: var(--ink-5); margin-left: 4px; font-size: 10px; }
+  .legend .chip.active .count { color: rgba(255,255,255,0.7); }
+
+  /* Series colors */
+  .series-R1 { --c: #C9A86A; }
+  .series-R2 { --c: #B97A4F; }
+  .series-R3 { --c: #5A6870; }
+  .series-R4 { --c: #6B8E6B; }
+  .series-R5 { --c: #A5824D; }
+  .series-R6 { --c: #B8924C; }
+  .series-F1 { --c: #B8A88A; }
+  .series-F2 { --c: #8B6F4E; }
+  .series-F3 { --c: #7E9078; }
+  .series-F4 { --c: #2A2A2A; }
+  .series-F5 { --c: #9A9A9A; }
+  .legend .chip.active.series-R1, .legend .chip.active.series-R2, .legend .chip.active.series-R3,
+  .legend .chip.active.series-R4, .legend .chip.active.series-R5, .legend .chip.active.series-R6,
+  .legend .chip.active.series-F1, .legend .chip.active.series-F2, .legend .chip.active.series-F3,
+  .legend .chip.active.series-F4, .legend .chip.active.series-F5 { background: var(--c); }
+  .series-dot {
+    display: inline-block; width: 8px; height: 8px; border-radius: 50%;
+    background: var(--c, var(--ink-5)); margin-right: 6px; vertical-align: middle;
+  }
+
+  /* LIST VIEW */
+  .list { display: flex; flex-direction: column; gap: 8px; }
+  .row {
+    background: #fff; border: 1px solid var(--border); border-radius: 8px;
+    padding: 12px 14px; transition: border-color var(--t), box-shadow var(--t);
+    cursor: pointer;
+  }
+  .row:hover { border-color: var(--silver-light); box-shadow: 0 1px 4px rgba(0,0,0,0.03); }
+  .row.expanded { border-color: var(--silver); box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+  .row-head {
+    display: grid;
+    grid-template-columns: 36px 80px 60px 1fr auto auto;
+    gap: 12px; align-items: center;
+  }
+  .row-no { font-size: 11px; color: var(--ink-4); text-align: right; }
+  .row-date { font-size: 12px; color: var(--ink-3); }
+  .row-format {
+    font-size: 10px; padding: 2px 8px; border-radius: 4px;
+    text-align: center; letter-spacing: 0.04em; font-weight: 600;
+  }
+  .row-format.reel { background: #F4E9D8; color: #8B6914; }
+  .row-format.feed { background: #E8EDE8; color: #4A6B4A; }
+  .row-title { font-size: 13px; color: var(--ink); font-weight: 500; }
+  .row-title .ep { color: var(--ink-4); font-weight: 400; font-size: 11px; margin-right: 6px; }
+  .row-series {
+    font-size: 11px; color: var(--ink-3); padding-left: 0; white-space: nowrap;
+  }
+  .status-pill {
+    font-size: 11px; padding: 4px 10px; border-radius: 999px;
+    border: 1px solid var(--border); background: #fff; color: var(--ink-3);
+    cursor: pointer; transition: all var(--t); user-select: none;
+    min-width: 78px; text-align: center;
+  }
+  .status-pill[data-status="未着手"] { background: #fff; color: var(--ink-4); border-color: var(--border); }
+  .status-pill[data-status="撮影中"] { background: #FFF7E0; color: #997A00; border-color: #F0E0A0; }
+  .status-pill[data-status="編集中"] { background: #FFE9D8; color: #A55A1F; border-color: #F0CCA0; }
+  .status-pill[data-status="予約済"] { background: var(--silver-pale); color: var(--silver-dark); border-color: var(--silver-light); }
+  .status-pill[data-status="投稿済"] { background: #E0F0DA; color: #3F6B30; border-color: #B8D8A8; }
+
+  .row-detail {
+    margin-top: 14px; padding-top: 14px; border-top: 1px dashed var(--border);
+    display: none;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px 24px;
+  }
+  .row.expanded .row-detail { display: grid; }
+  .detail-block { font-size: 12px; color: var(--ink-3); line-height: 1.7; }
+  .detail-block .lab {
+    font-size: 10px; color: var(--ink-4); letter-spacing: 0.06em;
+    margin-bottom: 4px; text-transform: uppercase;
+  }
+  .detail-block .v { color: var(--ink); font-size: 12px; white-space: pre-wrap; }
+  .detail-block.full { grid-column: 1 / -1; }
+  .tags { display: flex; flex-wrap: wrap; gap: 4px; }
+  .tag {
+    font-size: 10px; color: var(--ink-3); background: var(--surface);
+    padding: 2px 8px; border-radius: 4px; border: 1px solid var(--border);
+  }
+
+  /* CALENDAR */
+  .calendar-month {
+    background: #fff; border: 1px solid var(--border); border-radius: 10px;
+    padding: 16px; margin-bottom: 16px;
+  }
+  .calendar-month h3 {
+    font-size: 13px; font-weight: 600; color: var(--ink); letter-spacing: 0.06em;
+    margin-bottom: 10px; padding-bottom: 8px; border-bottom: 1px solid var(--border);
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .calendar-month h3 .meta { font-size: 11px; color: var(--ink-4); font-weight: 400; letter-spacing: 0; }
+  .cal-grid {
+    display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px;
+  }
+  .cal-head {
+    font-size: 10px; color: var(--ink-4); text-align: center;
+    padding: 4px 0; letter-spacing: 0.06em;
+  }
+  .cal-cell {
+    aspect-ratio: 1.2 / 1; padding: 4px;
+    border: 1px solid var(--border); border-radius: 4px;
+    background: #fff; font-size: 10px; position: relative;
+    overflow: hidden;
+  }
+  .cal-cell.empty { background: var(--surface); border-color: transparent; }
+  .cal-cell .dnum { color: var(--ink-4); font-weight: 600; font-size: 10px; }
+  .cal-cell.has .dnum { color: var(--ink); }
+  .cal-cell .marker {
+    position: absolute; bottom: 4px; left: 4px; right: 4px;
+    height: 14px; border-radius: 3px; padding: 0 4px;
+    font-size: 9px; font-weight: 600; color: #fff;
+    display: flex; align-items: center; line-height: 1;
+    background: var(--c, var(--ink-5));
+    cursor: pointer;
+  }
+  .cal-cell.posted .marker::before { content:"✓ "; }
+
+  /* SERIES BREAKDOWN */
+  .series-stats {
+    display: grid; grid-template-columns: repeat(11, 1fr); gap: 6px;
+    margin-bottom: 14px;
+  }
+  .ss-card {
+    background: #fff; border: 1px solid var(--border); border-radius: 8px;
+    padding: 8px; text-align: center;
+  }
+  .ss-card .name { font-size: 10px; color: var(--ink-3); font-weight: 600; }
+  .ss-card .id { font-size: 9px; color: var(--ink-4); margin-bottom: 4px; }
+  .ss-card .bar { height: 4px; background: var(--surface); border-radius: 2px; overflow: hidden; margin: 4px 0; }
+  .ss-card .bar > span { display: block; height: 100%; background: var(--c); transition: width var(--t); }
+  .ss-card .frac { font-size: 10px; color: var(--ink); font-weight: 600; }
+
+  /* RESPONSIVE */
+  @media (max-width: 1100px) {
+    .kpi-row { grid-template-columns: repeat(2, 1fr); }
+    .toolbar { grid-template-columns: repeat(3, 1fr); }
+    .toolbar .view-toggle { grid-column: span 3; justify-content: flex-end; }
+    .series-stats { grid-template-columns: repeat(6, 1fr); }
+    .row-head { grid-template-columns: 30px 70px 50px 1fr auto; }
+    .row-series { display: none; }
+  }
+  @media (max-width: 700px) {
+    .toolbar { grid-template-columns: 1fr 1fr; }
+    .toolbar .view-toggle { grid-column: span 2; }
+    .series-stats { grid-template-columns: repeat(3, 1fr); }
+    .row-head { grid-template-columns: 28px 60px 1fr auto; }
+    .row-format, .row-series { display: none; }
+    .row-detail { grid-template-columns: 1fr; }
+  }
+
+  /* PRINCIPLES BANNER */
+  .principles {
+    background: linear-gradient(180deg, #fff 0%, var(--silver-pale) 100%);
+    border: 1px solid var(--silver-light); border-radius: 10px;
+    padding: 14px 18px; margin-bottom: 24px;
+  }
+  .principles .ttl { font-size: 11px; color: var(--silver-dark); letter-spacing: 0.08em; font-weight: 600; margin-bottom: 8px; }
+  .principles ul { list-style: none; display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; }
+  .principles li { font-size: 11px; color: var(--ink-3); }
+  .principles li strong { display: block; color: var(--ink); font-size: 12px; margin-bottom: 2px; }
+  @media (max-width: 900px) {
+    .principles ul { grid-template-columns: repeat(2, 1fr); }
+  }
+
+  /* v2 STRATEGY */
+  .v2box {
+    background: #fff; border: 1px solid var(--border); border-radius: 10px;
+    padding: 16px 18px; margin-bottom: 24px;
+  }
+  .v2head {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-bottom: 12px; padding-bottom: 10px; border-bottom: 1px solid var(--border);
+  }
+  .v2head h2 { font-size: 13px; font-weight: 700; color: var(--ink); letter-spacing: 0.06em; }
+  .v2head h2 .tag {
+    font-size: 9px; background: #2A2A2A; color: #fff;
+    padding: 2px 6px; border-radius: 3px; margin-right: 8px; vertical-align: middle;
+    letter-spacing: 0.08em;
+  }
+  .v2head .doc-link {
+    font-size: 11px; color: var(--silver-dark); text-decoration: none;
+    border-bottom: 1px dotted var(--silver);
+  }
+  .v2head .doc-link:hover { color: var(--ink); }
+  .v2grid {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px;
+  }
+  .v2card {
+    border: 1px solid var(--border); border-radius: 8px; padding: 12px;
+    background: #fff; transition: all var(--t); cursor: pointer;
+    position: relative; overflow: hidden;
+  }
+  .v2card::before {
+    content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 3px;
+    background: var(--c, var(--ink-5));
+  }
+  .v2card:hover { border-color: var(--silver-light); box-shadow: 0 2px 8px rgba(0,0,0,0.04); }
+  .v2card .ph { font-size: 9px; color: var(--ink-4); letter-spacing: 0.06em; }
+  .v2card .nm { font-size: 13px; font-weight: 600; color: var(--ink); margin: 3px 0 4px; }
+  .v2card .sm { font-size: 11px; color: var(--ink-3); line-height: 1.5; margin-bottom: 8px; min-height: 30px; }
+  .v2card .meta { display: flex; gap: 6px; align-items: center; margin-bottom: 8px; flex-wrap: wrap; }
+  .v2card .meta span {
+    font-size: 9px; color: var(--ink-4); padding: 2px 6px;
+    border: 1px solid var(--border); border-radius: 3px; background: var(--surface);
+  }
+  .v2card .meta .impact {
+    border-color: #B8D8A8; background: #F0F8E8; color: #3F6B30; font-weight: 600;
+  }
+  .v2-status {
+    font-size: 10px; padding: 3px 9px; border-radius: 999px;
+    border: 1px solid var(--border); background: #fff; color: var(--ink-3);
+    cursor: pointer; user-select: none; display: inline-block;
+  }
+  .v2-status[data-status="未着手"] { color: var(--ink-4); }
+  .v2-status[data-status="計画中"] { background: #FFF7E0; color: #997A00; border-color: #F0E0A0; }
+  .v2-status[data-status="実装中"] { background: #FFE9D8; color: #A55A1F; border-color: #F0CCA0; }
+  .v2-status[data-status="運用中"] { background: var(--silver-pale); color: var(--silver-dark); border-color: var(--silver-light); }
+  .v2-status[data-status="完了"] { background: #E0F0DA; color: #3F6B30; border-color: #B8D8A8; }
+
+  /* v2 phase colors */
+  .v2-A { --c: #C9A86A; }
+  .v2-B { --c: #B97A4F; }
+  .v2-C { --c: #5A6870; }
+  .v2-D { --c: #A55A1F; }
+  .v2-E { --c: #6B8E6B; }
+  .v2-F { --c: #B8924C; }
+  .v2-G { --c: #2A2A2A; }
+  .v2-H { --c: #5A6870; }
+  .v2-I { --c: #C9A86A; }
+  .v2-J { --c: #8B6F4E; }
+  .v2-K { --c: #7E9078; }
+  .v2-L { --c: #5A6870; }
+  .v2-M { --c: #B97A4F; }
+  .v2-N { --c: #6B8E6B; }
+
+  @media (max-width: 1100px) { .v2grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 700px) { .v2grid { grid-template-columns: 1fr; } }
+
+  /* CONTENT BUCKETS */
+  .buckets {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px;
+    margin-bottom: 16px;
+  }
+  .bucket {
+    background: #fff; border: 1px solid var(--border); border-radius: 10px;
+    padding: 14px; position: relative; overflow: hidden;
+  }
+  .bucket::before {
+    content:""; position: absolute; left:0; top:0; bottom:0; width:4px;
+    background: var(--c, var(--ink-5));
+  }
+  .bucket .lab { font-size: 10px; color: var(--ink-4); letter-spacing: 0.06em; }
+  .bucket .nm { font-size: 14px; font-weight: 700; color: var(--ink); margin: 4px 0 6px; }
+  .bucket .desc { font-size: 11px; color: var(--ink-3); line-height: 1.5; margin-bottom: 8px; min-height: 33px; }
+  .bucket .series-row { font-size: 10px; color: var(--ink-4); margin-bottom: 6px; }
+  .bucket .series-row span {
+    display: inline-block; padding: 1px 6px; border-radius: 3px;
+    background: var(--surface); color: var(--ink-3); margin-right: 3px; font-weight: 600;
+  }
+  .bucket .ratio {
+    display: flex; justify-content: space-between; align-items: baseline;
+    font-size: 11px; color: var(--ink-3);
+  }
+  .bucket .ratio .pct { font-size: 18px; font-weight: 700; color: var(--ink); }
+  .bucket .bar {
+    height: 4px; background: var(--surface); border-radius: 2px; overflow: hidden;
+    margin-top: 6px;
+  }
+  .bucket .bar > span { display: block; height: 100%; background: var(--c); transition: width var(--t); }
+
+  .b-value    { --c: #B8A88A; }
+  .b-story    { --c: #6B8E6B; }
+  .b-behind   { --c: #B97A4F; }
+  .b-bridge   { --c: #5A6870; }
+
+  @media (max-width: 1100px) { .buckets { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 700px) { .buckets { grid-template-columns: 1fr; } }
+
+  /* TONE (light/dark) badge */
+  .tone-badge {
+    display: inline-block; width: 18px; height: 18px; border-radius: 50%;
+    font-size: 10px; line-height: 18px; text-align: center;
+    margin-right: 6px; font-weight: 600;
+    border: 1px solid var(--border);
+  }
+  .tone-light { background: #F8F4EA; color: #B8A35A; }
+  .tone-dark  { background: #232323; color: #C9A86A; border-color: #232323; }
+  .tone-mid   { background: #B0B0B0; color: #fff; }
+
+  /* 3-sec hook indicator */
+  .hook3s {
+    display: inline-block; font-size: 9px; padding: 2px 6px;
+    border: 1px solid var(--border); border-radius: 3px;
+    color: var(--ink-3); background: #fff; margin-left: 6px;
+    letter-spacing: 0.04em;
+  }
+
+  /* LEAD FUNNEL */
+  .leadbox {
+    background: linear-gradient(180deg, #fff 0%, #FAFAF8 100%);
+    border: 1px solid var(--border); border-radius: 10px;
+    padding: 14px 18px; margin-bottom: 24px;
+  }
+  .leadbox h2 { font-size: 13px; font-weight: 700; color: var(--ink); letter-spacing: 0.06em; margin-bottom: 12px;}
+  .lead-funnel {
+    display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px;
+  }
+  .lead-step {
+    background: #fff; border: 1px solid var(--border); border-radius: 8px;
+    padding: 10px 12px; position: relative;
+  }
+  .lead-step::after {
+    content: "→"; position: absolute; right: -10px; top: 50%; transform: translateY(-50%);
+    font-size: 14px; color: var(--ink-5); z-index: 2; background: var(--paper);
+    padding: 0 2px;
+  }
+  .lead-step:last-child::after { display: none; }
+  .lead-step .ln { font-size: 9px; color: var(--ink-4); letter-spacing: 0.04em; }
+  .lead-step .lt { font-size: 12px; font-weight: 600; color: var(--ink); margin: 2px 0 4px; }
+  .lead-step .lv { font-size: 16px; font-weight: 700; color: var(--ink); }
+  .lead-step .lg { font-size: 9px; color: var(--ink-4); margin-top: 2px; }
+  .lead-step input.lcount {
+    width: 100%; font-family: inherit; font-size: 14px; font-weight: 700;
+    border: none; outline: none; padding: 0; color: var(--ink);
+    border-bottom: 1px dotted var(--border);
+  }
+  .lead-step input.lcount:focus { border-bottom-color: var(--silver); }
+  @media (max-width: 1100px) { .lead-funnel { grid-template-columns: repeat(2, 1fr); } .lead-step::after { display: none; } }
+
+  /* IDEAS PANEL */
+  .ideas-wrap {
+    background: linear-gradient(135deg, #fff 0%, #FAF6EE 100%);
+    border: 1px solid #E8DDC4; border-radius: 12px;
+    padding: 18px 20px; margin-bottom: 24px;
+  }
+  .ideas-head {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-bottom: 14px;
+  }
+  .ideas-head h2 {
+    font-size: 13px; font-weight: 700; color: var(--ink);
+    letter-spacing: 0.06em;
+  }
+  .ideas-head h2 .lab {
+    font-size: 9px; background: #C9A86A; color: #fff;
+    padding: 2px 7px; border-radius: 3px; margin-right: 8px;
+    letter-spacing: 0.08em;
+  }
+  .ideas-head h2 .meta {
+    font-size: 10px; color: var(--ink-4); font-weight: 400;
+    margin-left: 10px; letter-spacing: 0;
+  }
+  .ideas-head .refresh {
+    font-family: inherit; font-size: 11px; padding: 5px 12px;
+    background: #fff; border: 1px solid var(--border);
+    color: var(--ink-3); border-radius: 16px; cursor: pointer;
+    transition: all var(--t);
+  }
+  .ideas-head .refresh:hover { background: var(--ink); color: #fff; border-color: var(--ink); }
+  .ideas-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px;
+  }
+  .idea-card {
+    background: #fff; border: 1px solid #E8DDC4; border-radius: 10px;
+    padding: 14px; transition: all var(--t);
+    position: relative;
+  }
+  .idea-card:hover { border-color: #C9A86A; box-shadow: 0 2px 12px rgba(201,168,106,0.15); }
+  .idea-cat {
+    font-size: 10px; color: #8B6914; letter-spacing: 0.06em;
+    font-weight: 600; margin-bottom: 6px;
+  }
+  .idea-cat .icon { margin-right: 5px; font-size: 12px; }
+  .idea-title {
+    font-size: 14px; font-weight: 600; color: var(--ink);
+    line-height: 1.4; margin-bottom: 8px;
+  }
+  .idea-meta {
+    font-size: 10px; color: var(--ink-3); margin-bottom: 8px;
+    display: flex; gap: 8px; flex-wrap: wrap;
+  }
+  .idea-meta span {
+    background: var(--surface); padding: 2px 7px; border-radius: 3px;
+    border: 1px solid var(--border);
+  }
+  .idea-reason {
+    font-size: 11px; color: var(--ink-3); line-height: 1.6;
+    margin-bottom: 8px;
+  }
+  .idea-cta {
+    font-size: 10px; color: #8B6914; font-weight: 500;
+    padding-top: 8px; border-top: 1px dashed #E8DDC4;
+  }
+  @media (max-width: 1100px) { .ideas-grid { grid-template-columns: 1fr; } }
+
+  /* STRATEGY SUMMARY */
+  .strat-summary {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px;
+    margin-bottom: 24px;
+  }
+  .strat-card {
+    background: #fff; border: 1px solid var(--border); border-radius: 10px;
+    padding: 14px; text-decoration: none; color: var(--ink);
+    transition: all var(--t); display: block;
+    position: relative; overflow: hidden;
+  }
+  .strat-card::before {
+    content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 3px;
+    background: var(--c, var(--ink-5));
+  }
+  .strat-card:hover { border-color: var(--silver); transform: translateY(-1px); box-shadow: 0 4px 12px rgba(0,0,0,0.06); }
+  .strat-card .layer { font-size: 9px; color: var(--ink-4); letter-spacing: 0.08em; font-weight: 600; }
+  .strat-card .ttl { font-size: 14px; font-weight: 700; color: var(--ink); margin: 4px 0 6px; }
+  .strat-card .meta { font-size: 11px; color: var(--ink-3); line-height: 1.5; margin-bottom: 8px; min-height: 32px; }
+  .strat-card .link {
+    font-size: 10px; color: var(--silver-dark); padding-top: 6px;
+    border-top: 1px dashed var(--border);
+  }
+  .strat-v1 { --c: #5A6870; }
+  .strat-v2 { --c: #C9A86A; }
+  .strat-rules { --c: #6B8E6B; }
+  .strat-set { --c: #B97A4F; }
+  @media (max-width: 1100px) { .strat-summary { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 700px) { .strat-summary { grid-template-columns: 1fr; } }
+
+  /* PLATFORM TABS */
+  .platform-strip {
+    background: #fff; border: 1px solid var(--border); border-radius: 10px;
+    padding: 12px 14px; margin-bottom: 24px;
+    display: grid; grid-template-columns: repeat(8, 1fr); gap: 6px;
+  }
+  .platform-strip .pcol {
+    padding: 8px; border-radius: 6px; text-align: center;
+    background: var(--surface); border: 1px solid var(--border);
+  }
+  .platform-strip .pcol .ic { font-size: 16px; margin-bottom: 2px; }
+  .platform-strip .pcol .pn { font-size: 10px; font-weight: 600; color: var(--ink); }
+  .platform-strip .pcol .pr { font-size: 9px; color: var(--ink-4); margin-top: 2px; }
+  @media (max-width: 1100px) { .platform-strip { grid-template-columns: repeat(4, 1fr); } }
+  @media (max-width: 700px) { .platform-strip { grid-template-columns: repeat(2, 1fr); } }
+
+  .footer-note {
+    margin-top: 32px; padding-top: 16px; border-top: 1px solid var(--border);
+    font-size: 11px; color: var(--ink-4); text-align: center;
+  }
+  .footer-note a { color: var(--ink-3); text-decoration: none; border-bottom: 1px dotted var(--ink-5); }
+
+  .hidden { display: none !important; }
+
+  /* BULK ACTIONS */
+  .bulk-bar {
+    display: flex; gap: 8px; align-items: center;
+    margin-bottom: 10px; font-size: 11px; color: var(--ink-3);
+  }
+  .bulk-bar button {
+    font-family: inherit; font-size: 11px;
+    padding: 4px 10px; border: 1px solid var(--border);
+    background: #fff; color: var(--ink-3); border-radius: 4px; cursor: pointer;
+    transition: all var(--t);
+  }
+  .bulk-bar button:hover { background: var(--surface); color: var(--ink); }
+  .bulk-bar .reset { color: #b85b5b; border-color: #f0d0d0; }
+  .bulk-bar .reset:hover { background: #fff5f5; color: #a04545; }
+
+</style>
+</head>
+<body>
+
+<nav class="topnav">
+  <a href="index.html" class="nav-brand"><img src="logo-side.png" alt="ENGINEKO"></a>
+  <div class="nav-links">
+    <a href="index.html" class="nav-link">📋 タスクダッシュボード</a>
+    <a href="product.html" class="nav-link">📦 プロダクト</a>
+    <a href="cashflow.html" class="nav-link">💰 キャッシュフロー</a>
+    <a href="en-process.html" class="nav-link">◆ EN process</a>
+    <a href="sns.html" class="nav-link active">📷 SNS 100投稿</a>
+    <a href="ENGINEKO%20Design%20System.html" class="nav-link" target="_blank" style="color:#5A6870;letter-spacing:0.05em;">✦ デザインシステム</a>
+    <button class="nav-logout" onclick="sessionStorage.clear();location.replace('login.html');">ログアウト</button>
+  </div>
+</nav>
+
+<header>
+  <div>
+    <div class="brand-row">
+      <img src="logo-side.png" alt="ENGINEKO">
+      <h1>SNS 100投稿プラン</h1>
+    </div>
+    <div class="subtitle">2026.05.01 → 2026.11.15 ／ 隔日 × 100本（リール50 ／ フィード50）</div>
+  </div>
+  <div class="date-badge">
+    <strong id="todayBadge">—</strong>
+    <span id="todayProg">進捗 0 / 100</span>
+  </div>
+</header>
+
+<!-- 5原則バナー -->
+<div class="principles">
+  <div class="ttl">設計の前提（YouTube手法 → ENGINEKO翻訳）</div>
+  <ul>
+    <li><strong>1. 型を決める</strong>11シリーズに固定フォーマット</li>
+    <li><strong>2. シリーズ名を持つ</strong>呼び名のある11系統</li>
+    <li><strong>3. 3カット原則</strong>フック→主題→余韻</li>
+    <li><strong>4. 100日継続</strong>隔日・6ヶ月の習慣化</li>
+    <li><strong>5. システムで生産</strong>ストック制＋木曜30分定例</li>
+  </ul>
+</div>
+
+<!-- 戦略サマリー -->
+<div class="strat-summary">
+  <a href="ENGINEKO_Instagram_100_Plan.md" target="_blank" class="strat-card strat-v1">
+    <div class="layer">レイヤー 1 ／ タクティクス</div>
+    <div class="ttl">v1：100投稿プラン</div>
+    <div class="meta">11シリーズ × 隔日100本／何を投稿するか</div>
+    <div class="link">📄 100投稿プラン →</div>
+  </a>
+  <a href="ENGINEKO_SNS_Strategy_v2.md" target="_blank" class="strat-card strat-v2">
+    <div class="layer">レイヤー 2 ／ ストラテジー</div>
+    <div class="ttl">v2：14戦略アクション</div>
+    <div class="meta">7プラットフォーム × AR・Drop・Tease／認知 × 購買</div>
+    <div class="link">📄 戦略書 v2 →</div>
+  </a>
+  <a href="ENGINEKO_Instagram_運用原則.md" target="_blank" class="strat-card strat-rules">
+    <div class="layer">レイヤー 3 ／ オペレーション</div>
+    <div class="ttl">運用 10則</div>
+    <div class="meta">3+1バケット ／ 5階層リード ／ 60秒チェック</div>
+    <div class="link">📐 運用10則 →</div>
+  </a>
+  <a href="ENGINEKO_Instagram_Set01_詳細設計.md" target="_blank" class="strat-card strat-set">
+    <div class="layer">レイヤー 4 ／ セット運用</div>
+    <div class="ttl">9枚×11セット +1</div>
+    <div class="meta">1ページ完結のグリッド美／Set 01「光と土」サンプル</div>
+    <div class="link">🎬 Set 01 詳細設計（アイデア）→</div>
+  </a>
+</div>
+
+<!-- 投稿アイデア（常時3つ・データ駆動） -->
+<div class="ideas-wrap">
+  <div class="ideas-head">
+    <h2><span class="lab">IDEAS</span>今日／今週の投稿ネタ<span class="meta" id="ideasContext">—</span></h2>
+    <button class="refresh" onclick="renderIdeas()">↻ 別の3案</button>
+  </div>
+  <div class="ideas-grid" id="ideas"></div>
+</div>
+
+<!-- v2 STRATEGY -->
+<div class="v2box">
+  <div class="v2head">
+    <h2><span class="tag">v2</span>戦略アクション ／ 認知 × 購買誘導の14案</h2>
+    <span style="display:flex;gap:14px;">
+      <a href="ENGINEKO_SNS_Strategy_v2.md" target="_blank" class="doc-link">📄 戦略書 v2 を開く</a>
+      <a href="ENGINEKO_Instagram_運用原則.md" target="_blank" class="doc-link">📐 運用10則を開く</a>
+    </span>
+  </div>
+  <div class="v2grid" id="v2grid"></div>
+</div>
+
+<!-- CONTENT BUCKETS (3+1) -->
+<div class="section-title">コンテンツバケット <span class="meta">価値 ／ ストーリー ／ 裏側 ／ 橋（購買）— 11シリーズの上位概念</span></div>
+<div class="buckets" id="buckets"></div>
+
+<!-- LEAD FUNNEL -->
+<div class="leadbox">
+  <h2>リード獲得ファネル ／ 関心 → 解決 → 顧客リスト</h2>
+  <div class="lead-funnel">
+    <div class="lead-step">
+      <div class="ln">階層 1</div>
+      <div class="lt">フォロー</div>
+      <input class="lcount" id="lc1" type="number" placeholder="0" /><div class="lg">／ 月目標 +500</div>
+    </div>
+    <div class="lead-step">
+      <div class="ln">階層 2</div>
+      <div class="lt">DM・Story返信</div>
+      <input class="lcount" id="lc2" type="number" placeholder="0" /><div class="lg">／ 月目標 50</div>
+    </div>
+    <div class="lead-step">
+      <div class="ln">階層 3</div>
+      <div class="lt">Lead Magnet DL</div>
+      <input class="lcount" id="lc3" type="number" placeholder="0" /><div class="lg">／ 月目標 50</div>
+    </div>
+    <div class="lead-step">
+      <div class="ln">階層 4</div>
+      <div class="lt">Wait-list登録</div>
+      <input class="lcount" id="lc4" type="number" placeholder="0" /><div class="lg">／ 月目標 100</div>
+    </div>
+    <div class="lead-step">
+      <div class="ln">階層 5</div>
+      <div class="lt">購入・Atelier訪問</div>
+      <input class="lcount" id="lc5" type="number" placeholder="0" /><div class="lg">／ 月目標 30個</div>
+    </div>
+  </div>
+</div>
+
+<!-- PLATFORM STRIP -->
+<div class="section-title">プラットフォーム × 役割</div>
+<div class="platform-strip">
+  <div class="pcol"><div class="ic">📷</div><div class="pn">Instagram</div><div class="pr">中心地・世界観</div></div>
+  <div class="pcol"><div class="ic">🎵</div><div class="pn">TikTok</div><div class="pr">認知爆発・若年</div></div>
+  <div class="pcol"><div class="ic">▶</div><div class="pn">YouTube</div><div class="pr">信頼・SEO・海外</div></div>
+  <div class="pcol"><div class="ic">📌</div><div class="pn">Pinterest</div><div class="pr">海外・インテリア</div></div>
+  <div class="pcol"><div class="ic">in</div><div class="pn">LinkedIn</div><div class="pr">B2B・C/D</div></div>
+  <div class="pcol"><div class="ic">𝕏</div><div class="pn">X</div><div class="pr">速報・PR</div></div>
+  <div class="pcol"><div class="ic">📝</div><div class="pn">note/Substack</div><div class="pr">思想・SEO</div></div>
+  <div class="pcol"><div class="ic">🎧</div><div class="pn">Spotify</div><div class="pr">海外・言語不要</div></div>
+</div>
+
+<!-- KPI -->
+<div class="kpi-row">
+  <div class="kpi">
+    <div class="label">進捗（投稿済）</div>
+    <div class="value"><span id="kpiPosted">0</span><span style="font-size:14px;color:var(--ink-4);"> / 100</span></div>
+    <div class="progress"><span id="kpiPostedBar" style="width:0%"></span></div>
+    <div class="sub" id="kpiPostedSub">— の予定</div>
+  </div>
+  <div class="kpi">
+    <div class="label">予約済 / 編集中</div>
+    <div class="value"><span id="kpiInflight">0</span></div>
+    <div class="sub">予約 <span id="kpiScheduled">0</span> ／ 編集 <span id="kpiEditing">0</span> ／ 撮影 <span id="kpiShooting">0</span></div>
+  </div>
+  <div class="kpi">
+    <div class="label">今月予定</div>
+    <div class="value"><span id="kpiMonth">0</span></div>
+    <div class="sub" id="kpiMonthSub">うち投稿済 0</div>
+  </div>
+  <div class="kpi">
+    <div class="label">次の投稿</div>
+    <div class="value" id="kpiNextDate" style="font-size:18px;">—</div>
+    <div class="sub" id="kpiNextTitle">—</div>
+  </div>
+</div>
+
+<!-- シリーズ別進捗 -->
+<div class="section-title">シリーズ別進捗 <span class="meta">11シリーズ／合計 100本</span></div>
+<div class="series-stats" id="seriesStats"></div>
+
+<!-- 凡例 / フィルタ -->
+<div class="section-title">投稿リスト <span class="meta">クリックで詳細展開／ステータスはクリックで循環</span></div>
+
+<div class="legend" id="legend"></div>
+
+<div class="toolbar">
+  <div>
+    <label>形式</label>
+    <select id="filterFormat">
+      <option value="">すべて</option>
+      <option value="リール">リール</option>
+      <option value="フィード">フィード</option>
+    </select>
+  </div>
+  <div>
+    <label>月</label>
+    <select id="filterMonth">
+      <option value="">すべて</option>
+      <option>2026-05</option><option>2026-06</option><option>2026-07</option>
+      <option>2026-08</option><option>2026-09</option><option>2026-10</option><option>2026-11</option>
+    </select>
+  </div>
+  <div>
+    <label>ステータス</label>
+    <select id="filterStatus">
+      <option value="">すべて</option>
+      <option>未着手</option><option>撮影中</option><option>編集中</option><option>予約済</option><option>投稿済</option>
+    </select>
+  </div>
+  <div>
+    <label>キーワード</label>
+    <input type="text" id="filterKw" placeholder="タイトル / 本文 / シリーズ">
+  </div>
+  <div>
+    <label>並び順</label>
+    <select id="sortBy">
+      <option value="date">日付（昇順）</option>
+      <option value="dateDesc">日付（降順）</option>
+      <option value="series">シリーズ別</option>
+      <option value="status">ステータス別</option>
+    </select>
+  </div>
+  <div class="view-toggle">
+    <button class="tg active" data-view="list" onclick="setView('list')">リスト</button>
+    <button class="tg" data-view="cal" onclick="setView('cal')">カレンダー</button>
+  </div>
+</div>
+
+<div class="bulk-bar">
+  <span id="visCount">— 件表示中</span>
+  <span style="margin-left:auto;color:var(--ink-4);">一括操作（フィルタ中の表示分）：</span>
+  <button onclick="bulkSet('予約済')">→ 予約済へ</button>
+  <button onclick="bulkSet('投稿済')">→ 投稿済へ</button>
+  <button onclick="bulkSet('未着手')">→ 未着手へ</button>
+  <button class="reset" onclick="resetAll()">全リセット</button>
+</div>
+
+<div class="list" id="list"></div>
+<div id="calendarView" class="hidden"></div>
+
+<div class="footer-note">
+  ステータス・進捗はブラウザのlocalStorageに保存されます（端末ごと）。<br>
+  原本企画書：<a href="ENGINEKO_Instagram_100_Plan.md" target="_blank">ENGINEKO_Instagram_100_Plan.md</a>
+</div>
+
+<script>
+/* =========================================================
+   100投稿データ（マスター）
+   ========================================================= */
+const POSTS = [
+  // R1 縁を結ぶ7秒（8本）
+  {n:2, date:"2026-05-03", format:"リール", series:"R1", seriesName:"縁を結ぶ7秒", ep:1, title:"朝の光", hook:"（無音、ENGINEKOの鼻先に光が差す）", body:"朝。／光が、まず鼻先に来る。／縁の合図。", cta:"保有予約はプロフィールから。", tags:"#朝 #morning #静物 #ceramics"},
+  {n:14, date:"2026-05-27", format:"リール", series:"R1", seriesName:"縁を結ぶ7秒", ep:2, title:"雨の音", hook:"（窓ガラスに雨／背後にENGINEKO）", body:"雨が、外を整える。／棚は、変わらない。", cta:"—", tags:"#雨 #rain #静けさ"},
+  {n:26, date:"2026-06-20", format:"リール", series:"R1", seriesName:"縁を結ぶ7秒", ep:3, title:"夕暮れ", hook:"（西日が斜めに）", body:"夕。／影が、姿よりも長い。", cta:"—", tags:"#夕暮れ #goldenhour"},
+  {n:38, date:"2026-07-14", format:"リール", series:"R1", seriesName:"縁を結ぶ7秒", ep:4, title:"夜", hook:"（一灯のみ、ENGINEKOが浮かぶ）", body:"夜は、削る時間。", cta:"JOURNAL: engineko.com/journal", tags:"#夜 #lamplight #minimalism"},
+  {n:50, date:"2026-08-07", format:"リール", series:"R1", seriesName:"縁を結ぶ7秒", ep:5, title:"朝霧", hook:"（霧の中の輪郭）", body:"霧は、距離を消す。／関係は、近づく。", cta:"—", tags:"#朝霧 #fog #atmosphere"},
+  {n:62, date:"2026-08-31", format:"リール", series:"R1", seriesName:"縁を結ぶ7秒", ep:6, title:"雪解け", hook:"（白い水滴）", body:"終わる季節と、／始まる季節の間。", cta:"—", tags:"#冬 #thaw"},
+  {n:74, date:"2026-09-24", format:"リール", series:"R1", seriesName:"縁を結ぶ7秒", ep:7, title:"月光", hook:"（月明かりに白磁が反応）", body:"月は、静かに招かれる。", cta:"—", tags:"#月 #moonlight"},
+  {n:86, date:"2026-10-18", format:"リール", series:"R1", seriesName:"縁を結ぶ7秒", ep:8, title:"紅葉", hook:"（赤・橙が背景／ENGINEKOは白）", body:"秋。／色は、置物ではなく、招かれる側。", cta:"保有予約はプロフィールから。", tags:"#紅葉 #autumn"},
+
+  // R2 窯の音（8本）
+  {n:6, date:"2026-05-11", format:"リール", series:"R2", seriesName:"窯の音", ep:1, title:"轆轤", hook:"（粘土と手の摩擦音）", body:"最初は、土と手の対話。／40字に詰めれば、それだけ。", cta:"—", tags:"#轆轤 #pottery #ASMR #craftsmanship #Toyama"},
+  {n:18, date:"2026-06-04", format:"リール", series:"R2", seriesName:"窯の音", ep:2, title:"釉薬", hook:"（刷毛が陶肌をなぞる音）", body:"釉薬は、肌を作る。／焼く前の最後の決断。", cta:"—", tags:"#釉薬 #glaze"},
+  {n:32, date:"2026-07-02", format:"リール", series:"R2", seriesName:"窯の音", ep:3, title:"火入れ", hook:"（窯の扉が閉まる音）", body:"1230℃。／火に渡す瞬間、人の出番は終わる。", cta:"—", tags:"#firing #1230C #kiln"},
+  {n:44, date:"2026-07-26", format:"リール", series:"R2", seriesName:"窯の音", ep:4, title:"削り", hook:"（鉄カンナの一音）", body:"削るのは、加えるより難しい。", cta:"JOURNAL「削るほど高級になる」へ。", tags:"#削り #trimming"},
+  {n:56, date:"2026-08-19", format:"リール", series:"R2", seriesName:"窯の音", ep:5, title:"仕上げ", hook:"（細布の摩擦音）", body:"仕上げは、見えなくする工程。", cta:"—", tags:"#finishing"},
+  {n:68, date:"2026-09-12", format:"リール", series:"R2", seriesName:"窯の音", ep:6, title:"検品", hook:"（光に当てる）", body:"合否は、肌で決まる。／30年の指で。", cta:"—", tags:"#検品 #quality"},
+  {n:80, date:"2026-10-06", format:"リール", series:"R2", seriesName:"窯の音", ep:7, title:"梱包", hook:"（紙のすれる音）", body:"3層の発泡スチロール。／落とすことを前提に、設計する。", cta:"—", tags:"#packaging #careful"},
+  {n:95, date:"2026-11-05", format:"リール", series:"R2", seriesName:"窯の音", ep:8, title:"完成", hook:"（無音／光の中の1点）", body:"完成は、静かに、来る。", cta:"保有予約はプロフィールから。", tags:"#completion"},
+
+  // R3 3分で語る再定義（8本）
+  {n:4, date:"2026-05-07", format:"リール", series:"R3", seriesName:"3分で語る再定義", ep:1, title:"招き猫は置物ではない", hook:"これは、置物ではない。", body:"招き猫は江戸期、商売繁盛の縁起物として始まった。／ENGINEKOは、それを空間装置（Spatial Object）として再設計する。／棚に置くのではなく、空間に祈る。", cta:"STORY: engineko.com/story", tags:"#manekineko #spatialobject #ritual"},
+  {n:16, date:"2026-05-31", format:"リール", series:"R3", seriesName:"3分で語る再定義", ep:2, title:"なぜ削るのか", hook:"装飾は、増やすほど安くなる。", body:"足し算は誰でもできる。／引き算は、判断の質が問われる。／削るほど、対象は強くなる。", cta:"—", tags:"#minimalism"},
+  {n:28, date:"2026-06-24", format:"リール", series:"R3", seriesName:"3分で語る再定義", ep:3, title:"なぜ瀬戸か", hook:"土の重さを、まず見る。", body:"瀬戸は1,000年。／釉薬の幅、温度の安定、産地の人。／結論ではなく、前提として瀬戸。", cta:"—", tags:"#setoyaki #Seto1000years"},
+  {n:40, date:"2026-07-18", format:"リール", series:"R3", seriesName:"3分で語る再定義", ep:4, title:"招き手の角度", hook:"招くとは、待つこと。", body:"右手を上げると金運、左手を上げると人。／ENGINEKOは、招くという所作そのものを、彫る。", cta:"—", tags:"#gesture"},
+  {n:52, date:"2026-08-11", format:"リール", series:"R3", seriesName:"3分で語る再定義", ep:5, title:"なぜ¥50,000か", hook:"価格は、文脈の出口。", body:"同価格帯はLalique・中川政七・SyuRo・開化堂の小品。／同価格帯の招き猫ではない、と決めた数字。", cta:"collection: engineko.com/collection", tags:"#価格 #context"},
+  {n:64, date:"2026-09-04", format:"リール", series:"R3", seriesName:"3分で語る再定義", ep:6, title:"招き猫の歴史を3行で", hook:"江戸→令和、3行で。", body:"江戸：商家の縁起物。／昭和：土産物として量産。／令和：空間装置として再定義（ENGINEKO）。", cta:"—", tags:"#history #Edo"},
+  {n:76, date:"2026-09-28", format:"リール", series:"R3", seriesName:"3分で語る再定義", ep:7, title:"なぜ陶器か", hook:"素材は、思想の前置詞。", body:"陶器は、火と土と時間の合作。／素材を選ぶことは、流派を選ぶこと。", cta:"—", tags:"#ceramics"},
+  {n:88, date:"2026-10-22", format:"リール", series:"R3", seriesName:"3分で語る再定義", ep:8, title:"なぜ「En」と訳さない", hook:"Wabi、Ikigai、そしてEn。", body:"KarmaでもConnectionでもTieでもない。／訳すと失われるものを、訳さないことで残す。", cta:"EN: en.engineko.com", tags:"#En #untranslatable"},
+
+  // R4 招かれた場所（8本）
+  {n:10, date:"2026-05-19", format:"リール", series:"R4", seriesName:"招かれた場所", ep:1, title:"自宅", hook:"最初の招かれた場所は、自宅。", body:"玄関。／棚の左奥。／光が日に2度差す位置。", cta:"保有予約はプロフィールから。", tags:"#interior #home"},
+  {n:22, date:"2026-06-12", format:"リール", series:"R4", seriesName:"招かれた場所", ep:2, title:"津田沼 POPUP", hook:"イオン津田沼 ／ MAISON 12", body:"4–9月、土日隔週。／委託販売／実物を見られる、最初の場所。", cta:"日程はプロフィールから。", tags:"#津田沼 #popup #MAISON12"},
+  {n:30, date:"2026-06-28", format:"リール", series:"R4", seriesName:"招かれた場所", ep:3, title:"OPEN NAKAMEGURO", hook:"OPEN NAKAMEGURO ／ 6.27", body:"中目黒。1日の常設。／売上の20%は会場へ。", cta:"—", tags:"#中目黒 #OPENNAKAMEGURO"},
+  {n:42, date:"2026-07-22", format:"リール", series:"R4", seriesName:"招かれた場所", ep:4, title:"Choose Base 渋谷", hook:"Choose Base Shibuya ／ 7月〜", body:"西武渋谷の選択。／検証の月、として置く。", cta:"—", tags:"#渋谷 #ChooseBase"},
+  {n:54, date:"2026-08-15", format:"リール", series:"R4", seriesName:"招かれた場所", ep:5, title:"GINZA SIX", hook:"GINZA SIX ／ 8月", body:"ステイ確定。／文脈が、確かに変わる場所。", cta:"—", tags:"#銀座 #GINZASIX"},
+  {n:66, date:"2026-09-08", format:"リール", series:"R4", seriesName:"招かれた場所", ep:6, title:"KAGUA", hook:"KAGUA ／ ブランディング中の店", body:"撮影許可、取得済。／小さな引き出しに、招き猫を一体。", cta:"—", tags:"#KAGUA #styling"},
+  {n:78, date:"2026-10-02", format:"リール", series:"R4", seriesName:"招かれた場所", ep:7, title:"パリ16区", hook:"Paris 16e ／ アートフェス経由", body:"マモルさん紹介。／西洋の壁と、白磁の関係を見る。", cta:"EN: en.engineko.com", tags:"#Paris #Europe #JapaneseCraft"},
+  {n:90, date:"2026-10-26", format:"リール", series:"R4", seriesName:"招かれた場所", ep:8, title:"EUバイヤー商談", hook:"Wholesale, Europe.", body:"€800／ 卸条件は会話で。／DM、または en.engineko.com から。", cta:"DMで卸資料を送ります。", tags:"#wholesale #B2B #EU"},
+
+  // R5 百の縁（8本）
+  {n:12, date:"2026-05-23", format:"リール", series:"R5", seriesName:"百の縁", ep:1, title:"一人目（神宮前）", hook:"最初の縁は、神宮前から。", body:"『書斎の左、本棚の手前。／光より、影で見ている。』", cta:"—", tags:"#owner #1of100"},
+  {n:24, date:"2026-06-16", format:"リール", series:"R5", seriesName:"百の縁", ep:2, title:"二人目（退職祝い）", hook:"贈ったのは、35年勤めた人へ。", body:"『花は、終わる。／これは、続いてくれる。』", cta:"GIFT: engineko.com/gift", tags:"#gift #retirement"},
+  {n:36, date:"2026-07-10", format:"リール", series:"R5", seriesName:"百の縁", ep:3, title:"三人目（ホテル）", hook:"ホテルのスイートに、5体。", body:"『海外客に、説明しなくても通じるもの。』", cta:"法人問合せはDM。", tags:"#hotel #B2B"},
+  {n:48, date:"2026-08-03", format:"リール", series:"R5", seriesName:"百の縁", ep:4, title:"四人目（パリ・ギャラリスト）", hook:"Paris, 1er gallery.", body:"『En. The right word, kept in Japanese.』", cta:"EN: en.engineko.com", tags:"#Paris #gallerist"},
+  {n:60, date:"2026-08-27", format:"リール", series:"R5", seriesName:"百の縁", ep:5, title:"五人目（京都・町家）", hook:"町家の床の間。", body:"『古いものの隣に、現代の祈祷器。』", cta:"—", tags:"#京都 #machiya #床の間"},
+  {n:72, date:"2026-09-20", format:"リール", series:"R5", seriesName:"百の縁", ep:6, title:"六人目（開業祝い）", hook:"クリニック開院日の朝。", body:"『最初の患者の前に、置いた。』", cta:"—", tags:"#opening #gift"},
+  {n:84, date:"2026-10-14", format:"リール", series:"R5", seriesName:"百の縁", ep:7, title:"七人目（外資系金融）", hook:"丸の内・受付の窓辺。", body:"『議論より先に、見てもらう。』", cta:"—", tags:"#corporate #reception"},
+  {n:91, date:"2026-10-28", format:"リール", series:"R5", seriesName:"百の縁", ep:8, title:"八人目（ベルリン）", hook:"Berlin, private collection.", body:"『Lalique と、向かい合わせ。』", cta:"保有予約はプロフィールから。", tags:"#Berlin #collector"},
+
+  // R6 色の儀式（10本）
+  {n:8, date:"2026-05-15", format:"リール", series:"R6", seriesName:"色の儀式", ep:1, title:"金、最初の一個", hook:"金、第一号。", body:"6月末まで、10個。／儀式は、毎回同じリズムで。", cta:"保有予約はプロフィールから。", tags:"#gold #1of10"},
+  {n:20, date:"2026-06-08", format:"リール", series:"R6", seriesName:"色の儀式", ep:2, title:"金、二個目", hook:"二つ目は、少し速く。", body:"速度は、慣れではなく、整い。", cta:"—", tags:"#gold #2of10"},
+  {n:34, date:"2026-07-06", format:"リール", series:"R6", seriesName:"色の儀式", ep:3, title:"金、三個目", hook:"三。", body:"三という数字に、形が定まる。", cta:"—", tags:"#gold #3of10"},
+  {n:46, date:"2026-07-30", format:"リール", series:"R6", seriesName:"色の儀式", ep:4, title:"金、四個目", hook:"四。", body:"数えるための数ではなく、／儀礼のための数。", cta:"—", tags:"#gold #4of10"},
+  {n:58, date:"2026-08-23", format:"リール", series:"R6", seriesName:"色の儀式", ep:5, title:"金、五個目", hook:"半分。", body:"半分は、終わりではなく、／構造の確認。", cta:"—", tags:"#gold #5of10"},
+  {n:70, date:"2026-09-16", format:"リール", series:"R6", seriesName:"色の儀式", ep:6, title:"金、六個目（達成）", hook:"六。当初目標、達成。", body:"6月末10個目標から増産。／速度より、精度。", cta:"JOURNAL「金ラインの記録」へ。", tags:"#gold #6of10"},
+  {n:82, date:"2026-10-10", format:"リール", series:"R6", seriesName:"色の儀式", ep:7, title:"金、七個目", hook:"七。", body:"予定の外にある一個は、／予定そのものを変える。", cta:"—", tags:"#gold #7of10"},
+  {n:93, date:"2026-11-01", format:"リール", series:"R6", seriesName:"色の儀式", ep:8, title:"金、八個目", hook:"八。", body:"八は、対称ではなく、対話の数字。", cta:"—", tags:"#gold #8of10"},
+  {n:97, date:"2026-11-09", format:"リール", series:"R6", seriesName:"色の儀式", ep:9, title:"金、九個目（次の色予告）", hook:"九。次の色は、銀ではない。", body:"年明け、プラチナ・ライン。／佐野鍍金との協業。", cta:"先行案内はニュースレターから。", tags:"#gold #9of10 #platinum"},
+  {n:99, date:"2026-11-13", format:"リール", series:"R6", seriesName:"色の儀式", ep:10, title:"金、十個目（年内最終）", hook:"十。年内最終。", body:"儀式は、続く。／色も、続く。", cta:"保有予約はプロフィールから。", tags:"#gold #10of10 #ritual"},
+
+  // F1 En, defined.（12本）
+  {n:1, date:"2026-05-01", format:"フィード", series:"F1", seriesName:"En, defined.", ep:1, title:"縁。", hook:"縁。／ En — designing relations.", body:"ENGINEKO、はじまります。／空間と関係性に、縁を結びなおす。／2026.05.01。", cta:"collection: engineko.com", tags:"#launch #2026"},
+  {n:7, date:"2026-05-13", format:"フィード", series:"F1", seriesName:"En, defined.", ep:2, title:"間。", hook:"間。／ Space between, where meaning lives.", body:"間は、空白ではない。／関係が住む場所。", cta:"—", tags:"#間 #ma"},
+  {n:13, date:"2026-05-25", format:"フィード", series:"F1", seriesName:"En, defined.", ep:3, title:"余白。", hook:"余白。／ Negative space. Designed silence.", body:"削るのは、捨てるためではない。／残すためにある。", cta:"—", tags:"#余白"},
+  {n:19, date:"2026-06-06", format:"フィード", series:"F1", seriesName:"En, defined.", ep:4, title:"祈祷器。", hook:"祈祷器。／ Ritual instrument for everyday space.", body:"置物ではなく、祈祷器。／カテゴリの再定義から始める。", cta:"STORY: engineko.com/story", tags:"#ritual"},
+  {n:25, date:"2026-06-18", format:"フィード", series:"F1", seriesName:"En, defined.", ep:5, title:"静。", hook:"静。／ Stillness, as a design choice.", body:"静けさは、欠落ではない。／選択である。", cta:"—", tags:"#stillness"},
+  {n:31, date:"2026-06-30", format:"フィード", series:"F1", seriesName:"En, defined.", ep:6, title:"招き、待つ。", hook:"招き、待つ。／ To beckon is to wait.", body:"招くとは、来させること、ではない。／来られる場を、整えること。", cta:"—", tags:"#wait"},
+  {n:37, date:"2026-07-12", format:"フィード", series:"F1", seriesName:"En, defined.", ep:7, title:"気配。", hook:"気配。／ Presence felt before seen.", body:"目に映る前に、ある。／それを、残すこと。", cta:"—", tags:"#presence"},
+  {n:43, date:"2026-07-24", format:"フィード", series:"F1", seriesName:"En, defined.", ep:8, title:"存在。", hook:"存在。／ Being there.", body:"説明より、存在。", cta:"—", tags:"#being"},
+  {n:49, date:"2026-08-05", format:"フィード", series:"F1", seriesName:"En, defined.", ep:9, title:"名のない場所。", hook:"名のない場所。／ The unnamed corner.", body:"最良の置き場は、／名前のついていない場所にある。", cta:"—", tags:"#corner"},
+  {n:55, date:"2026-08-17", format:"フィード", series:"F1", seriesName:"En, defined.", ep:10, title:"対話。", hook:"対話。／ Dialogue with what is here.", body:"物は語らないが、／棚は変わる。", cta:"—", tags:"#dialogue"},
+  {n:61, date:"2026-08-29", format:"フィード", series:"F1", seriesName:"En, defined.", ep:11, title:"翻訳しない。", hook:"翻訳しない。／ Untranslated, unbroken.", body:"Wabi、Ikigai、そしてEn。／訳さないことで、残るものがある。", cta:"EN: en.engineko.com", tags:"#untranslatable"},
+  {n:67, date:"2026-09-10", format:"フィード", series:"F1", seriesName:"En, defined.", ep:12, title:"贈る、結ぶ。", hook:"贈る、結ぶ。／ To give is to bind.", body:"贈与は、関係の編集である。／法人ギフト・個人贈答、対応中。", cta:"GIFT: engineko.com/gift", tags:"#gift #BtoB"},
+
+  // F2 素材の地図（10本）
+  {n:3, date:"2026-05-05", format:"フィード", series:"F2", seriesName:"素材の地図", ep:1, title:"瀬戸の土", hook:"全ては、土の重さから。", body:"瀬戸。日本の窯業の中心地のひとつ。／フジコウ、本生産パートナー。", cta:"—", tags:"#setoyaki #seto #土"},
+  {n:15, date:"2026-05-29", format:"フィード", series:"F2", seriesName:"素材の地図", ep:2, title:"富山の銅", hook:"銅は、土と火の媒介。", body:"富山工房。試作と仕上げの場。", cta:"—", tags:"#富山 #copper"},
+  {n:27, date:"2026-06-22", format:"フィード", series:"F2", seriesName:"素材の地図", ep:3, title:"佐賀のダンボール", hook:"破損、ゼロ化のための箱。", body:"梱包は、最後の祈祷。／佐賀ダンボール製。", cta:"—", tags:"#packaging #saga"},
+  {n:39, date:"2026-07-16", format:"フィード", series:"F2", seriesName:"素材の地図", ep:4, title:"緩衝材", hook:"形が、形を守る。", body:"中東情勢でウレタン30%値上がり懸念。／発泡スチロールへ。設計は、政治とも会話する。", cta:"—", tags:"#cushioning"},
+  {n:51, date:"2026-08-09", format:"フィード", series:"F2", seriesName:"素材の地図", ep:5, title:"釉薬の青", hook:"青は、色ではなく時間。", body:"釉薬の調合は、温度と時間の関数。", cta:"—", tags:"#青 #blue #glaze"},
+  {n:63, date:"2026-09-02", format:"フィード", series:"F2", seriesName:"素材の地図", ep:6, title:"釉薬の白", hook:"白は、最も難しい色。", body:"白は、色がない、ではない。／全ての色を、含む。", cta:"—", tags:"#白 #white"},
+  {n:73, date:"2026-09-22", format:"フィード", series:"F2", seriesName:"素材の地図", ep:7, title:"道具", hook:"道具は、職人の延長。", body:"同じカンナを、30年。／道具が手の形になる。", cta:"—", tags:"#tools"},
+  {n:81, date:"2026-10-08", format:"フィード", series:"F2", seriesName:"素材の地図", ep:8, title:"コンセプトブック", hook:"読まずに置いてもいい。", body:"同梱は、説明書ではなく、／読まれない書物。", cta:"—", tags:"#book #concept"},
+  {n:89, date:"2026-10-24", format:"フィード", series:"F2", seriesName:"素材の地図", ep:9, title:"富山工房", hook:"ここから、十が生まれる。", body:"富山。撮影許可、取得済。／本生産・量産フェーズの主軸。", cta:"—", tags:"#工房 #studio"},
+  {n:92, date:"2026-10-30", format:"フィード", series:"F2", seriesName:"素材の地図", ep:10, title:"時間", hook:"45日。それが、最短。", body:"素材の最終地図は、時間。／加速できないことを、加速しない。", cta:"—", tags:"#time #45days"},
+
+  // F3 設置の作法（10本）
+  {n:11, date:"2026-05-21", format:"フィード", series:"F3", seriesName:"設置の作法", ep:1, title:"玄関", hook:"玄関は、家の挨拶。", body:"靴を脱ぐ手前、棚の左奥。", cta:"—", tags:"#玄関 #entrance #styling"},
+  {n:23, date:"2026-06-14", format:"フィード", series:"F3", seriesName:"設置の作法", ep:2, title:"床の間", hook:"床の間は、空けるための場所。", body:"中央ではなく、片寄せに。", cta:"—", tags:"#床の間 #tokonoma"},
+  {n:35, date:"2026-07-08", format:"フィード", series:"F3", seriesName:"設置の作法", ep:3, title:"寝室", hook:"寝る前に見える位置に。", body:"朝、必ず再会する関係。", cta:"—", tags:"#寝室 #bedroom"},
+  {n:47, date:"2026-08-01", format:"フィード", series:"F3", seriesName:"設置の作法", ep:4, title:"リビング", hook:"ソファの正面ではなく、", body:"視界の縁に。", cta:"—", tags:"#living #リビング"},
+  {n:59, date:"2026-08-25", format:"フィード", series:"F3", seriesName:"設置の作法", ep:5, title:"オフィス受付", hook:"面会の前に、目に入る一体。", body:"話の温度を整える。", cta:"法人ギフトの相談はDM。", tags:"#office #BtoB"},
+  {n:71, date:"2026-09-18", format:"フィード", series:"F3", seriesName:"設置の作法", ep:6, title:"茶室", hook:"茶室の外、にじり口の脇。", body:"儀礼の手前で迎える。", cta:"—", tags:"#茶室 #chashitsu"},
+  {n:79, date:"2026-10-04", format:"フィード", series:"F3", seriesName:"設置の作法", ep:7, title:"ギャラリー", hook:"展示物の隣ではなく、", body:"展示物に対する応答として。", cta:"—", tags:"#gallery #curate"},
+  {n:87, date:"2026-10-20", format:"フィード", series:"F3", seriesName:"設置の作法", ep:8, title:"ホテルロビー", hook:"迎える側、ではなく、", body:"待たせる時間に置く一体。", cta:"—", tags:"#hotel #lobby"},
+  {n:94, date:"2026-11-03", format:"フィード", series:"F3", seriesName:"設置の作法", ep:9, title:"海外住居（パリ）", hook:"Haussmann の階段ホール。", body:"西洋の縦線に、東洋の沈黙。", cta:"EN: en.engineko.com", tags:"#Paris #interior #europe"},
+  {n:98, date:"2026-11-11", format:"フィード", series:"F3", seriesName:"設置の作法", ep:10, title:"海外ホテル（ベルリン）", hook:"Berlin Mitte / suite turndown.", body:"海外案内、進行中。", cta:"Wholesale: en.engineko.com/wholesale", tags:"#Berlin #B2B #wholesale"},
+
+  // F4 数字の矜持（8本）
+  {n:5, date:"2026-05-09", format:"フィード", series:"F4", seriesName:"数字の矜持", ep:1, title:"1230℃", hook:"1230℃ ／ 本焼成温度", body:"土が、陶になる温度。／加減は、技術ではなく決断。", cta:"—", tags:"#1230C #firing"},
+  {n:17, date:"2026-06-02", format:"フィード", series:"F4", seriesName:"数字の矜持", ep:2, title:"30年", hook:"30年 ／ 主担当職人歴", body:"30年は、習熟の時間ではなく、／判断の時間。", cta:"—", tags:"#30years #craftsman"},
+  {n:29, date:"2026-06-26", format:"フィード", series:"F4", seriesName:"数字の矜持", ep:3, title:"¥50,000", hook:"¥50,000 ／ 国内 / 1個", body:"同価格帯：Lalique、中川政七、SyuRo、開化堂。／同価格帯の招き猫、ではない。", cta:"collection: engineko.com", tags:"#price"},
+  {n:41, date:"2026-07-20", format:"フィード", series:"F4", seriesName:"数字の矜持", ep:4, title:"25cm", hook:"25cm ／ 本体高さ", body:"人の目線に座らず、／目線の少し下に居る寸法。", cta:"—", tags:"#dimensions"},
+  {n:53, date:"2026-08-13", format:"フィード", series:"F4", seriesName:"数字の矜持", ep:5, title:"1（手作り）", hook:"1 ／ 全て、1点もの。", body:"量産、と書かれていても、／1個ずつしか焼けない。", cta:"—", tags:"#1of1 #handmade"},
+  {n:65, date:"2026-09-06", format:"フィード", series:"F4", seriesName:"数字の矜持", ep:6, title:"6（金月産）", hook:"6 ／ 9月までの金ライン産", body:"目標10、現在6。／速度より、整い。", cta:"—", tags:"#6of10"},
+  {n:75, date:"2026-09-26", format:"フィード", series:"F4", seriesName:"数字の矜持", ep:7, title:"3層", hook:"3層 ／ 梱包・発泡スチロール構造", body:"下5cm／猫型10cm／上5cm。／落とすことを前提に設計。", cta:"—", tags:"#packaging"},
+  {n:83, date:"2026-10-12", format:"フィード", series:"F4", seriesName:"数字の矜持", ep:8, title:"€800（B2B）", hook:"€800 ／ Wholesale, EU", body:"欧州B2B単価。／5社・年5–10個から始める。", cta:"Wholesale: en.engineko.com", tags:"#wholesale #EU"},
+
+  // F5 JOURNAL Excerpts（10本）
+  {n:9, date:"2026-05-17", format:"フィード", series:"F5", seriesName:"JOURNAL Excerpts", ep:1, title:"削るほど高級になる", hook:"削るほど、高級になる。", body:"それは、価格の話ではない。", cta:"JOURNAL記事を読む。", tags:"#principle #journal"},
+  {n:21, date:"2026-06-10", format:"フィード", series:"F5", seriesName:"JOURNAL Excerpts", ep:2, title:"押さない、消さない", hook:"押さない。／消さない。", body:"CTAも、関係である。", cta:"—", tags:"#principle"},
+  {n:33, date:"2026-07-04", format:"フィード", series:"F5", seriesName:"JOURNAL Excerpts", ep:3, title:"意味を先に、機能を後に", hook:"意味を、先に。", body:"機能を、後に。／スペックは、最下層。", cta:"—", tags:"#principle"},
+  {n:45, date:"2026-07-28", format:"フィード", series:"F5", seriesName:"JOURNAL Excerpts", ep:4, title:"見せず、置く", hook:"見せず、置く。", body:"写真は、説明しない。", cta:"—", tags:"#principle"},
+  {n:57, date:"2026-08-21", format:"フィード", series:"F5", seriesName:"JOURNAL Excerpts", ep:5, title:"読ませず、感じさせる", hook:"読ませず、感じさせる。", body:"コピーは、断片で十分。", cta:"—", tags:"#principle"},
+  {n:69, date:"2026-09-14", format:"フィード", series:"F5", seriesName:"JOURNAL Excerpts", ep:6, title:"カテゴリの再定義", hook:"招き猫は、置物ではない。", body:"空間装置（Spatial Object）である。／カテゴリの再定義は、価格の前提を変える。", cta:"STORY: engineko.com/story", tags:"#category #spatialobject"},
+  {n:77, date:"2026-09-30", format:"フィード", series:"F5", seriesName:"JOURNAL Excerpts", ep:7, title:"Laliqueの隣に", hook:"Laliqueの隣に、／瀬戸を置く。", body:"同価格帯の比較対象は、欧州のクリスタル小品。／文脈の選択。", cta:"—", tags:"#Lalique #context"},
+  {n:85, date:"2026-10-16", format:"フィード", series:"F5", seriesName:"JOURNAL Excerpts", ep:8, title:"縁、再定義", hook:"縁は、運ではない。", body:"編集である。／JOURNAL：「En as Editing」連載開始。", cta:"JOURNAL記事を読む。", tags:"#En #editing"},
+  {n:96, date:"2026-11-07", format:"フィード", series:"F5", seriesName:"JOURNAL Excerpts", ep:9, title:"1年目総括（前）", hook:"招くとは、待つこと。", body:"待つとは、選ぶこと。／ローンチ半年。30個の出荷、6人の所有者、1つのカテゴリ再定義。", cta:"—", tags:"#6months"},
+  {n:100, date:"2026-11-15", format:"フィード", series:"F5", seriesName:"JOURNAL Excerpts", ep:10, title:"縁を、続ける。", hook:"縁を、結びなおすこと。", body:"そして、続けること。／100投稿、ここまで。次の100は、プラチナと共に。", cta:"先行案内はニュースレターから。", tags:"#100posts #next"}
+];
+
+POSTS.sort((a,b) => a.n - b.n);
+
+const SERIES_META = {
+  R1: {name:"縁を結ぶ7秒",     count:8,  bucket:"bridge", tone:"mid",   hook3s:"A 余白"},
+  R2: {name:"窯の音",           count:8,  bucket:"behind", tone:"dark",  hook3s:"B 音"},
+  R3: {name:"3分で語る再定義",  count:8,  bucket:"bridge", tone:"mid",   hook3s:"C 問い"},
+  R4: {name:"招かれた場所",     count:8,  bucket:"story",  tone:"mid",   hook3s:"D 場所"},
+  R5: {name:"百の縁",           count:8,  bucket:"story",  tone:"mid",   hook3s:"E 手"},
+  R6: {name:"色の儀式",         count:10, bucket:"behind", tone:"mid",   hook3s:"E 手"},
+  F1: {name:"En, defined.",     count:12, bucket:"value",  tone:"light", hook3s:"—"},
+  F2: {name:"素材の地図",       count:10, bucket:"behind", tone:"mid",   hook3s:"—"},
+  F3: {name:"設置の作法",       count:10, bucket:"story",  tone:"mid",   hook3s:"—"},
+  F4: {name:"数字の矜持",       count:8,  bucket:"value",  tone:"dark",  hook3s:"—"},
+  F5: {name:"JOURNAL Excerpts", count:10, bucket:"value",  tone:"light", hook3s:"—"}
+};
+
+const BUCKET_META = {
+  value:  {label:"価値",     name:"Why we exist",   desc:"思想・宣言・原則。記憶される部分。", target:30, css:"b-value"},
+  story:  {label:"ストーリー", name:"Who we serve",   desc:"所有者・空間・場所。共感が生まれる部分。", target:26, css:"b-story"},
+  behind: {label:"裏側",     name:"How we make",    desc:"工房・素材・工程。信頼が積まれる部分。", target:28, css:"b-behind"},
+  bridge: {label:"橋",       name:"To purchase",     desc:"カテゴリ再定義・気配。次の動作への土台。", target:16, css:"b-bridge"}
+};
+
+// R1 のEpごとのトーンオーバーライド（朝/夜などで差が大きい）
+const R1_TONE = {1:"light",2:"mid",3:"mid",4:"dark",5:"light",6:"light",7:"dark",8:"mid"};
+
+const STATUS_CYCLE = ["未着手","撮影中","編集中","予約済","投稿済"];
+const STORAGE_KEY = "engineko_sns_status_v1";
+const V2_STORAGE_KEY = "engineko_sns_v2_status";
+const V2_STATUS_CYCLE = ["未着手","計画中","実装中","運用中","完了"];
+
+/* v2 戦略アクション */
+const V2_ACTIONS = [
+  {id:"A", phase:"P1", name:"1230℃ Live 窯入れ", short:"月1の窯入れをIG/YT Live。視聴特典で先着10名に保有予約優先権", cost:"¥30K初期", impact:"年1,200人エンゲージ", priority:"★★★"},
+  {id:"B", phase:"P2", name:"百の縁 YouTubeドキュ", short:"25分×6本。所有者×空間×テーマ。海外字幕でEU B2B対応", cost:"¥900K", impact:"30K再生", priority:"★★★"},
+  {id:"C", phase:"P3", name:"ENGINEKO AR", short:"WebARで自宅試し置き。CVR 0.3%→0.6%へ押上げ", cost:"¥500K", impact:"+¥1.5M/年", priority:"★★★"},
+  {id:"D", phase:"P2", name:"Drop System", short:"月1で3-5体を10分前告知のみで解放。ウェイトリスト構造化", cost:"工数のみ", impact:"月¥150-250K", priority:"★★"},
+  {id:"E", phase:"P3", name:"Atelier Visit Toyama", short:"月1組4名の富山工房ツアー。¥50K→体験のチケットへ", cost:"¥480K/年", impact:"年48名超ロイヤル", priority:"★★"},
+  {id:"F", phase:"P4", name:"縁の連鎖（リファラル）", short:"紹介で次回購入成立→両者の名がコンセプトブックに記録", cost:"¥110K", impact:"紹介率5-10%", priority:"★★"},
+  {id:"G", phase:"P2", name:"Tease Karma", short:"村上隆コラボの段階tease。8-10月に断片、12月公開", cost:"実質0", impact:"指名検索急増", priority:"★★★"},
+  {id:"H", phase:"P3", name:"Corporate Gift Showcase", short:"法人ギフト実績LP+LinkedIn月2記事。問合せ月5→10件", cost:"¥1.2M/年", impact:"問合せ2倍", priority:"★★★"},
+  {id:"I", phase:"P1", name:"Strategic Gifting 10名", short:"建築家・編集者・キュレーター10名へ献品。撮影権付き", cost:"¥550K", impact:"Earned ¥10M相当", priority:"★★★"},
+  {id:"J", phase:"P2", name:"ZINE《縁》", short:"コンセプトブックを書店流通の独立出版物へ。¥2.8K/64P", cost:"¥2.4M/年", impact:"書評5媒体+物販", priority:"★★"},
+  {id:"K", phase:"P2", name:"Spotify Podcast", short:"窯の音を月1×30分配信。言語不要で海外リーチ", cost:"実質0", impact:"海外副次", priority:"★"},
+  {id:"L", phase:"P2", name:"LinkedIn英語連載", short:"月2本Wholesale記事。EU B2B確度50%→80%", cost:"¥1.4M/年", impact:"5社→達成確度UP", priority:"★★"},
+  {id:"M", phase:"P3", name:"Live Commerce 茶会", short:"月1招待制IG Live販売。Drop上位版", cost:"¥120K/年", impact:"月3-5個", priority:"★"},
+  {id:"N", phase:"P1", name:"ENGINEKO at [Place]", short:"津田沼/中目黒/G六/CB の各場所キュレ動画。場所側と相互送客", cost:"¥400K", impact:"200万リーチ", priority:"★★★"}
+];
+
+function loadStatus() {
+  try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || "{}"); } catch(e) { return {}; }
+}
+function saveStatus(map) {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(map));
+}
+let statusMap = loadStatus();
+function getStatus(n) { return statusMap[n] || "未着手"; }
+function setStatus(n, s) { statusMap[n] = s; saveStatus(statusMap); }
+
+/* v2 status */
+function loadV2() { try { return JSON.parse(localStorage.getItem(V2_STORAGE_KEY) || "{}"); } catch(e) { return {}; } }
+function saveV2(map) { localStorage.setItem(V2_STORAGE_KEY, JSON.stringify(map)); }
+let v2Map = loadV2();
+function getV2(id) { return v2Map[id] || "未着手"; }
+function setV2(id, s) { v2Map[id] = s; saveV2(v2Map); }
+function cycleV2(id) {
+  const cur = getV2(id);
+  const next = V2_STATUS_CYCLE[(V2_STATUS_CYCLE.indexOf(cur) + 1) % V2_STATUS_CYCLE.length];
+  setV2(id, next); renderV2();
+}
+function renderV2() {
+  const wrap = document.getElementById("v2grid");
+  if (!wrap) return;
+  wrap.innerHTML = V2_ACTIONS.map(a => {
+    const st = getV2(a.id);
+    const phName = {P1:"Phase 1（5-6月）", P2:"Phase 2（7-8月）", P3:"Phase 3（9-10月）", P4:"Phase 4（11月-）"}[a.phase];
+    return `
+      <div class="v2card v2-${a.id}" onclick="cycleV2('${a.id}')">
+        <div class="ph">${phName} ／ ${a.priority}</div>
+        <div class="nm">${a.id}. ${a.name}</div>
+        <div class="sm">${a.short}</div>
+        <div class="meta">
+          <span>${a.cost}</span>
+          <span class="impact">${a.impact}</span>
+        </div>
+        <span class="v2-status" data-status="${st}">${st}</span>
+      </div>`;
+  }).join("");
+}
+
+function postTone(p) {
+  if (p.series === "R1") return R1_TONE[p.ep] || "mid";
+  return SERIES_META[p.series].tone;
+}
+function toneBadge(t) {
+  if (t === "light") return `<span class="tone-badge tone-light" title="明">○</span>`;
+  if (t === "dark")  return `<span class="tone-badge tone-dark"  title="暗">●</span>`;
+  return `<span class="tone-badge tone-mid"   title="中間">◐</span>`;
+}
+
+function renderBuckets() {
+  const wrap = document.getElementById("buckets");
+  if (!wrap) return;
+  // count posts per bucket
+  const counts = {value:0, story:0, behind:0, bridge:0};
+  const seriesByBucket = {value:[], story:[], behind:[], bridge:[]};
+  Object.entries(SERIES_META).forEach(([id,m]) => {
+    counts[m.bucket] += m.count;
+    seriesByBucket[m.bucket].push(id);
+  });
+  const total = 100;
+  wrap.innerHTML = Object.entries(BUCKET_META).map(([key, b]) => {
+    const c = counts[key];
+    const pct = Math.round(c/total*100);
+    const seriesHtml = seriesByBucket[key].map(s => `<span>${s}</span>`).join(" ");
+    const diff = pct - b.target;
+    const tag = diff > 0 ? `+${diff}` : (diff < 0 ? `${diff}` : "目標通り");
+    return `
+      <div class="bucket ${b.css}">
+        <div class="lab">${b.name}</div>
+        <div class="nm">${b.label}</div>
+        <div class="desc">${b.desc}</div>
+        <div class="series-row">${seriesHtml}</div>
+        <div class="ratio"><span>${c}本 ／ 100本</span><span class="pct">${pct}%</span></div>
+        <div class="bar"><span style="width:${Math.min(pct, b.target * 1.5)}%"></span></div>
+        <div style="font-size:9px;color:var(--ink-4);margin-top:4px;">目標 ${b.target}% ／ 実績 ${tag}</div>
+      </div>`;
+  }).join("");
+}
+
+/* ====== 投稿アイデア生成エンジン（データ駆動） ====== */
+const BRAND_EVENTS = [
+  {date:"2026-05-01", name:"国内ローンチ", type:"launch"},
+  {date:"2026-06-27", name:"OPEN NAKAMEGURO", type:"popup"},
+  {date:"2026-07-01", name:"Choose Base Shibuya 開始", type:"popup"},
+  {date:"2026-08-01", name:"GINZA SIX 設置", type:"popup"},
+  {date:"2026-06-30", name:"金ライン 10個目標期限", type:"production"}
+];
+
+function daysBetween(a, b) { return Math.ceil((new Date(b) - new Date(a)) / 86400000); }
+
+function generateIdeaCandidates() {
+  const today = new Date();
+  const todayStr = today.toISOString().slice(0,10);
+  const candidates = [];
+
+  // 1) 次の未着手投稿
+  const next = POSTS.find(p => p.date >= todayStr && getStatus(p.n) === "未着手");
+  if (next) {
+    const meta = SERIES_META[next.series];
+    candidates.push({
+      icon:"📅", cat:"次の投稿準備",
+      title:`#${next.n} ${next.title}（${next.format}・${meta.name}）`,
+      meta:[`${next.date.slice(5)} 公開予定`, next.format, BUCKET_META[meta.bucket].label],
+      reason:`${meta.hook3s !== "—" ? "0–3秒型: "+meta.hook3s+"。" : "1枚完結。"}撮影〜編集〜予約のリードタイム3日`,
+      cta:"撮影中→編集中→予約済 にステータス更新"
+    });
+  }
+
+  // 2) 直近イベント連動（21日以内）
+  const ev = BRAND_EVENTS.find(e => {
+    const dd = daysBetween(todayStr, e.date);
+    return dd >= 0 && dd <= 21;
+  });
+  if (ev) {
+    const dd = daysBetween(todayStr, ev.date);
+    candidates.push({
+      icon:"📍", cat:"イベント連動",
+      title:`${ev.name}（あと${dd}日）の予告コンテンツ`,
+      meta:["リール 20–30秒", "場所バケット", "Story連動"],
+      reason:"場所の引き → 中景 → ENGINEKO置く位置の3カット。Bio Linkを当該イベントページに切替",
+      cta:"下見写真からリール作成、Story告知連動"
+    });
+  }
+
+  // 3) Founder Voice（曜日依存）
+  const dow = today.getDay();
+  if (dow === 1 || dow === 4) {
+    candidates.push({
+      icon:"🎙", cat:"Founder Voice",
+      title:"今日のiPhone直撮りStory（早川本人）",
+      meta:["Story 24h", "速度重視", "画質ラフ可"],
+      reason:`${dow===1?"週初の動き":"工房・打合せ"}を30秒×3本で。整いのv1とは別チャネル＝顔のあるブランドを担保`,
+      cta:"iPhoneそのままStoryへ"
+    });
+  }
+
+  // 4) 戦略アクション（現在Phaseで未着手の★★★）
+  const m = today.getMonth() + 1;
+  const phase = m <= 6 ? "P1" : m <= 8 ? "P2" : m <= 10 ? "P3" : "P4";
+  const v2NS = V2_ACTIONS.filter(a => a.phase === phase && getV2(a.id) === "未着手" && a.priority === "★★★");
+  if (v2NS.length > 0) {
+    const a = v2NS[Math.floor(Math.random() * v2NS.length)];
+    candidates.push({
+      icon:"🚀", cat:"戦略アクション着手",
+      title:`${a.id}. ${a.name} を始動`,
+      meta:[phase, a.priority, a.cost],
+      reason:a.short,
+      cta:"v2カードのステータスを「計画中」へ"
+    });
+  }
+
+  // 5) バケット不足（直近9投稿）
+  const last9posted = POSTS.filter(p => getStatus(p.n) === "投稿済").slice(-9);
+  if (last9posted.length >= 5) {
+    const bc = {value:0, story:0, behind:0, bridge:0};
+    last9posted.forEach(p => bc[SERIES_META[p.series].bucket]++);
+    const lacking = Object.entries(bc).sort((a,b) => a[1]-b[1])[0];
+    if (lacking[1] === 0 || lacking[1] <= 1) {
+      candidates.push({
+        icon:"⚖", cat:"バケット調整",
+        title:`「${BUCKET_META[lacking[0]].label}」バケット が不足`,
+        meta:["可変", BUCKET_META[lacking[0]].label, `直近9投稿で${lacking[1]}本`],
+        reason:`${BUCKET_META[lacking[0]].name}（${BUCKET_META[lacking[0]].desc}）を次に1本入れる`,
+        cta:""
+      });
+    }
+  }
+
+  // 6) Story質問（月初・月中）
+  const day = today.getDate();
+  if (day === 1 || day === 15 || day === 7) {
+    candidates.push({
+      icon:"❓", cat:"リード獲得（関心収集）",
+      title:"Story質問機能で月の関心トピック収集",
+      meta:["Story 24h", "L2 中CTA", "リード階層2"],
+      reason:"「明 vs 暗 どっちが好き？」「どこに置く？」など2問。月50回答→上位3トピックを翌月コンテンツに",
+      cta:"投票結果はLead Funnelに記録"
+    });
+  }
+
+  // 7) Lead Magnet PDF
+  candidates.push({
+    icon:"📥", cat:"リスト獲得",
+    title:"Lead Magnet PDF《設置の作法 — 8つの作法》",
+    meta:["Bio Link", "L2 中CTA", "リード階層3"],
+    reason:"高単価工芸を住まいに招くための8ページ無料DL→メアド取得（Klaviyo）",
+    cta:"engineko.com/guide を準備、F3シリーズと連動"
+  });
+
+  // 8) クロスポスト
+  const recentReel = POSTS.find(p => p.format === "リール" && getStatus(p.n) === "投稿済");
+  if (recentReel) {
+    candidates.push({
+      icon:"🔁", cat:"クロスポスト",
+      title:`#${recentReel.n} ${recentReel.title} を TikTok / YT Shorts へ`,
+      meta:["TikTok", "YouTube Shorts", "Asset 1→8"],
+      reason:"IG投稿後3日以内に横展開。1素材→8アウトプット の実装",
+      cta:"CapCutから横展開MP4を再書出し"
+    });
+  }
+
+  // 9) 9枚セット切替
+  const postedCount = POSTS.filter(p => getStatus(p.n) === "投稿済").length;
+  if (postedCount > 0 && postedCount % 9 === 0) {
+    const setNum = Math.floor(postedCount / 9) + 1;
+    candidates.push({
+      icon:"🎬", cat:"セット切替",
+      title:`次の9枚（Set ${String(setNum).padStart(2,"0")}）のテイスト決定`,
+      meta:["木曜30分定例", "9枚=1ページ"],
+      reason:`Set ${String(setNum-1).padStart(2,"0")} 完了。次のテイスト・コンテンツ配分・撮影日を確定`,
+      cta:"Set 01の構造を踏襲し、次は明暗の比率を変える"
+    });
+  }
+
+  // 10) 撮影バッチ提案（撮影日が近い場合）
+  if (postedCount % 5 === 0 || postedCount === 0) {
+    candidates.push({
+      icon:"📷", cat:"ストック撮影",
+      title:"今週末のバッチ撮影で次10本ぶん素材確保",
+      meta:["1日 = 8本素材", "ストック制"],
+      reason:"自宅2h（プロダクト/ディテール）＋工房半日（裏側）で次10本のリール+フィードを確保",
+      cta:"撮影リストはSet01詳細§3を参考に"
+    });
+  }
+
+  // 11) 法人ギフトShowcase（v2 H）
+  if (phase === "P2" || phase === "P3") {
+    candidates.push({
+      icon:"💼", cat:"法人ギフト",
+      title:"開業祝い・周年事例のShowcase記事 1本",
+      meta:["LinkedIn", "B2B", "v2 H"],
+      reason:"匿名化したC事例（背景→課題→選定理由→納品→反応）の5ブロック型。月2本のリズム",
+      cta:"engineko.com/business/cases へ"
+    });
+  }
+
+  // 12) UGC収集
+  candidates.push({
+    icon:"📸", cat:"UGC・所有者取材",
+    title:"R5「百の縁」次のEpの所有者取材",
+    meta:["リール 30–45秒", "ストーリー", "v2 B連動"],
+    reason:"既存所有者から1名×1空間×1テーマ。長尺YouTube版の素材も同時取得",
+    cta:"DMで取材依頼テンプレを送付"
+  });
+
+  // 13) ハッシュタグ実験
+  candidates.push({
+    icon:"#", cat:"ハッシュタグ実験",
+    title:"今月の試験タグ：#現代の祈祷器 / #ManekiAsRitual",
+    meta:["A/Bタグ", "計測：到達"],
+    reason:"固定プール+属性 に加え、月1で新タグを2本試験投入。30日後に到達上位を本採用",
+    cta:"使用本数と到達を記録"
+  });
+
+  // 14) 明暗バランス警告
+  const last6 = POSTS.filter(p => getStatus(p.n) === "投稿済").slice(-6);
+  if (last6.length >= 6) {
+    const tones = last6.map(p => postTone(p));
+    const lightCount = tones.filter(t => t === "light").length;
+    const darkCount = tones.filter(t => t === "dark").length;
+    if (lightCount >= 5 || darkCount >= 5) {
+      candidates.push({
+        icon:"🌗", cat:"明暗バランス",
+        title:`グリッドが${lightCount>=5?"明":"暗"}に偏り中`,
+        meta:[`直近6投稿: 明${lightCount}/暗${darkCount}`, "運用10則 §1"],
+        reason:`次は${lightCount>=5?"暗（黒地・夜・窯火）":"明（白磁・朝光）"}を1本入れて、グリッドのコントラストを回復`,
+        cta:""
+      });
+    }
+  }
+
+  return candidates;
+}
+
+function pickIdeas() {
+  const all = generateIdeaCandidates();
+  const shuffled = [...all].sort(() => Math.random() - 0.5);
+  const picked = [];
+  const cats = new Set();
+  for (const c of shuffled) {
+    if (!cats.has(c.cat)) {
+      picked.push(c); cats.add(c.cat);
+    }
+    if (picked.length >= 3) break;
+  }
+  while (picked.length < 3 && shuffled.length > picked.length) {
+    const next = shuffled.find(c => !picked.includes(c));
+    if (next) picked.push(next); else break;
+  }
+  return picked;
+}
+
+function renderIdeas() {
+  const wrap = document.getElementById("ideas");
+  if (!wrap) return;
+  const ideas = pickIdeas();
+  wrap.innerHTML = ideas.map(i => `
+    <div class="idea-card">
+      <div class="idea-cat"><span class="icon">${i.icon}</span>${i.cat}</div>
+      <div class="idea-title">${i.title}</div>
+      <div class="idea-meta">${i.meta.map(m=>`<span>${m}</span>`).join("")}</div>
+      <div class="idea-reason">${i.reason}</div>
+      ${i.cta ? `<div class="idea-cta">→ ${i.cta}</div>` : ""}
+    </div>
+  `).join("");
+
+  // context line
+  const ctx = document.getElementById("ideasContext");
+  if (ctx) {
+    const today = new Date();
+    const m = today.getMonth() + 1;
+    const phase = m <= 6 ? "Phase 1" : m <= 8 ? "Phase 2" : m <= 10 ? "Phase 3" : "Phase 4";
+    const postedCount = POSTS.filter(p => getStatus(p.n) === "投稿済").length;
+    const setNum = Math.ceil((postedCount + 1) / 9);
+    ctx.textContent = `${phase} ／ Set ${String(setNum).padStart(2,"0")} ／ 投稿済 ${postedCount}/100`;
+  }
+}
+
+/* リード獲得：localStorage保存 */
+const LEAD_KEY = "engineko_sns_leads";
+function loadLeads() { try { return JSON.parse(localStorage.getItem(LEAD_KEY) || "{}"); } catch(e) { return {}; } }
+function saveLeads(d) { localStorage.setItem(LEAD_KEY, JSON.stringify(d)); }
+function bindLeads() {
+  const d = loadLeads();
+  ["lc1","lc2","lc3","lc4","lc5"].forEach(id => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    el.value = d[id] || "";
+    el.addEventListener("input", () => {
+      const cur = loadLeads();
+      cur[id] = el.value;
+      saveLeads(cur);
+    });
+  });
+}
+
+/* ====== State ====== */
+let activeSeries = ""; // toggled via legend chip
+let view = "list";
+
+/* ====== Render legend ====== */
+function renderLegend() {
+  const wrap = document.getElementById("legend");
+  const html = Object.entries(SERIES_META).map(([id, m]) => {
+    const cls = id === activeSeries ? "chip active series-" + id : "chip series-" + id;
+    return `<span class="${cls}" onclick="toggleSeries('${id}')"><span class="series-dot"></span>${id} ${m.name}<span class="count">${m.count}</span></span>`;
+  }).join("");
+  wrap.innerHTML = `<span class="chip ${activeSeries===''?'active series-R3':''}" onclick="toggleSeries('')" style="${activeSeries===''?'background:#5A6870;color:#fff;border-color:transparent;':''}">すべて<span class="count">100</span></span>` + html;
+}
+function toggleSeries(id) {
+  activeSeries = (activeSeries === id) ? "" : id;
+  renderLegend();
+  render();
+}
+
+/* ====== Render series stats ====== */
+function renderSeriesStats() {
+  const wrap = document.getElementById("seriesStats");
+  wrap.innerHTML = Object.entries(SERIES_META).map(([id, m]) => {
+    const items = POSTS.filter(p => p.series === id);
+    const posted = items.filter(p => getStatus(p.n) === "投稿済").length;
+    const pct = Math.round(posted / m.count * 100);
+    return `
+      <div class="ss-card series-${id}">
+        <div class="id">${id}</div>
+        <div class="name">${m.name}</div>
+        <div class="bar"><span style="width:${pct}%"></span></div>
+        <div class="frac">${posted}/${m.count}</div>
+      </div>`;
+  }).join("");
+}
+
+/* ====== Render KPIs ====== */
+function renderKpis() {
+  const today = new Date(); // env: 2026-05-07
+  const todayStr = today.toISOString().slice(0,10);
+  const ym = todayStr.slice(0,7);
+
+  const posted = POSTS.filter(p => getStatus(p.n) === "投稿済").length;
+  const scheduled = POSTS.filter(p => getStatus(p.n) === "予約済").length;
+  const editing = POSTS.filter(p => getStatus(p.n) === "編集中").length;
+  const shooting = POSTS.filter(p => getStatus(p.n) === "撮影中").length;
+  const inflight = scheduled + editing + shooting;
+
+  const monthPosts = POSTS.filter(p => p.date.startsWith(ym));
+  const monthPosted = monthPosts.filter(p => getStatus(p.n) === "投稿済").length;
+
+  const next = POSTS.find(p => p.date >= todayStr && getStatus(p.n) !== "投稿済");
+
+  document.getElementById("kpiPosted").textContent = posted;
+  document.getElementById("kpiPostedBar").style.width = posted + "%";
+  document.getElementById("kpiPostedSub").textContent = (100 - posted) + "本 残り";
+  document.getElementById("kpiInflight").textContent = inflight;
+  document.getElementById("kpiScheduled").textContent = scheduled;
+  document.getElementById("kpiEditing").textContent = editing;
+  document.getElementById("kpiShooting").textContent = shooting;
+  document.getElementById("kpiMonth").textContent = monthPosts.length;
+  document.getElementById("kpiMonthSub").textContent = `うち投稿済 ${monthPosted}`;
+  if (next) {
+    const d = new Date(next.date);
+    document.getElementById("kpiNextDate").textContent = `${d.getMonth()+1}/${d.getDate()} (${["日","月","火","水","木","金","土"][d.getDay()]})`;
+    document.getElementById("kpiNextTitle").textContent = `#${next.n} ${next.format} ／ ${next.series} ${next.title}`;
+  } else {
+    document.getElementById("kpiNextDate").textContent = "完了";
+    document.getElementById("kpiNextTitle").textContent = "100本到達";
+  }
+
+  const t = new Date();
+  document.getElementById("todayBadge").textContent =
+    `${t.getFullYear()}年${t.getMonth()+1}月${t.getDate()}日（${["日","月","火","水","木","金","土"][t.getDay()]}）`;
+  document.getElementById("todayProg").textContent = `進捗 ${posted} / 100`;
+}
+
+/* ====== Filtering ====== */
+function getFiltered() {
+  const f = document.getElementById("filterFormat").value;
+  const m = document.getElementById("filterMonth").value;
+  const s = document.getElementById("filterStatus").value;
+  const kw = document.getElementById("filterKw").value.trim().toLowerCase();
+  const sortBy = document.getElementById("sortBy").value;
+
+  let arr = POSTS.filter(p => {
+    if (activeSeries && p.series !== activeSeries) return false;
+    if (f && p.format !== f) return false;
+    if (m && !p.date.startsWith(m)) return false;
+    if (s && getStatus(p.n) !== s) return false;
+    if (kw) {
+      const blob = (p.title + p.body + p.hook + p.seriesName + p.tags).toLowerCase();
+      if (!blob.includes(kw)) return false;
+    }
+    return true;
+  });
+
+  if (sortBy === "dateDesc") arr.sort((a,b) => b.date.localeCompare(a.date));
+  else if (sortBy === "series") arr.sort((a,b) => (a.series + a.ep).localeCompare(b.series + b.ep));
+  else if (sortBy === "status") {
+    const order = ["未着手","撮影中","編集中","予約済","投稿済"];
+    arr.sort((a,b) => order.indexOf(getStatus(a.n)) - order.indexOf(getStatus(b.n)) || a.date.localeCompare(b.date));
+  }
+  else arr.sort((a,b) => a.date.localeCompare(b.date));
+  return arr;
+}
+
+/* ====== Render list ====== */
+function renderList() {
+  const arr = getFiltered();
+  document.getElementById("visCount").textContent = `${arr.length}件 表示中`;
+  const html = arr.map(p => {
+    const st = getStatus(p.n);
+    const d = new Date(p.date);
+    const dStr = `${d.getMonth()+1}/${d.getDate()} (${["日","月","火","水","木","金","土"][d.getDay()]})`;
+    const tagsHtml = p.tags.split(/\s+/).filter(Boolean).map(t => `<span class="tag">${t}</span>`).join("");
+    const meta = SERIES_META[p.series];
+    const t = postTone(p);
+    const bucketName = BUCKET_META[meta.bucket].label;
+    const hook3sBadge = p.format === "リール" ? `<span class="hook3s">3秒型: ${meta.hook3s}</span>` : "";
+    return `
+      <div class="row series-${p.series}" data-n="${p.n}" onclick="toggleRow(${p.n})">
+        <div class="row-head">
+          <div class="row-no">#${p.n}</div>
+          <div class="row-date">${dStr}</div>
+          <div class="row-format ${p.format==='リール'?'reel':'feed'}">${p.format}</div>
+          <div>
+            <div class="row-title">${toneBadge(t)}<span class="ep">${p.series}.E${p.ep}</span>${p.title}${hook3sBadge}</div>
+            <div class="row-series" style="font-size:10px;color:var(--ink-4);"><span class="series-dot"></span>${p.seriesName} ／ ${bucketName}</div>
+          </div>
+          <div class="row-series" style="display:none;"></div>
+          <div class="status-pill" data-status="${st}" onclick="event.stopPropagation();cycleStatus(${p.n})">${st}</div>
+        </div>
+        <div class="row-detail">
+          <div class="detail-block"><div class="lab">${p.format==='リール'?'3秒フック（0–3秒）':'フック（メイン）'}</div><div class="v">${p.hook}</div></div>
+          <div class="detail-block"><div class="lab">CTA階層</div><div class="v">${p.cta}</div></div>
+          <div class="detail-block full"><div class="lab">本文骨子</div><div class="v">${p.body}</div></div>
+          <div class="detail-block"><div class="lab">バケット</div><div class="v">${bucketName}（${BUCKET_META[meta.bucket].name}）</div></div>
+          <div class="detail-block"><div class="lab">トーン</div><div class="v">${t==='light'?'明 ○':t==='dark'?'暗 ●':'中間 ◐'}</div></div>
+          <div class="detail-block full"><div class="lab">ハッシュタグ</div><div class="tags">${tagsHtml}</div></div>
+        </div>
+      </div>`;
+  }).join("");
+  document.getElementById("list").innerHTML = html || `<div style="padding:30px;text-align:center;color:var(--ink-4);font-size:12px;">該当する投稿がありません。フィルタを調整してください。</div>`;
+}
+
+function toggleRow(n) {
+  const el = document.querySelector(`.row[data-n="${n}"]`);
+  if (el) el.classList.toggle("expanded");
+}
+function cycleStatus(n) {
+  const cur = getStatus(n);
+  const next = STATUS_CYCLE[(STATUS_CYCLE.indexOf(cur) + 1) % STATUS_CYCLE.length];
+  setStatus(n, next);
+  render();
+}
+
+/* ====== Render Calendar ====== */
+function renderCalendar() {
+  const months = ["2026-05","2026-06","2026-07","2026-08","2026-09","2026-10","2026-11"];
+  const monthName = ["", "1月","2月","3月","4月","5月","6月","7月","8月","9月","10月","11月","12月"];
+  const wrap = document.getElementById("calendarView");
+  const arr = getFiltered();
+  const byDate = {};
+  arr.forEach(p => { byDate[p.date] = p; });
+
+  wrap.innerHTML = months.map(ym => {
+    const [y, m] = ym.split("-").map(Number);
+    const first = new Date(y, m-1, 1);
+    const last = new Date(y, m, 0).getDate();
+    const startDay = first.getDay();
+    const items = arr.filter(p => p.date.startsWith(ym));
+    const posted = items.filter(p => getStatus(p.n) === "投稿済").length;
+
+    let cells = "";
+    for (let i = 0; i < startDay; i++) cells += `<div class="cal-cell empty"></div>`;
+    for (let d = 1; d <= last; d++) {
+      const ds = `${y}-${String(m).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+      const p = byDate[ds];
+      if (p) {
+        const st = getStatus(p.n);
+        const cls = `cal-cell has series-${p.series} ${st === "投稿済" ? "posted" : ""}`;
+        cells += `<div class="${cls}" title="${p.title}">
+          <div class="dnum">${d}</div>
+          <div class="marker" onclick="cycleStatus(${p.n})">${p.format==='リール'?'R':'F'} ${p.series}</div>
+        </div>`;
+      } else {
+        cells += `<div class="cal-cell"><div class="dnum">${d}</div></div>`;
+      }
+    }
+
+    return `
+      <div class="calendar-month">
+        <h3>${y}年 ${monthName[m]}<span class="meta">${items.length}本予定 ／ 投稿済 ${posted}</span></h3>
+        <div class="cal-grid">
+          <div class="cal-head">日</div><div class="cal-head">月</div><div class="cal-head">火</div>
+          <div class="cal-head">水</div><div class="cal-head">木</div><div class="cal-head">金</div><div class="cal-head">土</div>
+          ${cells}
+        </div>
+      </div>`;
+  }).join("");
+}
+
+/* ====== View toggle ====== */
+function setView(v) {
+  view = v;
+  document.querySelectorAll(".tg").forEach(b => b.classList.toggle("active", b.dataset.view === v));
+  document.getElementById("list").classList.toggle("hidden", v !== "list");
+  document.getElementById("calendarView").classList.toggle("hidden", v !== "cal");
+  render();
+}
+
+/* ====== Bulk ====== */
+function bulkSet(s) {
+  const arr = getFiltered();
+  if (!arr.length) return;
+  if (!confirm(`表示中の ${arr.length} 件を「${s}」へ変更します。よろしいですか？`)) return;
+  arr.forEach(p => setStatus(p.n, s));
+  render();
+}
+function resetAll() {
+  if (!confirm("すべてのステータスを未着手にリセットします。元に戻せません。よろしいですか？")) return;
+  statusMap = {};
+  saveStatus(statusMap);
+  render();
+}
+
+/* ====== Render all ====== */
+function render() {
+  renderKpis();
+  renderSeriesStats();
+  if (view === "list") renderList();
+  else renderCalendar();
+}
+
+/* ====== Init ====== */
+["filterFormat","filterMonth","filterStatus","filterKw","sortBy"].forEach(id => {
+  document.getElementById(id).addEventListener("input", render);
+});
+renderV2();
+renderBuckets();
+bindLeads();
+renderLegend();
+renderIdeas();
+render();
+</script>
+</body>
+</html>

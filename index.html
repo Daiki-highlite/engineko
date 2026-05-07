@@ -409,6 +409,7 @@
     <a href="product.html" class="nav-link">📦 プロダクト</a>
     <a href="cashflow.html" class="nav-link">💰 キャッシュフロー</a>
     <a href="en-process.html" class="nav-link">◆ EN process</a>
+    <a href="sns.html" class="nav-link">📷 SNS 100投稿</a>
     <a href="ENGINEKO%20Design%20System.html" class="nav-link" target="_blank" style="color:#5A6870;letter-spacing:0.05em;">✦ デザインシステム</a>
     <button class="nav-logout" onclick="sessionStorage.clear();location.replace('login.html');">ログアウト</button>
   </div>
@@ -981,8 +982,8 @@
     <div class="task">
       <div class="task-icon warn">▷</div>
       <div class="task-body">
-        <div class="task-name">特別創業支援補助金 申請（最大400万円）</div>
-        <div class="task-meta"><span class="tag yellow">締切: 4/30</span><span class="tag">小河原ミサさん</span></div>
+        <div class="task-name">特別創業支援補助金 申請（最大300万円）</div>
+        <div class="task-meta"><span class="tag yellow">締切: 4/30</span><span class="tag">担当: 早川 大貴</span></div>
       </div>
     </div>
     <div class="task">
@@ -1131,6 +1132,57 @@
 <!-- CLAUDE INSTRUCTIONS LOG -->
 <div class="section-title">📝 Claudeへの指示ログ（Slackの「to Claude」コメント）</div>
 <div class="claude-log">
+
+  <div class="ci-item">
+    <div class="ci-meta">
+      <span class="ci-id">#007</span>
+      <span class="ci-date">2026-05-01</span>
+      <span class="ci-from">早川 大貴</span>
+    </div>
+    <div class="ci-body">
+      <div class="ci-text">
+        Slack「to claude」タグ付き支払いメモ3件を取り込み：<br>
+        ① 10:46 — メルカリでエアークッション購入 ¥988（テスト分／出品者: 猫じゃん）<br>
+        ② 15:49 — 先行の箱 請求支払い ¥22,946<br>
+        ③ 16:01 — エアークッション 支払い完了の確定報告（①と同件）
+      </div>
+      <div class="ci-impl">
+        <strong>実装：</strong>
+        <a href="cashflow.html" style="color:#5A6870;">cashflow.html</a>
+        の「💴 実際に払った金額（実績ログ）」 <code style="background:#F5F5F2;padding:1px 5px;border-radius:3px;">&lt;tbody id="actual-tbody"&gt;</code> に2行追加。
+        合計 <strong>¥23,934</strong> を JS が自動集計。出典は各 Slack スレッドのパーマリンクを memo 列にリンク。
+        ③は①と同件のため重複登録を避けて1行に統合。
+      </div>
+      <span class="ci-status done">✅ 実装済み</span>
+    </div>
+  </div>
+
+  <div class="ci-item">
+    <div class="ci-meta">
+      <span class="ci-id">#006</span>
+      <span class="ci-date">2026-05-01</span>
+      <span class="ci-from">早川 大貴</span>
+    </div>
+    <div class="ci-body">
+      <div class="ci-text">キャッシュフローの「実際に払った金額」エリアを追加。Slack上で支払いメモが出たら自動で取り込んでメモする運用にしたい。</div>
+      <div class="ci-impl">
+        <strong>実装：</strong>
+        <a href="cashflow.html" style="color:#5A6870;">cashflow.html</a> に「💴 実際に払った金額（実績ログ）」セクションを新設。
+        日付／項目／金額／支払者／メモ・出典の5列テーブル＋ 今月実績合計／FY累計／件数 の自動集計バッジを実装。
+        <code style="background:#F5F5F2;padding:1px 5px;border-radius:3px;">data-date</code>/<code style="background:#F5F5F2;padding:1px 5px;border-radius:3px;">data-amount</code> 属性をJSが拾って合計値を再計算。
+        <br><br>
+        <strong>取り込み運用ルール：</strong>
+        <code style="background:#F5F5F2;padding:1px 5px;border-radius:3px;">engineko-update</code> スキル実行時に
+        <code style="background:#F5F5F2;padding:1px 5px;border-radius:3px;">#05-engineko-コアメンバー</code> /
+        <code style="background:#F5F5F2;padding:1px 5px;border-radius:3px;">#06-engineko-all</code> を
+        「払った／払いました／支払った／振り込んだ／立て替え／購入した／発注した／決済した／to Claude（cashflow）」で検索し、
+        新規ヒットを <code style="background:#F5F5F2;padding:1px 5px;border-radius:3px;">&lt;tbody id="actual-tbody"&gt;</code> に追記。
+        金額不明は <span class="task-meta"><span class="tag yellow">要確認</span></span> 付きで仮登録 → 翌週定例で確定。
+        重複防止のため <code style="background:#F5F5F2;padding:1px 5px;border-radius:3px;">data-date</code> ＋項目名で照合。
+      </div>
+      <span class="ci-status done">✅ 実装済み</span>
+    </div>
+  </div>
 
   <div class="ci-item">
     <div class="ci-meta">
