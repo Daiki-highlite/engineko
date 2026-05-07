@@ -563,6 +563,111 @@
   @media (max-width: 1100px) { .strat-summary { grid-template-columns: repeat(2, 1fr); } }
   @media (max-width: 700px) { .strat-summary { grid-template-columns: 1fr; } }
 
+  /* SHOOT PLAN (27 posts × 3 sets) */
+  .shoot-wrap {
+    background: #fff; border: 1px solid var(--border); border-radius: 12px;
+    padding: 18px 20px; margin-bottom: 24px;
+  }
+  .shoot-head {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-bottom: 8px;
+  }
+  .shoot-head h2 {
+    font-size: 13px; font-weight: 700; color: var(--ink);
+    letter-spacing: 0.06em;
+  }
+  .shoot-head h2 .lab {
+    font-size: 9px; background: #B97A4F; color: #fff;
+    padding: 2px 7px; border-radius: 3px; margin-right: 8px;
+    letter-spacing: 0.08em;
+  }
+  .shoot-sub {
+    font-size: 11px; color: var(--ink-4); margin-bottom: 14px;
+  }
+  .shoot-sets {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px;
+  }
+  .shoot-set {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 10px; padding: 12px;
+  }
+  .shoot-set-head {
+    display: flex; justify-content: space-between; align-items: baseline;
+    margin-bottom: 8px; padding-bottom: 8px;
+    border-bottom: 1px solid var(--border);
+  }
+  .shoot-set-name {
+    font-size: 12px; font-weight: 700; color: var(--ink); letter-spacing: 0.04em;
+  }
+  .shoot-set-name .num {
+    font-size: 10px; color: #B97A4F; margin-right: 6px; font-weight: 600;
+  }
+  .shoot-set-period {
+    font-size: 10px; color: var(--ink-4);
+  }
+  .shoot-set-batches {
+    font-size: 10px; color: var(--ink-3); background: #fff;
+    border: 1px solid var(--border); padding: 6px 8px;
+    border-radius: 6px; margin-bottom: 10px; line-height: 1.5;
+  }
+  .shoot-set-batches strong { color: var(--ink); font-weight: 600; }
+  .shoot-list { display: flex; flex-direction: column; gap: 6px; }
+  .shoot-row {
+    background: #fff; border: 1px solid var(--border); border-radius: 6px;
+    padding: 8px 10px; transition: all var(--t); cursor: pointer;
+    position: relative;
+  }
+  .shoot-row::before {
+    content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 2px;
+    background: var(--c, var(--ink-5)); border-radius: 6px 0 0 6px;
+  }
+  .shoot-row.fmt-reel { --c: #C9A86A; }
+  .shoot-row.fmt-feed { --c: #6B8E6B; }
+  .shoot-row:hover { border-color: var(--silver-light); }
+  .shoot-row.expanded { border-color: var(--silver); box-shadow: 0 1px 4px rgba(0,0,0,0.04); }
+  .shoot-row .top-line {
+    display: flex; justify-content: space-between; align-items: center;
+    gap: 6px; font-size: 10px;
+  }
+  .shoot-row .post-no {
+    font-size: 10px; color: var(--ink-4); min-width: 28px;
+  }
+  .shoot-row .post-date {
+    font-size: 10px; color: var(--ink-3); font-weight: 500; min-width: 36px;
+  }
+  .shoot-row .fmt-badge {
+    font-size: 9px; padding: 1px 5px; border-radius: 3px;
+    letter-spacing: 0.04em; font-weight: 600;
+  }
+  .shoot-row.fmt-reel .fmt-badge { background: #F4E9D8; color: #8B6914; }
+  .shoot-row.fmt-feed .fmt-badge { background: #E8EDE8; color: #4A6B4A; }
+  .shoot-row .post-title {
+    font-size: 11px; color: var(--ink); font-weight: 500;
+    flex-grow: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  }
+  .shoot-row .ct-row {
+    font-size: 10px; color: var(--ink-3); margin-top: 4px;
+  }
+  .shoot-row .ct-row .ct {
+    background: var(--surface); padding: 1px 5px; border-radius: 3px;
+    border: 1px solid var(--border); font-size: 9px;
+    color: var(--ink-3); margin-right: 4px;
+  }
+  .shoot-row .shoot-info {
+    display: none; padding-top: 8px; margin-top: 8px;
+    border-top: 1px dashed var(--border); font-size: 10px;
+    color: var(--ink-3); line-height: 1.6;
+  }
+  .shoot-row.expanded .shoot-info { display: block; }
+  .shoot-row .shoot-info dl { display: grid; grid-template-columns: 56px 1fr; gap: 2px 8px; }
+  .shoot-row .shoot-info dt { color: var(--ink-4); font-size: 9px; letter-spacing: 0.04em; padding-top: 2px; }
+  .shoot-row .shoot-info dd { color: var(--ink); font-size: 10px; }
+  .shoot-row .shoot-info dd.shot { line-height: 1.6; }
+
+  @media (max-width: 1100px) {
+    .shoot-sets { grid-template-columns: 1fr; }
+  }
+
   /* PLATFORM TABS */
   .platform-strip {
     background: #fff; border: 1px solid var(--border); border-radius: 10px;
@@ -680,6 +785,16 @@
     <button class="refresh" onclick="renderIdeas()">↻ 別の3案</button>
   </div>
   <div class="ideas-grid" id="ideas"></div>
+</div>
+
+<!-- 撮影プラン（直近27投稿 / 9枚×3セット） -->
+<div class="shoot-wrap">
+  <div class="shoot-head">
+    <h2><span class="lab">SHOOT</span>直近27投稿の撮影プラン</h2>
+    <span style="font-size:11px;color:var(--ink-4);">クリックで詳細展開</span>
+  </div>
+  <div class="shoot-sub">9枚×3セット ／ Set 01「光と土」 ／ Set 02「土と火」 ／ Set 03「招かれる場所」</div>
+  <div class="shoot-sets" id="shootSets"></div>
 </div>
 
 <!-- v2 STRATEGY -->
@@ -1091,6 +1206,119 @@ function renderBuckets() {
         <div class="ratio"><span>${c}本 ／ 100本</span><span class="pct">${pct}%</span></div>
         <div class="bar"><span style="width:${Math.min(pct, b.target * 1.5)}%"></span></div>
         <div style="font-size:9px;color:var(--ink-4);margin-top:4px;">目標 ${b.target}% ／ 実績 ${tag}</div>
+      </div>`;
+  }).join("");
+}
+
+/* ====== 撮影プラン（直近27投稿） ====== */
+const SHOOT_PLANS = {
+  1: {ct:"ブランドイメージ写真", sd:"4/25(土)", bat:"B1", loc:"自宅／撮影スタジオ", eq:"一眼50mm・三脚・リネンベージュ", shot:"右下1/3にENGINEKO配置／左上に大余白／自然光のみ／中央下に\"縁。\"テキスト"},
+  2: {ct:"プロダクト動画", sd:"4/25(土) 朝", bat:"B1", loc:"自宅・東窓辺", eq:"一眼・三脚・NDフィルター", shot:"7秒固定／黒→朝光が斜めに差す→暗／鼻先に光が来る瞬間／無音"},
+  3: {ct:"土地写真 カルーセル5枚", sd:"4/24(金)", bat:"B0-瀬戸", loc:"愛知県瀬戸市", eq:"一眼35mm・地図素材", shot:"瀬戸の朝・霧の登り窯／土サンプル／フジコウ近隣／地図／1行コピー"},
+  4: {ct:"再定義動画（テキスト主体）", sd:"4/25(土)", bat:"B1", loc:"自宅／スタジオ", eq:"一眼・三脚", shot:"60-90秒／問い10秒→事実30秒→再定義20秒／テキスト主体・声無し"},
+  5: {ct:"数字フィード（黒地）", sd:"PC作業", bat:"B-Studio", loc:"デザインソフト", eq:"Figma", shot:"黒地#0A0A0A／中央に\"1230℃\" 96pt白／注\"本焼成温度。\""},
+  6: {ct:"制作裏側 動画（轆轤）", sd:"4/22(水) 7:30-9:00", bat:"B2-富山", loc:"富山工房", eq:"iPhone15Pro 4K・DJI OM・ZOOM H1n", shot:"30秒／3カット（手元寄り→工房引き→静止）／粘土と手の摩擦音／同期音のみ"},
+  7: {ct:"En, defined. フィード", sd:"PC作業", bat:"B-Studio", loc:"デザインソフト", eq:"Figma", shot:"ベージュ地#F2EDE4／中央に\"間。\" 28pt Cormorant／英訳副文 9pt"},
+  8: {ct:"色の儀式 動画（金第1号）", sd:"5/13(水) ※金第1号制作完了日", bat:"B-Toyama-Gold", loc:"富山工房", eq:"一眼・三脚・ピアノ単音BGM素材", shot:"20-30秒／3カット（箱→紙ほどく→最初の光）／同じリズムで毎回統一"},
+  9: {ct:"JOURNAL Excerpt フィード", sd:"PC作業", bat:"B-Studio", loc:"デザインソフト", eq:"Figma", shot:"白地・serif大／\"削るほど、高級になる。／それは、価格の話ではない。\"／署名なし"},
+  10:{ct:"空間動画（自宅・棚に置く）", sd:"4/25(土) 15:00", bat:"B1", loc:"自宅・リビング棚", eq:"一眼35mm・三脚", shot:"45秒／3カット（リビング引き→手で置く中景→定位置寄り）／西陽斜め"},
+  11:{ct:"空間フィード（玄関）カルーセル3枚", sd:"5/8(金)", bat:"B3-玄関", loc:"自宅・玄関", eq:"一眼35mm", shot:"カルーセル3枚／引き→中景→寄り／棚の左奥に片寄せ"},
+  12:{ct:"百の縁 動画（一人目）", sd:"5/10(日)", bat:"B4-神宮前", loc:"神宮前 オーナー宅（ペルソナA）", eq:"一眼・三脚・収録同意書", shot:"30-45秒／3カット（空間引き→所作・手のみ→定位置寄り）／引用1文を白字で"},
+  13:{ct:"En, defined. フィード", sd:"PC作業", bat:"B-Studio", loc:"デザインソフト", eq:"Figma", shot:"ベージュ地に\"余白。\"／英訳\"Negative space. Designed silence.\""},
+  14:{ct:"プロダクト動画（雨）", sd:"5月雨日", bat:"B5-雨日", loc:"自宅・窓辺・雨日", eq:"一眼・三脚・別マイク（窓の雨音）", shot:"7秒固定／窓ガラスに雨／背後にENGINEKO／棚は変わらない／無音楽"},
+  15:{ct:"素材カルーセル（富山の銅）", sd:"4/22(水)", bat:"B2-富山", loc:"富山工房", eq:"一眼35mm", shot:"カルーセル5枚／銅サンプル／加工温度／工房写真／\"銅は土と火の媒介\""},
+  16:{ct:"再定義動画（なぜ削るのか）", sd:"4/25(土)", bat:"B1", loc:"自宅／スタジオ", eq:"一眼・三脚", shot:"60-90秒／問い→足し算と引き算→再定義／テキスト主体"},
+  17:{ct:"数字フィード（黒地）30年", sd:"PC作業", bat:"B-Studio", loc:"デザインソフト", eq:"Figma", shot:"黒地に\"30年\" 96pt白／注\"主担当職人歴。\""},
+  18:{ct:"制作裏側 動画（釉薬）", sd:"4/22(水)", bat:"B2-富山", loc:"富山工房", eq:"iPhone 4K・ジンバル・別マイク", shot:"30-45秒／刷毛が陶肌をなぞる音／焼く前の最後の決断／3カット"},
+  19:{ct:"En, defined. フィード（祈祷器）", sd:"PC作業", bat:"B-Studio", loc:"デザインソフト", eq:"Figma", shot:"ベージュ地に\"祈祷器。\"／英訳\"Ritual instrument for everyday space.\""},
+  20:{ct:"色の儀式 動画（金第2号）", sd:"5/30(土) ※金第2号制作日想定", bat:"B6-富山追加", loc:"富山工房", eq:"一眼・三脚・ピアノ単音", shot:"20-30秒／#8と同じリズム／\"二つ目は、少し速く\""},
+  21:{ct:"JOURNAL フィード（押さない）", sd:"PC作業", bat:"B-Studio", loc:"デザインソフト", eq:"Figma", shot:"白地に\"押さない。／消さない。／CTAも、関係である。\""},
+  22:{ct:"招かれた場所 動画（津田沼POPUP）", sd:"5/30(土) または 6/6 POPUP当日", bat:"B7-津田沼", loc:"イオン津田沼 MAISON 12スペース", eq:"一眼・三脚・iPhone別アングル", shot:"45秒／3カット（場所引き→陳列中景→ENGINEKO寄り）／土日委託"},
+  23:{ct:"設置作法 フィード（床の間）カルーセル3枚", sd:"6/1(月)", bat:"B8-茶室", loc:"京都町家／または都内茶室", eq:"一眼35mm・自然光", shot:"カルーセル3枚／引き→中央でなく片寄せ配置→寄り／コピー「中央ではなく、片寄せに」"},
+  24:{ct:"百の縁 動画（二人目・退職祝い）", sd:"5/30(土)", bat:"B9-退職祝い宅", loc:"オーナー宅（ペルソナB：退職祝い）", eq:"一眼・三脚・収録同意書", shot:"30-45秒／花が無くなった棚→ENGINEKO定位置／引用「花は終わる。これは続いてくれる。」"},
+  25:{ct:"En, defined. フィード（静）", sd:"PC作業", bat:"B-Studio", loc:"デザインソフト", eq:"Figma", shot:"ベージュ地に\"静。\"／英訳\"Stillness, as a design choice.\""},
+  26:{ct:"プロダクト動画（夕暮れ）", sd:"6/10(水) 17:00", bat:"B10-夕", loc:"自宅・西陽の窓辺", eq:"一眼・三脚・NDフィルター", shot:"7秒固定／西陽が斜めに／影が姿より長い／無音"},
+  27:{ct:"素材カルーセル（佐賀ダンボール）", sd:"5/15(金)", bat:"B11-佐賀", loc:"佐賀ダンボール工場（要許可取得）", eq:"一眼35mm・許可済", shot:"カルーセル5枚／工場・W20×D20×H25cm箱・検査基準・職人・1行\"破損ゼロ化のための箱\""}
+};
+
+const SETS = [
+  {
+    num: "01", name: "光と土", period: "5/1〜5/17",
+    posts: [1,2,3,4,5,6,7,8,9],
+    batches: [
+      {id:"B0", name:"瀬戸出張", date:"4/24(金)", target:"#3"},
+      {id:"B1", name:"自宅 撮影", date:"4/25(土) 9:00–16:00", target:"#1 #2 #4 #7 #10 #13 #16 #19 #25 ほか"},
+      {id:"B2", name:"富山工房", date:"4/22(水) 7:30–17:00", target:"#6 #15 #18"},
+      {id:"BS", name:"PC作業（Figma）", date:"4/27 までに", target:"#5 #7 #9 #13 #17 #19 #21 #25"},
+      {id:"BG", name:"金第1号制作日", date:"5/13 想定", target:"#8"}
+    ]
+  },
+  {
+    num: "02", name: "土と火", period: "5/19〜6/4",
+    posts: [10,11,12,13,14,15,16,17,18],
+    batches: [
+      {id:"B3", name:"自宅 玄関", date:"5/8(金)", target:"#11"},
+      {id:"B4", name:"神宮前 オーナー取材", date:"5/10(日)", target:"#12"},
+      {id:"B5", name:"自宅 雨日（流動）", date:"雨予報日", target:"#14"}
+    ]
+  },
+  {
+    num: "03", name: "招かれる場所", period: "6/6〜6/22",
+    posts: [19,20,21,22,23,24,25,26,27],
+    batches: [
+      {id:"B6", name:"富山追加（金第2号）", date:"5/30(土)", target:"#20"},
+      {id:"B7", name:"津田沼POPUP", date:"5/30(土) or 6/6 POPUP当日", target:"#22"},
+      {id:"B8", name:"茶室（床の間）", date:"6/1(月)", target:"#23"},
+      {id:"B9", name:"退職祝いオーナー宅", date:"5/30(土)", target:"#24"},
+      {id:"B10", name:"自宅 夕暮れ", date:"6/10(水) 17:00", target:"#26"},
+      {id:"B11", name:"佐賀ダンボール工場", date:"5/15(金)", target:"#27"}
+    ]
+  }
+];
+
+function renderShootPlan() {
+  const wrap = document.getElementById("shootSets");
+  if (!wrap) return;
+  wrap.innerHTML = SETS.map(set => {
+    const batchesHtml = set.batches.map(b =>
+      `<div><strong>${b.id} ${b.name}</strong>　${b.date}　<span style="color:var(--ink-4);">→ ${b.target}</span></div>`
+    ).join("");
+    const rowsHtml = set.posts.map(n => {
+      const p = POSTS.find(x => x.n === n);
+      const sp = SHOOT_PLANS[n];
+      if (!p || !sp) return "";
+      const d = new Date(p.date);
+      const dStr = `${d.getMonth()+1}/${d.getDate()}`;
+      const fmt = p.format === "リール" ? "fmt-reel" : "fmt-feed";
+      const fmtBadge = p.format === "リール" ? "REEL" : "FEED";
+      return `
+        <div class="shoot-row ${fmt}" onclick="this.classList.toggle('expanded')">
+          <div class="top-line">
+            <span class="post-no">#${p.n}</span>
+            <span class="post-date">${dStr}</span>
+            <span class="fmt-badge">${fmtBadge}</span>
+            <span class="post-title">${p.title}</span>
+          </div>
+          <div class="ct-row"><span class="ct">${sp.ct}</span></div>
+          <div class="shoot-info">
+            <dl>
+              <dt>撮影日</dt><dd>${sp.sd}</dd>
+              <dt>場所</dt><dd>${sp.loc}</dd>
+              <dt>機材</dt><dd>${sp.eq}</dd>
+              <dt>バッチ</dt><dd>${sp.bat}</dd>
+              <dt>ショット</dt><dd class="shot">${sp.shot}</dd>
+            </dl>
+          </div>
+        </div>`;
+    }).join("");
+    return `
+      <div class="shoot-set">
+        <div class="shoot-set-head">
+          <span class="shoot-set-name"><span class="num">SET ${set.num}</span>「${set.name}」</span>
+          <span class="shoot-set-period">${set.period}</span>
+        </div>
+        <div class="shoot-set-batches">${batchesHtml}</div>
+        <div class="shoot-list">${rowsHtml}</div>
       </div>`;
   }).join("");
 }
@@ -1596,6 +1824,7 @@ renderBuckets();
 bindLeads();
 renderLegend();
 renderIdeas();
+renderShootPlan();
 render();
 </script>
 </body>
