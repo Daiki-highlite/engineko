@@ -507,6 +507,119 @@
   .budget-total { font-family: 'Cormorant Garamond', serif; font-size: 15px; font-weight: 600; color: var(--ink); text-align: right; }
   .budget-total small { font-size: 10px; font-family: 'Zen Kaku Gothic New', sans-serif; color: var(--ink-4); margin-left: 3px; font-weight: 400; }
 
+  /* ====== CELL INTERACTION ====== */
+  .cell:not(.goal) { cursor: pointer; }
+
+  /* ====== POPOVER OVERLAY ====== */
+  .popover-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 999;
+  }
+  .popover-overlay.active { display: block; }
+
+  /* ====== POPOVER ====== */
+  .cell-popover {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.14);
+    padding: 18px 20px 16px;
+    width: 284px;
+  }
+  .cell-popover.active { display: block; }
+  .cell-popover h4 {
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    color: var(--ink-3);
+    font-weight: 700;
+    margin-bottom: 14px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--border);
+    text-transform: uppercase;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .cell-popover .pop-label {
+    display: block;
+    font-size: 10.5px;
+    color: var(--ink-4);
+    margin-bottom: 5px;
+    margin-top: 12px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  .cell-popover input[type="text"],
+  .cell-popover select,
+  .cell-popover textarea {
+    width: 100%;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 7px 10px;
+    font-size: 12.5px;
+    font-family: inherit;
+    color: var(--ink);
+    background: var(--surface);
+    outline: none;
+    transition: border-color 180ms, background 180ms;
+    box-sizing: border-box;
+  }
+  .cell-popover input[type="text"]:focus,
+  .cell-popover select:focus,
+  .cell-popover textarea:focus { border-color: var(--silver); background: #fff; }
+  .cell-popover textarea { resize: vertical; min-height: 60px; }
+  .cell-popover .pop-actions { display: flex; gap: 8px; margin-top: 14px; }
+  .cell-popover .btn-save {
+    flex: 1;
+    background: var(--ink);
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    padding: 8px;
+    font-size: 12px;
+    font-family: inherit;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    cursor: pointer;
+    transition: background 180ms;
+  }
+  .cell-popover .btn-save:hover { background: var(--silver-dark); }
+  .cell-popover .btn-cancel {
+    background: none;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 8px 12px;
+    font-size: 12px;
+    font-family: inherit;
+    cursor: pointer;
+    color: var(--ink-3);
+    transition: background 180ms;
+  }
+  .cell-popover .btn-cancel:hover { background: var(--surface); }
+
+  /* ====== TOOLTIP ====== */
+  .cell-tooltip {
+    display: none;
+    position: fixed;
+    z-index: 2000;
+    background: rgba(35,35,35,0.94);
+    color: #fff;
+    font-size: 11px;
+    line-height: 1.65;
+    padding: 9px 13px;
+    border-radius: 6px;
+    pointer-events: none;
+    max-width: 220px;
+    white-space: pre-wrap;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+  }
+
   /* footnote */
   .foot {
     margin-top: 64px;
@@ -903,5 +1016,177 @@
   </div>
 
 </div>
+
+<!-- Popover overlay -->
+<div class="popover-overlay" id="popoverOverlay"></div>
+
+<!-- Cell edit popover -->
+<div class="cell-popover" id="cellPopover">
+  <h4 id="popoverTitle"></h4>
+  <span class="pop-label">① 担当者</span>
+  <input type="text" id="inputOwner" placeholder="担当者名を入力">
+  <span class="pop-label">② 進捗率</span>
+  <select id="inputProgress">
+    <option value="0">0%</option>
+    <option value="10">10%</option>
+    <option value="20">20%</option>
+    <option value="30">30%</option>
+    <option value="40">40%</option>
+    <option value="50">50%</option>
+    <option value="60">60%</option>
+    <option value="70">70%</option>
+    <option value="80">80%</option>
+    <option value="90">90%</option>
+    <option value="100">100%</option>
+  </select>
+  <span class="pop-label">③ 名称変更の提案</span>
+  <textarea id="inputSuggestion" placeholder="変更案があれば記入"></textarea>
+  <div class="pop-actions">
+    <button class="btn-save" id="btnSave">保存</button>
+    <button class="btn-cancel" id="btnCancel">閉じる</button>
+  </div>
+</div>
+
+<!-- Hover tooltip -->
+<div class="cell-tooltip" id="cellTooltip"></div>
+
+<script>
+(function () {
+  const STORAGE_KEY = 'engineko_cells_v1';
+
+  function loadData() {
+    try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}'); } catch { return {}; }
+  }
+  function saveData(d) { localStorage.setItem(STORAGE_KEY, JSON.stringify(d)); }
+
+  function getCellId(cell) {
+    if (cell.classList.contains('goal')) return null;
+    const numEl = cell.querySelector('.num');
+    if (numEl) return 'cell-' + numEl.textContent.trim();
+    if (cell.classList.contains('theme-center')) return 'center-' + cell.dataset.block;
+    if (cell.classList.contains('mini-theme')) return 'mini-' + (cell.dataset.tint || cell.dataset.block);
+    return null;
+  }
+
+  function getCellLabel(cell) {
+    const clone = cell.cloneNode(true);
+    const n = clone.querySelector('.num'); if (n) n.remove();
+    const l = clone.querySelector('.theme-letter'); if (l) l.remove();
+    return clone.textContent.trim().replace(/\s+/g, ' ').slice(0, 22) || cell.dataset.block || '';
+  }
+
+  function getThemeColor(cell) {
+    const key = (cell.dataset.tint || (cell.dataset.block !== 'core' ? cell.dataset.block : null));
+    if (!key) return null;
+    return getComputedStyle(document.documentElement).getPropertyValue('--t-' + key.toLowerCase()).trim();
+  }
+
+  function applyProgressBg(cell, progress) {
+    if (cell.classList.contains('goal')) return;
+    const color = getThemeColor(cell);
+    if (!color) return;
+    if (!progress || progress === 0) { cell.style.background = ''; return; }
+    const pct = progress + '%';
+    let base;
+    if (cell.classList.contains('theme-center')) base = color;
+    else if (cell.classList.contains('mini-theme')) base = 'color-mix(in srgb,' + color + ' 55%,white)';
+    else base = 'color-mix(in srgb,' + color + ' 28%,white)';
+    cell.style.background = 'linear-gradient(to top,' + color + ' ' + pct + ',' + base + ' ' + pct + ')';
+  }
+
+  // Restore on load
+  const stored = loadData();
+  document.querySelectorAll('.mandala .cell:not(.goal)').forEach(function (cell) {
+    const id = getCellId(cell);
+    if (id && stored[id] && stored[id].progress) applyProgressBg(cell, stored[id].progress);
+  });
+
+  // Popover elements
+  const popover   = document.getElementById('cellPopover');
+  const overlay   = document.getElementById('popoverOverlay');
+  const tooltip   = document.getElementById('cellTooltip');
+  const fOwner    = document.getElementById('inputOwner');
+  const fProgress = document.getElementById('inputProgress');
+  const fSuggest  = document.getElementById('inputSuggestion');
+  let activeCell  = null;
+
+  function openPopover(cell) {
+    activeCell = cell;
+    const id = getCellId(cell);
+    const saved = (id && loadData()[id]) || {};
+    document.getElementById('popoverTitle').textContent = getCellLabel(cell);
+    fOwner.value    = saved.owner      || '';
+    fProgress.value = saved.progress   || 0;
+    fSuggest.value  = saved.suggestion || '';
+
+    const r = cell.getBoundingClientRect();
+    const pw = 284;
+    let left = r.right + 10;
+    let top  = r.top;
+    if (left + pw > window.innerWidth - 8) left = r.left - pw - 10;
+    if (left < 8) left = 8;
+    if (top + 310 > window.innerHeight - 8) top = window.innerHeight - 318;
+    if (top < 8) top = 8;
+    popover.style.left = left + 'px';
+    popover.style.top  = top  + 'px';
+    popover.classList.add('active');
+    overlay.classList.add('active');
+    fOwner.focus();
+  }
+
+  function closePopover() {
+    popover.classList.remove('active');
+    overlay.classList.remove('active');
+    activeCell = null;
+  }
+
+  function savePopover() {
+    if (!activeCell) return;
+    const id = getCellId(activeCell);
+    if (!id) return;
+    const all = loadData();
+    const progress = parseInt(fProgress.value) || 0;
+    all[id] = { owner: fOwner.value.trim(), progress: progress, suggestion: fSuggest.value.trim() };
+    saveData(all);
+    applyProgressBg(activeCell, progress);
+    closePopover();
+  }
+
+  document.getElementById('btnSave').addEventListener('click', savePopover);
+  document.getElementById('btnCancel').addEventListener('click', closePopover);
+  overlay.addEventListener('click', closePopover);
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closePopover(); });
+
+  // Cell interactions
+  document.querySelectorAll('.mandala .cell:not(.goal)').forEach(function (cell) {
+    cell.addEventListener('click', function (e) { e.stopPropagation(); openPopover(cell); });
+
+    cell.addEventListener('mouseenter', function () {
+      const id = getCellId(cell);
+      const saved = id && loadData()[id];
+      if (!saved || (!saved.owner && !saved.progress && !saved.suggestion)) return;
+      const lines = [];
+      if (saved.owner)      lines.push('担当：' + saved.owner);
+      if (saved.progress)   lines.push('進捗：' + saved.progress + '%');
+      if (saved.suggestion) lines.push('提案：' + saved.suggestion);
+      if (!lines.length) return;
+      tooltip.textContent = lines.join('\n');
+      tooltip.style.display = 'block';
+    });
+
+    cell.addEventListener('mousemove', function (e) {
+      if (tooltip.style.display === 'none') return;
+      let tx = e.clientX + 14;
+      let ty = e.clientY - tooltip.offsetHeight - 10;
+      if (ty < 8) ty = e.clientY + 18;
+      if (tx + tooltip.offsetWidth > window.innerWidth - 8) tx = e.clientX - tooltip.offsetWidth - 8;
+      tooltip.style.left = tx + 'px';
+      tooltip.style.top  = ty + 'px';
+    });
+
+    cell.addEventListener('mouseleave', function () { tooltip.style.display = 'none'; });
+  });
+})();
+</script>
 </body>
 </html>
