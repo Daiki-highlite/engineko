@@ -1093,6 +1093,7 @@
     const clone = cell.cloneNode(true);
     const n = clone.querySelector('.num'); if (n) n.remove();
     const l = clone.querySelector('.theme-letter'); if (l) l.remove();
+    const b = clone.querySelector('.suggest-badge'); if (b) b.remove();
     return clone.textContent.trim().replace(/\s+/g, ' ').slice(0, 22) || cell.dataset.block || '';
   }
 
