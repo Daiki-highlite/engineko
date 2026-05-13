@@ -603,6 +603,20 @@
   }
   .cell-popover .btn-cancel:hover { background: var(--surface); }
 
+  /* ====== SUGGESTION BADGE ====== */
+  .cell .suggest-badge {
+    display: none;
+    position: absolute;
+    bottom: 3px;
+    right: 4px;
+    font-size: 8px;
+    color: var(--gold);
+    line-height: 1;
+    z-index: 2;
+    pointer-events: none;
+  }
+  .cell .suggest-badge.visible { display: block; }
+
   /* ====== TOOLTIP ====== */
   .cell-tooltip {
     display: none;
@@ -1101,11 +1115,24 @@
     cell.style.background = 'linear-gradient(to top,' + color + ' ' + pct + ',' + base + ' ' + pct + ')';
   }
 
+  function updateBadge(cell, suggestion) {
+    let badge = cell.querySelector('.suggest-badge');
+    if (!badge) {
+      badge = document.createElement('span');
+      badge.className = 'suggest-badge';
+      badge.textContent = '★';
+      cell.appendChild(badge);
+    }
+    badge.classList.toggle('visible', !!(suggestion && suggestion.trim()));
+  }
+
   // Restore on load
   const stored = loadData();
   document.querySelectorAll('.mandala .cell:not(.goal)').forEach(function (cell) {
     const id = getCellId(cell);
-    if (id && stored[id] && stored[id].progress) applyProgressBg(cell, stored[id].progress);
+    if (!id) return;
+    if (stored[id] && stored[id].progress) applyProgressBg(cell, stored[id].progress);
+    if (stored[id]) updateBadge(cell, stored[id].suggestion);
   });
 
   // Popover elements
@@ -1156,6 +1183,7 @@
     all[id] = { owner: fOwner.value.trim(), progress: progress, suggestion: fSuggest.value.trim() };
     saveData(all);
     applyProgressBg(activeCell, progress);
+    updateBadge(activeCell, all[id].suggestion);
     closePopover();
   }
 
