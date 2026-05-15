@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:prtimes.com)",
+      "WebFetch(domain:prtimes.jp)"
+    ]
+  }
+}
