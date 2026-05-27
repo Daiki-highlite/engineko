@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ENGINEKO アウトプット一覧</title>
+<script>
+  const _h = 'f74b1d6fb6832e2da1b9845af2bd9c9d420b8c97c517c474f5371074fb7f9676';
+  if (sessionStorage.getItem('engineko_auth') !== _h) location.replace('login.html');
+</script>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap');
+  :root {
+    --paper:      #FAFAF8;
+    --ink:        #232323;
+    --ink-3:      #6B6B6B;
+    --ink-4:      #9A9A9A;
+    --ink-5:      #C8C8C8;
+    --border:     #E0E0DC;
+    --surface:    #F5F5F2;
+    --silver-dark:#5A6870;
+    --silver:     #8AABBA;
+    --silver-light:#BACCDA;
+    --silver-pale:#EBF1F4;
+    --red:        #e05c5c;
+    --yellow:     #d4a017;
+    --green:      #00a878;
+    --blue:       #4a90d9;
+    --orange:     #e07b39;
+    --t:          220ms cubic-bezier(0.25, 0.1, 0.25, 1);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Zen Kaku Gothic New', 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', sans-serif;
+    background: var(--paper);
+    color: var(--ink);
+    min-height: 100vh;
+    padding: 24px;
+    padding-top: 0;
+  }
+
+  /* ========= TOP NAV ========= */
+  .topnav {
+    background: #fff;
+    border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 12px 24px;
+    margin: 0 -24px 28px -24px;
+    position: sticky; top: 0; z-index: 100;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+  }
+  .nav-brand { text-decoration: none; display: flex; align-items: center; }
+  .nav-brand img { height: 28px; width: auto; display: block; }
+  .nav-links { display: flex; gap: 4px; flex-wrap: wrap; }
+  .nav-link { text-decoration: none; font-size: 13px; font-weight: 500; color: var(--ink-3); padding: 6px 14px; border-radius: 8px; transition: background var(--t), color var(--t); }
+  .nav-link:hover { background: var(--surface); color: var(--ink); }
+  .nav-link.active { background: var(--silver-pale); color: var(--silver-dark); font-weight: 600; }
+  .nav-logout { text-decoration: none; font-size: 12px; color: var(--ink-5); padding: 6px 10px; border-radius: 8px; cursor: pointer; background: none; border: none; font-family: inherit; }
+  .nav-logout:hover { background: #fff0f0; color: var(--red); }
+
+  /* ========= HEADER ========= */
+  header {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 28px; padding-bottom: 16px;
+    border-bottom: 1px solid var(--border);
+    gap: 16px; flex-wrap: wrap;
+  }
+  header h1 {
+    font-size: 22px; font-weight: 700; letter-spacing: 0.08em;
+    color: var(--ink);
+  }
+  header .subtitle { font-size: 12px; color: var(--ink-4); margin-top: 4px; }
+  .header-meta {
+    background: #fff; border: 1px solid var(--border);
+    border-radius: 8px; padding: 8px 14px; font-size: 12px; color: var(--ink-4);
+  }
+  .header-meta strong { color: var(--ink); display: inline-block; font-size: 14px; margin-right: 4px; }
+
+  /* ========= SECTION TITLE ========= */
+  .section-title {
+    font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em;
+    color: var(--ink-4); margin-bottom: 10px; padding-left: 2px;
+  }
+
+  /* ========= ADD FORM ========= */
+  .form-card {
+    background: #fff; border: 1px solid var(--border);
+    border-radius: 12px; padding: 18px 20px; margin-bottom: 24px;
+  }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin-bottom: 12px; }
+  .form-row.row-2 { grid-template-columns: 1fr 1fr; }
+  .form-row.row-1 { grid-template-columns: 1fr; }
+  .form-field { display: flex; flex-direction: column; gap: 4px; }
+  .form-label {
+    font-size: 11px; color: var(--ink-3); font-weight: 600;
+    letter-spacing: 0.04em;
+  }
+  .form-label .req { color: var(--red); margin-left: 2px; }
+  .form-input, .form-select, .form-textarea {
+    font-family: inherit; font-size: 13px; color: var(--ink);
+    background: var(--paper); border: 1px solid var(--border);
+    border-radius: 8px; padding: 9px 12px;
+    transition: border-color var(--t), background var(--t);
+  }
+  .form-input:focus, .form-select:focus, .form-textarea:focus {
+    outline: none; border-color: var(--silver); background: #fff;
+  }
+  .form-textarea { resize: vertical; min-height: 64px; font-family: inherit; }
+  .form-actions { display: flex; justify-content: flex-end; gap: 10px; margin-top: 6px; }
+  .btn {
+    font-family: inherit; font-size: 13px; font-weight: 600;
+    padding: 9px 18px; border-radius: 8px; border: 1px solid transparent;
+    cursor: pointer; transition: background var(--t), color var(--t), border-color var(--t);
+  }
+  .btn-primary { background: var(--ink); color: #fff; }
+  .btn-primary:hover { background: var(--silver-dark); }
+  .btn-ghost { background: transparent; color: var(--ink-3); border-color: var(--border); }
+  .btn-ghost:hover { background: var(--surface); color: var(--ink); }
+
+  /* ========= FILTER / TOOLBAR ========= */
+  .toolbar {
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 12px; margin-bottom: 14px; flex-wrap: wrap;
+  }
+  .filter-pills { display: flex; gap: 6px; flex-wrap: wrap; }
+  .pill {
+    font-size: 12px; padding: 5px 12px; border-radius: 999px;
+    border: 1px solid var(--border); background: #fff; color: var(--ink-3);
+    cursor: pointer; transition: background var(--t), color var(--t), border-color var(--t);
+    font-family: inherit;
+  }
+  .pill:hover { background: var(--surface); }
+  .pill.active { background: var(--ink); color: #fff; border-color: var(--ink); }
+  .toolbar-meta { font-size: 11px; color: var(--ink-4); }
+  .toolbar-actions { display: flex; gap: 6px; }
+  .icon-btn {
+    font-family: inherit; font-size: 11px; color: var(--ink-4);
+    background: none; border: 1px solid var(--border); border-radius: 6px;
+    padding: 5px 10px; cursor: pointer; transition: color var(--t), background var(--t);
+  }
+  .icon-btn:hover { background: var(--surface); color: var(--ink); }
+
+  /* ========= GRID ========= */
+  .grid {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 14px;
+  }
+  .card {
+    background: #fff; border: 1px solid var(--border);
+    border-radius: 12px; padding: 16px 18px;
+    display: flex; flex-direction: column; gap: 8px;
+    transition: box-shadow var(--t), transform var(--t);
+  }
+  .card:hover { box-shadow: 0 6px 18px rgba(0,0,0,0.06); transform: translateY(-1px); }
+  .card-header { display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; }
+  .cat-badge {
+    font-size: 10px; font-weight: 700; letter-spacing: 0.06em;
+    padding: 3px 8px; border-radius: 5px; display: inline-block;
+  }
+  .cat-dashboard { background: rgba(74,144,217,0.10); color: var(--blue); }
+  .cat-brand     { background: rgba(91,123,138,0.10); color: #5B7B8A; }
+  .cat-product   { background: rgba(224,123,57,0.10); color: var(--orange); }
+  .cat-sns       { background: rgba(0,168,120,0.10); color: var(--green); }
+  .cat-strategy  { background: rgba(212,160,23,0.10); color: var(--yellow); }
+  .cat-wireframe { background: rgba(138,171,186,0.15); color: var(--silver-dark); }
+  .cat-doc       { background: rgba(107,107,107,0.10); color: var(--ink-3); }
+  .cat-other     { background: rgba(180,180,180,0.15); color: var(--ink-4); }
+
+  .card-title { font-size: 14px; font-weight: 700; color: var(--ink); line-height: 1.4; }
+  .card-desc { font-size: 12px; color: var(--ink-3); line-height: 1.6; flex: 1; }
+  .card-meta { display: flex; gap: 8px; align-items: center; font-size: 11px; color: var(--ink-4); margin-top: 4px; }
+  .fmt-tag {
+    background: var(--surface); border-radius: 4px; padding: 1px 6px;
+    font-family: 'SFMono-Regular', Menlo, monospace; font-size: 10px;
+    color: var(--silver-dark);
+  }
+  .card-actions { display: flex; gap: 6px; margin-top: 10px; padding-top: 10px; border-top: 1px solid var(--surface); }
+  .card-actions a, .card-actions button {
+    flex: 1; text-align: center; font-size: 12px; font-weight: 500;
+    padding: 6px 10px; border-radius: 6px; text-decoration: none;
+    border: 1px solid var(--border); background: #fff; color: var(--ink-3);
+    cursor: pointer; transition: background var(--t), color var(--t);
+    font-family: inherit;
+  }
+  .card-actions a.open-btn:hover { background: var(--silver-pale); color: var(--silver-dark); border-color: var(--silver-light); }
+  .card-actions button.del-btn { flex: 0 0 auto; }
+  .card-actions button.del-btn:hover { background: #fff0f0; color: var(--red); border-color: rgba(224,92,92,0.3); }
+
+  /* ========= EMPTY STATE ========= */
+  .empty {
+    text-align: center; padding: 60px 20px;
+    border: 1px dashed var(--border); border-radius: 12px;
+    background: #fff;
+  }
+  .empty .empty-icon { font-size: 38px; opacity: 0.6; margin-bottom: 12px; }
+  .empty h3 { font-size: 14px; font-weight: 600; color: var(--ink-3); margin-bottom: 6px; }
+  .empty p { font-size: 12px; color: var(--ink-4); }
+
+  /* ========= NOTICE ========= */
+  .notice {
+    background: var(--silver-pale); border-left: 3px solid var(--silver-light);
+    border-radius: 0 6px 6px 0; padding: 10px 14px; font-size: 12px;
+    color: var(--silver-dark); margin-bottom: 18px; line-height: 1.6;
+  }
+  .notice strong { color: var(--ink); }
+
+  /* ========= TOAST ========= */
+  .toast {
+    position: fixed; bottom: 24px; right: 24px;
+    background: var(--ink); color: #fff;
+    padding: 10px 18px; border-radius: 8px;
+    font-size: 13px; font-weight: 500;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.15);
+    opacity: 0; transform: translateY(8px);
+    transition: opacity var(--t), transform var(--t);
+    pointer-events: none; z-index: 200;
+  }
+  .toast.show { opacity: 1; transform: translateY(0); }
+
+  /* ========= RESPONSIVE ========= */
+  @media (max-width: 720px) {
+    .form-row, .form-row.row-2 { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<nav class="topnav">
+  <a href="index.html" class="nav-brand"><img src="logo-side.png" alt="ENGINEKO"></a>
+  <div class="nav-links">
+    <a href="index.html" class="nav-link">📋 タスクダッシュボード</a>
+    <a href="product.html" class="nav-link">📦 プロダクト</a>
+    <a href="cashflow.html" class="nav-link">💰 キャッシュフロー</a>
+    <a href="en-process.html" class="nav-link">◆ EN process</a>
+    <a href="sns.html" class="nav-link">📷 SNS 100投稿</a>
+    <a href="ENGINEKO%20Design%20System.html" class="nav-link" target="_blank" style="color:#5A6870;letter-spacing:0.05em;">✦ デザインシステム</a>
+    <a href="outputs.html" class="nav-link active" style="color:#5A6870;letter-spacing:0.05em;">📂 アウトプット</a>
+    <button class="nav-logout" onclick="sessionStorage.clear();location.replace('login.html');">ログアウト</button>
+  </div>
+</nav>
+
+<header>
+  <div>
+    <div style="display:flex;align-items:center;gap:14px;margin-bottom:4px;">
+      <img src="logo-side.png" alt="ENGINEKO" style="height:36px;width:auto;">
+      <h1 style="font-size:18px;font-weight:600;letter-spacing:0.06em;color:#232323;">アウトプット一覧</h1>
+    </div>
+    <div class="subtitle">これまで作成した制作物・ドキュメント・資料をまとめて管理</div>
+  </div>
+  <div class="header-meta">
+    <strong id="count-display">0</strong>件 登録中
+  </div>
+</header>
+
+<div class="notice">
+  💡 <strong>使い方：</strong>下のフォームから成果物を追加すると、お使いのブラウザに保存されます。
+  リンクは <code style="background:#fff;padding:1px 6px;border-radius:4px;">ENGINEKO_EC_Snapshot.pptx</code> のように同じフォルダ内のファイル名を入れるか、
+  <code style="background:#fff;padding:1px 6px;border-radius:4px;">https://...</code> 形式の外部URLでもOK。
+  ※登録データはこのブラウザにのみ保存されます（共有はJSONエクスポートで）。
+</div>
+
+<!-- ADD FORM -->
+<div class="section-title">＋ アウトプットを追加</div>
+<div class="form-card">
+  <form id="add-form">
+    <div class="form-row row-2">
+      <div class="form-field">
+        <label class="form-label" for="f-title">タイトル<span class="req">*</span></label>
+        <input class="form-input" type="text" id="f-title" required maxlength="80" placeholder="例：ENGINEKO ECスナップショット v1">
+      </div>
+      <div class="form-field">
+        <label class="form-label" for="f-category">カテゴリ<span class="req">*</span></label>
+        <select class="form-select" id="f-category" required>
+          <option value="dashboard">📊 ダッシュボード</option>
+          <option value="brand">🎨 ブランド</option>
+          <option value="product">📦 プロダクト</option>
+          <option value="sns">📷 SNS</option>
+          <option value="strategy">🌏 戦略</option>
+          <option value="wireframe">📐 ワイヤーフレーム</option>
+          <option value="doc">📝 ドキュメント</option>
+          <option value="other">📁 その他</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-row row-1">
+      <div class="form-field">
+        <label class="form-label" for="f-desc">説明（任意）</label>
+        <textarea class="form-textarea" id="f-desc" maxlength="240" placeholder="どんな成果物か・誰向けか・いつ使ったかなど（240字まで）"></textarea>
+      </div>
+    </div>
+    <div class="form-row row-2">
+      <div class="form-field">
+        <label class="form-label" for="f-url">リンクURL or ファイル名<span class="req">*</span></label>
+        <input class="form-input" type="text" id="f-url" required placeholder="例：ENGINEKO_EC_Snapshot.pptx / https://...">
+      </div>
+      <div class="form-field">
+        <label class="form-label" for="f-format">形式</label>
+        <select class="form-select" id="f-format">
+          <option value="HTML">HTML</option>
+          <option value="MD">MD</option>
+          <option value="PDF">PDF</option>
+          <option value="DOCX">DOCX</option>
+          <option value="PPTX">PPTX</option>
+          <option value="XLSX">XLSX</option>
+          <option value="IMG">画像</option>
+          <option value="LINK">外部リンク</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-actions">
+      <button type="button" class="btn btn-ghost" id="clear-btn">クリア</button>
+      <button type="submit" class="btn btn-primary">＋ 追加する</button>
+    </div>
+  </form>
+</div>
+
+<!-- TOOLBAR -->
+<div class="toolbar">
+  <div class="filter-pills" id="filter-pills">
+    <button class="pill active" data-cat="all">すべて</button>
+    <button class="pill" data-cat="dashboard">📊 ダッシュボード</button>
+    <button class="pill" data-cat="brand">🎨 ブランド</button>
+    <button class="pill" data-cat="product">📦 プロダクト</button>
+    <button class="pill" data-cat="sns">📷 SNS</button>
+    <button class="pill" data-cat="strategy">🌏 戦略</button>
+    <button class="pill" data-cat="wireframe">📐 ワイヤーフレーム</button>
+    <button class="pill" data-cat="doc">📝 ドキュメント</button>
+    <button class="pill" data-cat="other">📁 その他</button>
+  </div>
+  <div class="toolbar-actions">
+    <button class="icon-btn" id="export-btn">⬇ JSONエクスポート</button>
+    <button class="icon-btn" id="import-btn">⬆ JSONインポート</button>
+    <input type="file" id="import-file" accept="application/json" style="display:none;">
+  </div>
+</div>
+
+<!-- GRID -->
+<div id="grid" class="grid"></div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script>
+(function () {
+  const STORAGE_KEY = 'engineko_outputs_v1';
+  const CAT_LABEL = {
+    dashboard: '📊 ダッシュボード',
+    brand: '🎨 ブランド',
+    product: '📦 プロダクト',
+    sns: '📷 SNS',
+    strategy: '🌏 戦略',
+    wireframe: '📐 ワイヤーフレーム',
+    doc: '📝 ドキュメント',
+    other: '📁 その他'
+  };
+  const CAT_CLASS = {
+    dashboard: 'cat-dashboard',
+    brand: 'cat-brand',
+    product: 'cat-product',
+    sns: 'cat-sns',
+    strategy: 'cat-strategy',
+    wireframe: 'cat-wireframe',
+    doc: 'cat-doc',
+    other: 'cat-other'
+  };
+
+  let items = load();
+  let currentFilter = 'all';
+
+  // ----- storage -----
+  function load() {
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      return raw ? JSON.parse(raw) : [];
+    } catch (e) { return []; }
+  }
+  function save() {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(items));
+  }
+
+  // ----- toast -----
+  let toastTimer = null;
+  function toast(msg) {
+    const el = document.getElementById('toast');
+    el.textContent = msg;
+    el.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => el.classList.remove('show'), 2200);
+  }
+
+  // ----- render -----
+  function escapeHtml(s) {
+    return String(s).replace(/[&<>"']/g, c => ({
+      '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
+    }[c]));
+  }
+  function formatDate(iso) {
+    const d = new Date(iso);
+    if (isNaN(d)) return '';
+    const y = d.getFullYear(), m = String(d.getMonth()+1).padStart(2,'0'), dd = String(d.getDate()).padStart(2,'0');
+    return `${y}/${m}/${dd}`;
+  }
+
+  function render() {
+    const grid = document.getElementById('grid');
+    const filtered = currentFilter === 'all' ? items : items.filter(i => i.category === currentFilter);
+    document.getElementById('count-display').textContent = items.length;
+
+    if (filtered.length === 0) {
+      grid.innerHTML = `
+        <div class="empty" style="grid-column: 1 / -1;">
+          <div class="empty-icon">📂</div>
+          <h3>${items.length === 0 ? 'まだアウトプットが登録されていません' : 'このカテゴリには項目がありません'}</h3>
+          <p>${items.length === 0 ? '上のフォームから最初の成果物を追加してください' : '他のカテゴリを選択するか、新しく追加してください'}</p>
+        </div>
+      `;
+      return;
+    }
+
+    grid.innerHTML = filtered.map(item => {
+      const cat = item.category || 'other';
+      const catClass = CAT_CLASS[cat] || 'cat-other';
+      const catLabel = CAT_LABEL[cat] || '📁 その他';
+      const desc = item.description ? `<div class="card-desc">${escapeHtml(item.description)}</div>` : '';
+      const dateStr = formatDate(item.addedAt);
+      const fmtTag = item.format ? `<span class="fmt-tag">${escapeHtml(item.format)}</span>` : '';
+      return `
+        <div class="card" data-id="${item.id}">
+          <div class="card-header">
+            <span class="cat-badge ${catClass}">${catLabel}</span>
+          </div>
+          <div class="card-title">${escapeHtml(item.title)}</div>
+          ${desc}
+          <div class="card-meta">
+            ${fmtTag}
+            <span>${dateStr}</span>
+          </div>
+          <div class="card-actions">
+            <a class="open-btn" href="${escapeHtml(item.url)}" target="_blank" rel="noopener">↗ 開く</a>
+            <button class="del-btn" data-id="${item.id}" title="削除">削除</button>
+          </div>
+        </div>
+      `;
+    }).join('');
+
+    // attach delete handlers
+    grid.querySelectorAll('.del-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const id = Number(btn.dataset.id);
+        const target = items.find(i => i.id === id);
+        if (!target) return;
+        if (confirm(`「${target.title}」を削除しますか？`)) {
+          items = items.filter(i => i.id !== id);
+          save();
+          render();
+          toast('削除しました');
+        }
+      });
+    });
+  }
+
+  // ----- form -----
+  document.getElementById('add-form').addEventListener('submit', e => {
+    e.preventDefault();
+    const title = document.getElementById('f-title').value.trim();
+    const category = document.getElementById('f-category').value;
+    const description = document.getElementById('f-desc').value.trim();
+    const url = document.getElementById('f-url').value.trim();
+    const format = document.getElementById('f-format').value;
+    if (!title || !url) { toast('タイトルとリンクは必須です'); return; }
+    items.unshift({
+      id: Date.now(),
+      title, category, description, url, format,
+      addedAt: new Date().toISOString()
+    });
+    save();
+    render();
+    e.target.reset();
+    toast('追加しました ✓');
+  });
+
+  document.getElementById('clear-btn').addEventListener('click', () => {
+    document.getElementById('add-form').reset();
+  });
+
+  // ----- filter pills -----
+  document.getElementById('filter-pills').addEventListener('click', e => {
+    if (!e.target.classList.contains('pill')) return;
+    document.querySelectorAll('.pill').forEach(p => p.classList.remove('active'));
+    e.target.classList.add('active');
+    currentFilter = e.target.dataset.cat;
+    render();
+  });
+
+  // ----- export / import -----
+  document.getElementById('export-btn').addEventListener('click', () => {
+    const blob = new Blob([JSON.stringify(items, null, 2)], { type: 'application/json' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = `engineko-outputs-${new Date().toISOString().slice(0,10)}.json`;
+    a.click();
+    URL.revokeObjectURL(a.href);
+    toast('JSONをダウンロードしました');
+  });
+  document.getElementById('import-btn').addEventListener('click', () => {
+    document.getElementById('import-file').click();
+  });
+  document.getElementById('import-file').addEventListener('change', e => {
+    const file = e.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = ev => {
+      try {
+        const data = JSON.parse(ev.target.result);
+        if (!Array.isArray(data)) throw new Error('不正な形式');
+        if (confirm(`${data.length}件をインポートします。既存のデータに追加してよろしいですか？`)) {
+          items = data.concat(items);
+          save();
+          render();
+          toast('インポート完了');
+        }
+      } catch (err) {
+        alert('JSONの読み込みに失敗しました: ' + err.message);
+      }
+    };
+    reader.readAsText(file);
+    e.target.value = '';
+  });
+
+  // initial render
+  render();
+})();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,11 @@
+# OS
+.DS_Store
+*.DS_Store
+
+# Editor / agent
+.claude/
+*.bak
+
+# Env (CRITICAL: never commit)
+.env
+.env.*

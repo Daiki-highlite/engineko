@@ -1,0 +1,975 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=1440" />
+<title>ENGINEKO — Wireframes v2 (Desktop / Core 5 pages)</title>
+<style>
+  :root{
+    --ink:#0a0a0a;
+    --ink-2:#3a3a3a;
+    --line:#0a0a0a;
+    --bg:#f4f3f0;
+    --paper:#ffffff;
+    --gray:#e8e6e1;
+    --gray-2:#d4d1c8;
+    --note:#a18d4a;
+    --hot:#b25b3a;
+    --mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+    --sans: "Helvetica Neue", "Hiragino Sans", "Yu Gothic", "Zen Kaku Gothic New", sans-serif;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);font-family:var(--sans);}
+  a{color:inherit}
+  /* === Header (sticky page index) === */
+  .topbar{
+    position:sticky; top:0; z-index:50;
+    background:#0a0a0a; color:#fff;
+    padding:14px 28px;
+    display:flex; align-items:center; gap:24px;
+    border-bottom:1px solid #000;
+    font-size:13px; letter-spacing:.04em;
+  }
+  .topbar .brand{font-weight:600; letter-spacing:.18em; margin-right:24px}
+  .topbar nav{display:flex; gap:18px; flex-wrap:wrap}
+  .topbar nav a{
+    text-decoration:none; padding:6px 10px; border:1px solid #444;
+    color:#eee;
+  }
+  .topbar nav a:hover{background:#222; border-color:#888}
+  .topbar .meta{margin-left:auto; opacity:.6; font-family:var(--mono); font-size:11px}
+
+  /* === Page sections === */
+  .page{
+    padding:48px 28px 80px;
+    border-bottom:1px dashed #888;
+  }
+  .page-head{
+    max-width:1440px; margin:0 auto 24px;
+    display:grid; grid-template-columns: 60px 1fr auto; gap:18px; align-items:end;
+  }
+  .page-head .num{
+    font-family:var(--mono); font-size:11px; color:#666;
+    border:1px solid #888; padding:6px 8px; text-align:center;
+  }
+  .page-head h2{
+    margin:0; font-size:28px; letter-spacing:.04em; font-weight:500;
+  }
+  .page-head .url{font-family:var(--mono); font-size:12px; color:#666; margin-top:6px}
+  .page-head .purpose{font-size:12px; color:#444; max-width:520px; line-height:1.6}
+  .page-head .specs{
+    font-family:var(--mono); font-size:11px; color:#555; text-align:right;
+    line-height:1.7;
+  }
+
+  /* === Viewport / browser chrome === */
+  .viewport{
+    max-width:1440px; margin:0 auto;
+    background:#fff;
+    border:1px solid #999;
+    box-shadow:0 1px 0 #ccc;
+  }
+  .chrome{
+    background:#eee; border-bottom:1px solid #bbb;
+    padding:8px 12px; display:flex; align-items:center; gap:8px;
+    font-family:var(--mono); font-size:11px; color:#555;
+  }
+  .chrome .dots{display:flex; gap:5px}
+  .chrome .dots span{width:10px;height:10px;border-radius:50%;background:#ccc;display:inline-block}
+  .chrome .url{
+    flex:1; background:#fff; border:1px solid #ccc; padding:4px 10px;
+  }
+  .chrome .vw{opacity:.6}
+
+  /* === Site header inside viewport === */
+  .site-header{
+    display:grid; grid-template-columns: 1fr auto 1fr; align-items:center;
+    padding:18px 32px; border-bottom:1px solid #111;
+    background:#fff;
+  }
+  .site-header .logo{font-weight:600; letter-spacing:.32em; font-size:14px}
+  .site-header .gnav{display:flex; gap:24px; justify-content:center; font-size:12px; letter-spacing:.18em}
+  .site-header .util{display:flex; gap:14px; justify-content:flex-end; font-size:11px; font-family:var(--mono); color:#444}
+  .site-header .util .pill{border:1px solid #333; padding:3px 8px}
+
+  /* === Block primitives === */
+  .block{
+    position:relative;
+    border:1px dashed #999;
+    margin:12px 24px;
+    padding:24px;
+    background:#fff;
+  }
+  .block.dark{background:#0a0a0a; color:#fff; border-color:#0a0a0a}
+  .block.gray{background:var(--gray)}
+  .block.paper{background:var(--paper)}
+  .block .label{
+    position:absolute; top:-10px; left:14px; background:#fff;
+    font-family:var(--mono); font-size:10px; letter-spacing:.1em;
+    padding:2px 8px; border:1px solid #888; color:#444;
+  }
+  .block.dark .label{background:#0a0a0a; color:#bbb; border-color:#444}
+
+  /* placeholder image */
+  .ph{
+    background:
+      repeating-linear-gradient(45deg, #e8e6e1 0 8px, #ddd9d0 8px 16px);
+    border:1px solid #bbb;
+    color:#777;
+    display:flex; align-items:center; justify-content:center;
+    font-family:var(--mono); font-size:11px; letter-spacing:.1em;
+    text-align:center;
+    min-height:60px;
+  }
+  .ph.dark{background:
+      repeating-linear-gradient(45deg, #1a1a1a 0 8px, #232323 8px 16px);
+    border-color:#333; color:#888}
+
+  /* annotation pill */
+  .anno{
+    display:inline-block; vertical-align:middle;
+    font-family:var(--mono); font-size:10px;
+    color:#7a611c; background:#faf3da; border:1px solid #c8b56b;
+    padding:2px 6px; margin-left:6px;
+  }
+  .anno.r{color:#a4341d; background:#fbebe5; border-color:#e0a08d}
+  .anno.b{color:#1f4f7a; background:#e7f0f8; border-color:#9bbcd9}
+
+  /* === FV (TOP) === */
+  .fv{
+    height:680px; position:relative; overflow:hidden;
+    display:flex; align-items:center; justify-content:center;
+    background:#fff;
+  }
+  .fv .ph{position:absolute; inset:80px 200px 80px 200px}
+  .fv .copy{
+    position:absolute; left:64px; bottom:64px;
+    font-size:42px; letter-spacing:.06em; line-height:1.4;
+  }
+  .fv .copy .en{display:block; font-family:var(--mono); font-size:13px; color:#666; letter-spacing:.2em; margin-top:14px}
+
+  /* === Grid helpers === */
+  .row{display:grid; gap:16px}
+  .row.cols-2{grid-template-columns: 1fr 1fr}
+  .row.cols-3{grid-template-columns: repeat(3, 1fr)}
+  .row.cols-4{grid-template-columns: repeat(4, 1fr)}
+
+  /* === COLLECTION grid === */
+  .product-card{display:flex; flex-direction:column; gap:8px}
+  .product-card .ph{aspect-ratio:3/4}
+  .product-card .name{font-size:13px; letter-spacing:.04em}
+  .product-card .price{font-size:12px; color:#444; font-family:var(--mono)}
+  .product-card .stock{font-size:10px; color:#a4341d; font-family:var(--mono)}
+
+  /* === PDP layout === */
+  .pdp-grid{display:grid; grid-template-columns: 1fr 380px; gap:24px}
+  .pdp-grid .gallery{display:grid; grid-template-columns: repeat(2, 1fr); gap:8px}
+  .pdp-grid .gallery .ph:first-child{grid-column:1/-1; aspect-ratio:1/1}
+  .pdp-grid .gallery .ph{aspect-ratio:1/1}
+  .pdp-side{position:sticky; top:80px; align-self:start; padding:24px; border:1px dashed #999;}
+  .pdp-side h3{margin:0 0 8px; font-size:24px; letter-spacing:.04em; font-weight:500}
+  .pdp-side .price{font-family:var(--mono); font-size:18px; margin:8px 0}
+  .pdp-side .meta{font-size:11px; color:#555; margin:6px 0}
+  .pdp-side .cta{
+    display:block; text-align:center; padding:16px;
+    background:#0a0a0a; color:#fff; font-size:13px; letter-spacing:.2em;
+    margin-top:12px; text-decoration:none;
+  }
+  .pdp-side .sub{
+    display:block; text-align:center; padding:10px;
+    border-top:1px solid #ddd; font-size:11px; margin-top:8px; color:#444;
+  }
+
+  /* === Section heading inside pages === */
+  .h-block{font-size:11px; letter-spacing:.2em; color:#444; text-transform:uppercase; margin:0 0 8px; font-family:var(--mono)}
+
+  /* === Footer === */
+  .site-footer{
+    background:#0a0a0a; color:#bbb; padding:48px 32px 32px;
+    display:grid; grid-template-columns: 2fr 1fr 1fr 1fr 1fr; gap:24px;
+    font-size:11px; letter-spacing:.06em;
+  }
+  .site-footer h4{font-size:11px; color:#fff; letter-spacing:.18em; margin:0 0 12px}
+  .site-footer ul{list-style:none; padding:0; margin:0}
+  .site-footer li{margin:6px 0}
+
+  /* === Form === */
+  .form-row{display:grid; grid-template-columns: 200px 1fr; gap:12px; padding:14px 0; border-bottom:1px solid #ddd; font-size:12px}
+  .form-row .l{color:#444}
+  .form-row .f{font-family:var(--mono); color:#888; padding:6px 8px; border:1px solid #ccc; background:#fafafa}
+  .form-row .f.t{min-height:80px}
+
+  .legend{
+    max-width:1440px; margin:18px auto 0;
+    background:#fff; border:1px dashed #999; padding:14px 18px;
+    font-size:11px; color:#444; line-height:1.7; font-family:var(--mono);
+    display:flex; flex-wrap:wrap; gap:18px;
+  }
+  .legend b{color:#000}
+  .swatch{display:inline-block; width:14px; height:14px; vertical-align:middle; margin-right:4px; border:1px solid #888}
+
+  .intro{
+    max-width:1440px; margin:0 auto 24px;
+    background:#fff; border:1px solid #888; padding:24px 28px;
+  }
+  .intro h1{font-size:22px; margin:0 0 8px; letter-spacing:.06em; font-weight:600}
+  .intro p{font-size:13px; line-height:1.8; color:#333; margin:6px 0}
+  .intro .grid{display:grid; grid-template-columns: repeat(5,1fr); gap:8px; margin-top:14px}
+  .intro .grid a{
+    display:block; padding:12px; border:1px solid #888; text-decoration:none; color:#000;
+    font-size:12px;
+  }
+  .intro .grid a small{display:block; font-family:var(--mono); color:#666; font-size:10px; margin-top:4px}
+</style>
+</head>
+<body>
+
+<!-- ============== TOP NAV (sticky) ============== -->
+<header class="topbar">
+  <div class="brand">ENGINEKO — WIREFRAMES v2</div>
+  <nav>
+    <a href="#p1">01 TOP</a>
+    <a href="#p2">02 COLLECTION</a>
+    <a href="#p3">03 PDP</a>
+    <a href="#p4">04 GIFT</a>
+    <a href="#p5">05 BUSINESS</a>
+    <a href="#legend">凡例</a>
+  </nav>
+  <div class="meta">desktop / 1440px / mid-fi / 2026-04-20</div>
+</header>
+
+<!-- ============== INTRO ============== -->
+<section class="intro" style="margin-top:24px">
+  <h1>ENGINEKO EC ワイヤーフレーム — コア5ページ俯瞰図</h1>
+  <p>v2構成書（<code>ENGINEKO_EC_Brand_Site_Plan_v2.md</code>）に準拠した、Desktop（1440px）想定のmid-fiワイヤー。配置・コピー・CTA階層・証明レイヤー・国際対応の各論点が、各ページにどう落ちるかを示す。</p>
+  <p>※本ファイルはレイアウトと情報設計の確認用。実装時は Zen Kaku Gothic New / Söhne 等の指定フォント、最終写真、Shopify Liquid に置き換え。</p>
+  <div class="grid">
+    <a href="#p1">01 TOP<small>FV / 世界観 / 5導線</small></a>
+    <a href="#p2">02 COLLECTION<small>商品一覧 / 在庫表示</small></a>
+    <a href="#p3">03 PDP<small>11ブロック / 証明 / FAQ</small></a>
+    <a href="#p4">04 GIFT<small>個人ギフト / 熨斗 / 配送</small></a>
+    <a href="#p5">05 BUSINESS<small>法人 / 専用フォーム</small></a>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- 01  TOP                                                      -->
+<!-- ============================================================ -->
+<section id="p1" class="page">
+  <div class="page-head">
+    <div class="num">01</div>
+    <div>
+      <h2>TOP — 世界観の提示と5つの導線</h2>
+      <div class="url">engineko.com/</div>
+      <div class="purpose">役割：①世界観（離脱防止）②証明（Pop-up一覧）③COLLECTION/STORY/GIFT への等重力導線。スクロール6ブロック構成。</div>
+    </div>
+    <div class="specs">
+      LCP target ≤ 2.5s<br>
+      Sections: 6<br>
+      Scroll length: ~5,200px<br>
+      CTA階層: 主1 / 副2 / 弱2
+    </div>
+  </div>
+
+  <div class="viewport">
+    <div class="chrome">
+      <div class="dots"><span></span><span></span><span></span></div>
+      <div class="url">https://engineko.com/</div>
+      <div class="vw">1440 × 900</div>
+    </div>
+
+    <!-- Site header -->
+    <div class="site-header">
+      <div class="logo">ENGINEKO</div>
+      <div class="gnav"><span>COLLECTION</span><span>STORY</span><span>GIFT</span><span>JOURNAL</span><span>ABOUT</span></div>
+      <div class="util"><span class="pill">JA ▼</span><span class="pill">¥ JPY</span><span>♡ 0</span><span>CART · 0</span></div>
+    </div>
+
+    <!-- 1. FV -->
+    <div class="block paper" style="padding:0">
+      <span class="label">① FV（FullView）</span>
+      <div class="fv">
+        <div class="ph">[ HERO IMAGE — 商品1点 + 影 / 8sec idle fade ]</div>
+        <div class="copy">
+          余白に、意味を。
+          <span class="en">Place a relation. — ENGINEKO</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2. Concept intro -->
+    <div class="block">
+      <span class="label">② コンセプト導入 — 60字</span>
+      <div style="display:grid; grid-template-columns: 1fr 2fr; gap:32px; padding:48px 24px">
+        <div class="h-block">CONCEPT</div>
+        <div style="font-size:18px; line-height:1.9; letter-spacing:.04em">
+          招き猫は、関係性を呼ぶ装置である。<br>
+          ENGINEKO は、瀬戸の土と現代の文体で、<br>
+          空間と縁を結びなおす。
+          <div style="margin-top:32px"><a href="#" style="font-family:var(--mono); font-size:12px; border-bottom:1px solid #000; padding-bottom:2px; text-decoration:none">→ Read the philosophy</a> <span class="anno">副CTA</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3. Collection entry -->
+    <div class="block">
+      <span class="label">③ COLLECTION 入口 — 3点 横並び</span>
+      <div style="display:flex; justify-content:space-between; align-items:baseline; padding:0 0 16px">
+        <div class="h-block">Collection</div>
+        <a href="#" style="font-family:var(--mono); font-size:11px">View all →</a>
+      </div>
+      <div class="row cols-3">
+        <div class="product-card"><div class="ph">[ 金 / KIN ]</div><div class="name">ENGINEKO No.01 / 金</div><div class="price">¥50,000</div></div>
+        <div class="product-card"><div class="ph">[ 白 / SHIRO ]</div><div class="name">ENGINEKO No.02 / 白</div><div class="price">¥50,000</div></div>
+        <div class="product-card"><div class="ph">[ 墨 / SUMI ]</div><div class="name">ENGINEKO No.03 / 墨</div><div class="price">¥50,000</div></div>
+      </div>
+    </div>
+
+    <!-- 4. Story entry -->
+    <div class="block dark">
+      <span class="label">④ STORY 入口 — 工房 + 12秒動画</span>
+      <div style="display:grid; grid-template-columns: 1.2fr 1fr; gap:32px; padding:32px 16px; align-items:center">
+        <div class="ph dark" style="aspect-ratio:16/9">[ VIDEO 12s — 富山工房 / autoplay muted loop ]</div>
+        <div>
+          <div class="h-block" style="color:#888">Story</div>
+          <h3 style="font-size:24px; line-height:1.6; letter-spacing:.04em; font-weight:400; margin:8px 0 16px">瀬戸の現在と、<br>富山の手のあいだに。</h3>
+          <p style="font-size:12px; color:#bbb; line-height:1.9">六古窯のひとつ、瀬戸。土を選ぶ職人と、釉薬を制御する作家がいる。</p>
+          <div style="margin-top:24px"><a href="#" style="color:#fff; font-family:var(--mono); font-size:12px; border-bottom:1px solid #fff; padding-bottom:2px; text-decoration:none">→ See the process</a> <span class="anno">副CTA</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 5. Where to meet — v2 NEW -->
+    <div class="block gray">
+      <span class="label">⑤ WHERE TO MEET <span class="anno b">v2 新設</span></span>
+      <div style="padding:24px 8px">
+        <div style="display:flex; justify-content:space-between; align-items:baseline">
+          <div class="h-block">Pop-up & Stockists</div>
+          <span style="font-family:var(--mono); font-size:11px; color:#555">2026-05 → 09</span>
+        </div>
+        <div class="row cols-4" style="margin-top:18px">
+          <div class="block paper" style="margin:0; padding:18px">
+            <div class="h-block">04 → 09</div>
+            <strong style="font-size:14px">イオン津田沼</strong>
+            <p style="font-size:11px; color:#555; margin:6px 0 0">MAISON 12 / 委託 / 土日隔週</p>
+          </div>
+          <div class="block paper" style="margin:0; padding:18px">
+            <div class="h-block">06 / 27</div>
+            <strong style="font-size:14px">OPEN NAKAMEGURO</strong>
+            <p style="font-size:11px; color:#555; margin:6px 0 0">11:00–18:00 / 1日販売</p>
+          </div>
+          <div class="block paper" style="margin:0; padding:18px">
+            <div class="h-block">07</div>
+            <strong style="font-size:14px">Choose Base Shibuya</strong>
+            <p style="font-size:11px; color:#555; margin:6px 0 0">1ヶ月ステイ</p>
+          </div>
+          <div class="block paper" style="margin:0; padding:18px">
+            <div class="h-block">08</div>
+            <strong style="font-size:14px">GINZA SIX</strong>
+            <p style="font-size:11px; color:#555; margin:6px 0 0">Pop-up Window</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 6. Newsletter / weak CTA -->
+    <div class="block">
+      <span class="label">⑥ メルマガ — 弱CTA</span>
+      <div style="display:grid; grid-template-columns: 1fr 1fr; gap:32px; padding:32px 16px; align-items:center">
+        <div>
+          <div class="h-block">Letter</div>
+          <p style="font-size:13px; color:#444; line-height:1.8">新作・店頭出店・JOURNAL の更新を、<br>月に1度だけ。</p>
+        </div>
+        <div style="display:flex; gap:8px">
+          <input type="email" placeholder="your@email.com" style="flex:1; padding:14px; border:1px solid #000; font-size:13px; background:#fff" disabled>
+          <button style="padding:14px 24px; background:#0a0a0a; color:#fff; border:none; font-family:var(--mono); font-size:11px; letter-spacing:.2em">SUBSCRIBE</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="site-footer">
+      <div>
+        <h4>ENGINEKO</h4>
+        <p style="margin:0; line-height:1.8">余白に、意味を。<br>瀬戸の土と現代の文体による、<br>関係性のための置物。</p>
+      </div>
+      <div><h4>SHOP</h4><ul><li>Collection</li><li>Gift</li><li>Business</li><li>Stockists</li></ul></div>
+      <div><h4>STORY</h4><ul><li>Concept</li><li>Seto</li><li>Process</li><li>Artisans</li></ul></div>
+      <div><h4>SUPPORT</h4><ul><li>Shipping</li><li>Returns</li><li>FAQ</li><li>Contact</li></ul></div>
+      <div><h4>LEGAL</h4><ul><li>特商法</li><li>Privacy</li><li>Cookie</li><li>Terms</li></ul></div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ============================================================ -->
+<!-- 02  COLLECTION                                               -->
+<!-- ============================================================ -->
+<section id="p2" class="page" style="background:#efeee9">
+  <div class="page-head">
+    <div class="num">02</div>
+    <div>
+      <h2>COLLECTION — 商品一覧</h2>
+      <div class="url">engineko.com/collection</div>
+      <div class="purpose">役割：商品の網羅と、価値を壊さない販売。3カラム正方形ではなく <b>3:4縦長</b> サムネで陶器の存在感を保持。在庫表示と「次回入荷通知」をv2追加。</div>
+    </div>
+    <div class="specs">
+      Sections: 3<br>
+      Items: 3〜10<br>
+      Sort: 新作のみ<br>
+      Filter: 色（金/白/墨）
+    </div>
+  </div>
+
+  <div class="viewport">
+    <div class="chrome">
+      <div class="dots"><span></span><span></span><span></span></div>
+      <div class="url">https://engineko.com/collection</div>
+      <div class="vw">1440 × 900</div>
+    </div>
+
+    <div class="site-header">
+      <div class="logo">ENGINEKO</div>
+      <div class="gnav"><span style="border-bottom:1px solid #000">COLLECTION</span><span>STORY</span><span>GIFT</span><span>JOURNAL</span><span>ABOUT</span></div>
+      <div class="util"><span class="pill">JA ▼</span><span class="pill">¥ JPY</span><span>♡ 0</span><span>CART · 0</span></div>
+    </div>
+
+    <!-- A. Hero -->
+    <div class="block">
+      <span class="label">A. ヘッダー — 静かな1行</span>
+      <div style="padding:64px 24px 24px">
+        <div class="h-block">Collection</div>
+        <h1 style="font-size:36px; letter-spacing:.06em; font-weight:500; margin:8px 0 0">置物ではない、関係装置。</h1>
+      </div>
+    </div>
+
+    <!-- B. Filter bar -->
+    <div class="block paper">
+      <span class="label">B. フィルター — 最小</span>
+      <div style="display:flex; gap:18px; padding:8px 8px; align-items:center; font-family:var(--mono); font-size:12px">
+        <span style="color:#777">FILTER:</span>
+        <span style="border:1px solid #000; padding:4px 10px">All</span>
+        <span style="border:1px solid #ccc; padding:4px 10px">金 / KIN</span>
+        <span style="border:1px solid #ccc; padding:4px 10px">白 / SHIRO</span>
+        <span style="border:1px solid #ccc; padding:4px 10px">墨 / SUMI</span>
+        <span style="margin-left:auto; color:#777">9 items · sort: new</span>
+      </div>
+    </div>
+
+    <!-- C. Grid -->
+    <div class="block">
+      <span class="label">C. 商品グリッド — 3カラム / 3:4 縦長</span>
+      <div class="row cols-3" style="padding:8px 8px">
+        <div class="product-card"><div class="ph">[ ENGINEKO No.01 / 金 ]</div><div class="name">ENGINEKO No.01 / KIN</div><div class="price">¥50,000</div><div class="stock">残り3点 <span class="anno">v2 在庫表示</span></div></div>
+        <div class="product-card"><div class="ph">[ ENGINEKO No.02 / 白 ]</div><div class="name">ENGINEKO No.02 / SHIRO</div><div class="price">¥50,000</div></div>
+        <div class="product-card"><div class="ph">[ ENGINEKO No.03 / 墨 ]</div><div class="name">ENGINEKO No.03 / SUMI</div><div class="price">¥50,000</div></div>
+        <div class="product-card"><div class="ph">[ ENGINEKO No.04 / 金（受注） ]</div><div class="name">ENGINEKO No.04 / KIN-KAJU</div><div class="price">¥68,000</div><div class="stock" style="color:#444">Made to order — 6 weeks</div></div>
+        <div class="product-card"><div class="ph">[ ENGINEKO No.05 / 白 ]</div><div class="name">ENGINEKO No.05 / SHIRO-MUKU</div><div class="price">¥50,000</div></div>
+        <div class="product-card"><div class="ph">[ ENGINEKO No.06 / 墨 ]</div><div class="name">ENGINEKO No.06 / SUMI-IRO</div><div class="price">¥50,000</div><div class="stock">Sold out — 通知を受け取る <span class="anno b">弱CTA</span></div></div>
+      </div>
+    </div>
+
+    <!-- D. Editorial bridge -->
+    <div class="block dark">
+      <span class="label">D. STORY ブリッジ — 回遊</span>
+      <div style="display:grid; grid-template-columns: 1fr 1.2fr; gap:32px; padding:32px 16px; align-items:center">
+        <div>
+          <div class="h-block" style="color:#888">Story</div>
+          <h3 style="font-size:22px; line-height:1.6; letter-spacing:.04em; font-weight:400; margin:8px 0 16px">なぜ、瀬戸でつくるのか。</h3>
+          <a href="#" style="color:#fff; font-family:var(--mono); font-size:12px; border-bottom:1px solid #fff; padding-bottom:2px; text-decoration:none">→ Read the process</a>
+        </div>
+        <div class="ph dark" style="aspect-ratio:16/9">[ 工程カット ]</div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="site-footer">
+      <div><h4>ENGINEKO</h4><p style="margin:0">余白に、意味を。</p></div>
+      <div><h4>SHOP</h4><ul><li>Collection</li><li>Gift</li><li>Business</li></ul></div>
+      <div><h4>STORY</h4><ul><li>Concept</li><li>Seto</li><li>Process</li></ul></div>
+      <div><h4>SUPPORT</h4><ul><li>Shipping</li><li>Returns</li><li>FAQ</li></ul></div>
+      <div><h4>LEGAL</h4><ul><li>特商法</li><li>Privacy</li><li>Terms</li></ul></div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ============================================================ -->
+<!-- 03  PDP                                                      -->
+<!-- ============================================================ -->
+<section id="p3" class="page">
+  <div class="page-head">
+    <div class="num">03</div>
+    <div>
+      <h2>PDP — 商品詳細（A〜K の11ブロック）</h2>
+      <div class="url">engineko.com/products/engineko-no-01-kin</div>
+      <div class="purpose">役割：高単価品の納得購入。v1の6ブロックに対し v2では <b>証明（E）/ 同梱（F）/ 配送・関税・保証（H）/ FAQ（I）</b> を追加。スティッキー右カラムで決定派の動線を確保。</div>
+    </div>
+    <div class="specs">
+      Sections: A–K (11)<br>
+      Sticky CTA: right column<br>
+      Scroll target: 75% / 50% sessions<br>
+      AOV target: ¥55,000
+    </div>
+  </div>
+
+  <div class="viewport">
+    <div class="chrome">
+      <div class="dots"><span></span><span></span><span></span></div>
+      <div class="url">https://engineko.com/products/engineko-no-01-kin</div>
+      <div class="vw">1440 × 900</div>
+    </div>
+
+    <div class="site-header">
+      <div class="logo">ENGINEKO</div>
+      <div class="gnav"><span style="border-bottom:1px solid #000">COLLECTION</span><span>STORY</span><span>GIFT</span><span>JOURNAL</span><span>ABOUT</span></div>
+      <div class="util"><span class="pill">JA ▼</span><span class="pill">¥ JPY</span><span>♡ 0</span><span>CART · 0</span></div>
+    </div>
+
+    <div style="padding:24px">
+      <div class="pdp-grid">
+        <!-- LEFT: long scroll -->
+        <div>
+          <!-- A. Gallery -->
+          <div class="block paper" style="margin:0">
+            <span class="label">A. ギャラリー — メイン1 + サブ4</span>
+            <div class="gallery">
+              <div class="ph">[ MAIN — 正面 ]</div>
+              <div class="ph">[ 斜め45° ]</div>
+              <div class="ph">[ 真上 ]</div>
+              <div class="ph">[ 質感アップ ]</div>
+              <div class="ph">[ 環境カット ]</div>
+            </div>
+            <div style="margin-top:8px; font-family:var(--mono); font-size:11px; color:#666">▶ 360° rotation video (10s)　+　Process digest (30s)</div>
+          </div>
+
+          <!-- C. Concept short -->
+          <div class="block">
+            <span class="label">C. コンセプト短文 — 80字</span>
+            <p style="font-size:18px; line-height:1.9; letter-spacing:.04em; margin:8px 0; color:#222">
+              金は、関係を反射する色である。<br>
+              この個体は、富山の窯から生まれた、<br>
+              ひとつだけの縁を抱えている。
+            </p>
+          </div>
+
+          <!-- D. Story scroll -->
+          <div class="block gray">
+            <span class="label">D. 物語 — 素材 → 工程 → 職人 → 焼成</span>
+            <div class="row cols-4" style="padding:16px 0">
+              <div><div class="ph" style="aspect-ratio:1/1">[ 土 ]</div><strong style="font-size:13px; display:block; margin-top:8px">土を選ぶ</strong><p style="font-size:11px; color:#555; margin:4px 0 0">瀬戸の本焼成用土。</p></div>
+              <div><div class="ph" style="aspect-ratio:1/1">[ 成形 ]</div><strong style="font-size:13px; display:block; margin-top:8px">成形</strong><p style="font-size:11px; color:#555; margin:4px 0 0">石膏型 + 手仕上げ。</p></div>
+              <div><div class="ph" style="aspect-ratio:1/1">[ 釉薬 ]</div><strong style="font-size:13px; display:block; margin-top:8px">釉薬</strong><p style="font-size:11px; color:#555; margin:4px 0 0">金は二度掛け。</p></div>
+              <div><div class="ph" style="aspect-ratio:1/1">[ 焼成 ]</div><strong style="font-size:13px; display:block; margin-top:8px">焼成</strong><p style="font-size:11px; color:#555; margin:4px 0 0">1,250℃ / 18時間。</p></div>
+            </div>
+            <div style="margin-top:12px"><a href="#" style="font-family:var(--mono); font-size:12px; border-bottom:1px solid #000; padding-bottom:2px; text-decoration:none">→ Read full story</a></div>
+          </div>
+
+          <!-- E. Proof — v2 NEW -->
+          <div class="block">
+            <span class="label">E. 証明 — 工房 / メディア / 取扱店 / 保証 <span class="anno b">v2 新設</span></span>
+            <div class="row cols-3" style="padding:8px 0">
+              <div>
+                <div class="h-block">Workshop</div>
+                <strong style="font-size:13px; display:block">フジコウ — 富山工房</strong>
+                <p style="font-size:11px; color:#555; margin:6px 0 0">本生産パートナー。撮影許可取得済。</p>
+              </div>
+              <div>
+                <div class="h-block">Stockists</div>
+                <strong style="font-size:13px; display:block">GINZA SIX / Choose Base / 中目黒 / 津田沼</strong>
+                <p style="font-size:11px; color:#555; margin:6px 0 0">2026年Y1 全4箇所で実物展示予定。</p>
+              </div>
+              <div>
+                <div class="h-block">Warranty</div>
+                <strong style="font-size:13px; display:block">配送破損 100% 補償</strong>
+                <p style="font-size:11px; color:#555; margin:6px 0 0">着荷14日以内の初期不良も交換対応。</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- F. Includes -->
+          <div class="block paper">
+            <span class="label">F. 同梱物 — 開封体験の予告</span>
+            <div class="row cols-3" style="padding:8px 0">
+              <div><div class="ph" style="aspect-ratio:1/1">[ 化粧箱 ]</div><strong style="font-size:13px; display:block; margin-top:8px">化粧箱</strong><p style="font-size:11px; color:#555; margin:4px 0 0">貼り箱 / 白×グレー / 筆押しロゴ</p></div>
+              <div><div class="ph" style="aspect-ratio:1/1">[ コンセプトブック ]</div><strong style="font-size:13px; display:block; margin-top:8px">コンセプトブック</strong><p style="font-size:11px; color:#555; margin:4px 0 0">縁の思想とお手入れ方法</p></div>
+              <div><div class="ph" style="aspect-ratio:1/1">[ 緩衝材 ]</div><strong style="font-size:13px; display:block; margin-top:8px">3層緩衝材</strong><p style="font-size:11px; color:#555; margin:4px 0 0">発泡スチロール / 猫型中段</p></div>
+            </div>
+          </div>
+
+          <!-- G. Spec -->
+          <div class="block">
+            <span class="label">G. スペック</span>
+            <div style="font-size:12px; padding:8px 0">
+              <div class="form-row"><div class="l">サイズ</div><div>高さ約25cm × 幅約15cm</div></div>
+              <div class="form-row"><div class="l">重量</div><div>約1.2kg</div></div>
+              <div class="form-row"><div class="l">素材</div><div>瀬戸 本焼成用土 / 釉薬</div></div>
+              <div class="form-row"><div class="l">産地</div><div>愛知県瀬戸 → 富山 製造</div></div>
+              <div class="form-row"><div class="l">個体差</div><div>釉薬・焼き上がりに個体差があります</div></div>
+            </div>
+          </div>
+
+          <!-- H. Shipping / customs / care / returns -->
+          <div class="block gray">
+            <span class="label">H. 配送 / 関税 / お手入れ / 返品 <span class="anno b">v2 新設</span></span>
+            <div class="row cols-2" style="padding:8px 0; font-size:12px; line-height:1.8">
+              <div>
+                <strong>配送</strong>
+                <p style="margin:6px 0">国内：全国送料無料 / 5営業日以内発送 / 配送日指定60日先まで可</p>
+                <strong>関税（EU）</strong>
+                <p style="margin:6px 0">DDP（関税・VAT込）にて欧州5ヶ国へ。</p>
+              </div>
+              <div>
+                <strong>お手入れ</strong>
+                <p style="margin:6px 0">柔らかい布で乾拭き。水洗い不可。</p>
+                <strong>返品</strong>
+                <p style="margin:6px 0">未開封・着荷7日以内に限り返品可（顧客都合送料負担）。</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- I. FAQ -->
+          <div class="block">
+            <span class="label">I. FAQ — 5問</span>
+            <div style="padding:8px 0; font-size:13px; line-height:1.9">
+              <div style="border-bottom:1px solid #ddd; padding:12px 0"><strong>Q.</strong> 個体差はどの程度ですか？</div>
+              <div style="border-bottom:1px solid #ddd; padding:12px 0"><strong>Q.</strong> ギフト用の包装に対応していますか？</div>
+              <div style="border-bottom:1px solid #ddd; padding:12px 0"><strong>Q.</strong> 海外へ発送できますか？</div>
+              <div style="border-bottom:1px solid #ddd; padding:12px 0"><strong>Q.</strong> 法人で複数購入したい</div>
+              <div style="border-bottom:1px solid #ddd; padding:12px 0"><strong>Q.</strong> 万一破損していた場合は</div>
+            </div>
+          </div>
+
+          <!-- J. Related -->
+          <div class="block paper">
+            <span class="label">J. 関連 STORY / 同シリーズ</span>
+            <div class="row cols-3" style="padding:8px 0">
+              <div class="product-card"><div class="ph">[ STORY: 縁という設計 ]</div><div class="name">縁という設計</div></div>
+              <div class="product-card"><div class="ph">[ ENGINEKO No.02 ]</div><div class="name">ENGINEKO No.02 / SHIRO</div><div class="price">¥50,000</div></div>
+              <div class="product-card"><div class="ph">[ ENGINEKO No.03 ]</div><div class="name">ENGINEKO No.03 / SUMI</div><div class="price">¥50,000</div></div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- RIGHT: sticky CTA column -->
+        <aside class="pdp-side">
+          <span class="label" style="position:relative; top:auto; left:auto; display:inline-block; margin-bottom:14px">B. 即決カラム — sticky</span>
+          <div class="h-block">No.01 / KIN</div>
+          <h3>ENGINEKO No.01 / 金</h3>
+          <div class="meta">高さ25cm × 幅15cm / 約1.2kg</div>
+          <div class="price">¥50,000 <span style="font-size:11px; color:#777">（送料・関税込）</span></div>
+          <div class="meta" style="color:#a4341d">残り3点</div>
+          <a class="cta" href="#">CART に入れる</a>
+          <a class="sub" href="#">この商品について相談する <span class="anno">副CTA</span></a>
+          <div style="margin-top:12px; padding:10px; border:1px solid #ddd; font-size:11px; color:#555; line-height:1.7">
+            <strong style="color:#000">Pay later</strong><br>
+            Shop Pay / Klarna 4回 ¥12,500/月<br>
+            <span style="opacity:.6">※審査制 / 弱訴求</span>
+          </div>
+          <div style="margin-top:12px; font-size:11px; color:#555; line-height:1.7">
+            ✓ 5営業日以内に発送<br>
+            ✓ 配送破損 100% 補償<br>
+            ✓ ギフト包装に対応
+          </div>
+        </aside>
+      </div>
+
+      <!-- K. Mobile-fixed CTA note -->
+      <div class="block paper" style="margin-top:32px">
+        <span class="label">K. スティッキーCTA — desktop=右カラム / mobile=画面下固定</span>
+        <p style="font-size:12px; color:#444; padding:8px 0">スクロール中も常に「カートに入れる」「相談する」が視認できる状態を維持。FV直下では非表示、Aブロックを抜けたら出現。</p>
+      </div>
+    </div>
+
+    <!-- Footer (compact) -->
+    <div class="site-footer">
+      <div><h4>ENGINEKO</h4><p style="margin:0">余白に、意味を。</p></div>
+      <div><h4>SHOP</h4><ul><li>Collection</li><li>Gift</li><li>Business</li></ul></div>
+      <div><h4>STORY</h4><ul><li>Concept</li><li>Process</li><li>Artisans</li></ul></div>
+      <div><h4>SUPPORT</h4><ul><li>Shipping</li><li>Returns</li><li>FAQ</li></ul></div>
+      <div><h4>LEGAL</h4><ul><li>特商法</li><li>Privacy</li><li>Terms</li></ul></div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ============================================================ -->
+<!-- 04  GIFT                                                     -->
+<!-- ============================================================ -->
+<section id="p4" class="page" style="background:#efeee9">
+  <div class="page-head">
+    <div class="num">04</div>
+    <div>
+      <h2>GIFT — 個人ギフト用LP</h2>
+      <div class="url">engineko.com/gift</div>
+      <div class="purpose">役割：個人 → 個人の贈答（開業・退職・結婚・海外土産）。法人とは動線分離。<b>熨斗・配送日指定・包装色・メッセージカード</b> をPDP前に明示。</div>
+    </div>
+    <div class="specs">
+      Sections: 5<br>
+      Primary CTA: 商品を見る<br>
+      Sub CTA: 相談する
+    </div>
+  </div>
+
+  <div class="viewport">
+    <div class="chrome">
+      <div class="dots"><span></span><span></span><span></span></div>
+      <div class="url">https://engineko.com/gift</div>
+      <div class="vw">1440 × 900</div>
+    </div>
+
+    <div class="site-header">
+      <div class="logo">ENGINEKO</div>
+      <div class="gnav"><span>COLLECTION</span><span>STORY</span><span style="border-bottom:1px solid #000">GIFT</span><span>JOURNAL</span><span>ABOUT</span></div>
+      <div class="util"><span class="pill">JA ▼</span><span class="pill">¥ JPY</span><span>♡ 0</span><span>CART · 0</span></div>
+    </div>
+
+    <!-- A. Hero -->
+    <div class="block paper">
+      <span class="label">A. ヘッダー — 一行</span>
+      <div style="padding:64px 24px 24px; display:grid; grid-template-columns: 1fr 1fr; gap:48px; align-items:end">
+        <div>
+          <div class="h-block">Gift</div>
+          <h1 style="font-size:36px; letter-spacing:.06em; font-weight:500; margin:8px 0 8px">花の代わりに、縁を。</h1>
+          <p style="font-size:13px; color:#444; line-height:1.8">送る相手の空間に、意味を置く。</p>
+        </div>
+        <div class="ph" style="aspect-ratio:16/10">[ ギフト体験カット — 化粧箱 ]</div>
+      </div>
+    </div>
+
+    <!-- B. Use cases -->
+    <div class="block">
+      <span class="label">B. 利用シーン — 4パターン</span>
+      <div class="row cols-4" style="padding:8px 0">
+        <div><div class="ph" style="aspect-ratio:1/1">[ 開業祝い ]</div><strong style="font-size:13px; display:block; margin-top:8px">開業祝い</strong><p style="font-size:11px; color:#555; margin:4px 0 0">店舗・オフィスへ</p></div>
+        <div><div class="ph" style="aspect-ratio:1/1">[ 退職祝い ]</div><strong style="font-size:13px; display:block; margin-top:8px">退職・ご栄転</strong><p style="font-size:11px; color:#555; margin:4px 0 0">節目に縁を結ぶ</p></div>
+        <div><div class="ph" style="aspect-ratio:1/1">[ 結婚祝い ]</div><strong style="font-size:13px; display:block; margin-top:8px">結婚祝い</strong><p style="font-size:11px; color:#555; margin:4px 0 0">関係性の象徴として</p></div>
+        <div><div class="ph" style="aspect-ratio:1/1">[ 海外土産 ]</div><strong style="font-size:13px; display:block; margin-top:8px">海外土産</strong><p style="font-size:11px; color:#555; margin:4px 0 0">日本の文脈を持ち運ぶ</p></div>
+      </div>
+    </div>
+
+    <!-- C. Gift options -->
+    <div class="block paper">
+      <span class="label">C. ギフト購入オプション — チェックリスト</span>
+      <div class="row cols-2" style="padding:16px 0; font-size:13px">
+        <div style="line-height:2.2">
+          ☐ 熨斗（短冊・水引）対応<br>
+          ☐ 配送日指定（最大60日先）<br>
+          ☐ 包装色：白 / 墨 から選択
+        </div>
+        <div style="line-height:2.2">
+          ☐ メッセージカード（手書き風印刷）<br>
+          ☐ 直筆メッセージ（オプション）<br>
+          ☐ ギフト用コンセプトブック同梱
+        </div>
+      </div>
+    </div>
+
+    <!-- D. Recommended products -->
+    <div class="block">
+      <span class="label">D. ギフトレコメンド — 3点</span>
+      <div class="row cols-3" style="padding:8px 0">
+        <div class="product-card"><div class="ph">[ No.01 / 金 ]</div><div class="name">ENGINEKO No.01 / KIN</div><div class="price">¥50,000</div><p style="font-size:11px; color:#555">開業祝いに最適</p></div>
+        <div class="product-card"><div class="ph">[ No.02 / 白 ]</div><div class="name">ENGINEKO No.02 / SHIRO</div><div class="price">¥50,000</div><p style="font-size:11px; color:#555">結婚祝いに</p></div>
+        <div class="product-card"><div class="ph">[ No.03 / 墨 ]</div><div class="name">ENGINEKO No.03 / SUMI</div><div class="price">¥50,000</div><p style="font-size:11px; color:#555">退職・退任に</p></div>
+      </div>
+    </div>
+
+    <!-- E. Help -->
+    <div class="block dark">
+      <span class="label">E. 迷ったら相談 — 副CTA</span>
+      <div style="display:grid; grid-template-columns: 2fr 1fr; gap:32px; padding:32px 16px; align-items:center">
+        <div>
+          <div class="h-block" style="color:#888">Help</div>
+          <h3 style="font-size:22px; line-height:1.6; letter-spacing:.04em; font-weight:400; margin:8px 0 16px">迷われたら、選び方をご一緒に。</h3>
+          <p style="font-size:12px; color:#bbb; line-height:1.9">贈る相手の年齢・関係性・空間からおすすめをご提案します。</p>
+        </div>
+        <a href="#" style="display:block; text-align:center; padding:16px; background:#fff; color:#0a0a0a; font-family:var(--mono); font-size:12px; letter-spacing:.2em; text-decoration:none">CONSULT →</a>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="site-footer">
+      <div><h4>ENGINEKO</h4><p style="margin:0">余白に、意味を。</p></div>
+      <div><h4>SHOP</h4><ul><li>Collection</li><li>Gift</li><li>Business</li></ul></div>
+      <div><h4>STORY</h4><ul><li>Concept</li><li>Process</li><li>Artisans</li></ul></div>
+      <div><h4>SUPPORT</h4><ul><li>Shipping</li><li>Returns</li><li>FAQ</li></ul></div>
+      <div><h4>LEGAL</h4><ul><li>特商法</li><li>Privacy</li><li>Terms</li></ul></div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ============================================================ -->
+<!-- 05  BUSINESS                                                 -->
+<!-- ============================================================ -->
+<section id="p5" class="page">
+  <div class="page-head">
+    <div class="num">05</div>
+    <div>
+      <h2>BUSINESS — 法人ギフト / 卸</h2>
+      <div class="url">engineko.com/business</div>
+      <div class="purpose">役割：法人ギフトと卸の入口。<b>専用フォーム + 5営業日以内対応SLA</b>。底裏ロゴ刻印・専用化粧箱・複数配送先対応など、法人特有要件を明示。</div>
+    </div>
+    <div class="specs">
+      Sections: 6<br>
+      Primary CTA: 問合せフォーム<br>
+      SLA: 5営業日<br>
+      MOQ: 5個〜
+    </div>
+  </div>
+
+  <div class="viewport">
+    <div class="chrome">
+      <div class="dots"><span></span><span></span><span></span></div>
+      <div class="url">https://engineko.com/business</div>
+      <div class="vw">1440 × 900</div>
+    </div>
+
+    <div class="site-header">
+      <div class="logo">ENGINEKO</div>
+      <div class="gnav"><span>COLLECTION</span><span>STORY</span><span>GIFT</span><span>JOURNAL</span><span>ABOUT</span></div>
+      <div class="util"><span class="pill">JA ▼</span><span class="pill">¥ JPY</span><span>♡ 0</span><span>CART · 0</span></div>
+    </div>
+
+    <!-- A. Hero -->
+    <div class="block paper">
+      <span class="label">A. ヘッダー</span>
+      <div style="padding:64px 24px 24px; display:grid; grid-template-columns: 1fr 1fr; gap:48px; align-items:end">
+        <div>
+          <div class="h-block">For Business</div>
+          <h1 style="font-size:36px; letter-spacing:.06em; font-weight:500; margin:8px 0 8px">企業の意思を、贈る。</h1>
+          <p style="font-size:13px; color:#444; line-height:1.8">5個から、ロット対応。底裏ロゴ刻印・専用化粧箱まで。</p>
+        </div>
+        <div class="ph" style="aspect-ratio:16/10">[ オフィス / クライアントギフト風景 ]</div>
+      </div>
+    </div>
+
+    <!-- B. Use cases -->
+    <div class="block gray">
+      <span class="label">B. ユースケース</span>
+      <div class="row cols-4" style="padding:8px 0">
+        <div><div class="h-block">Anniversary</div><strong style="font-size:13px">周年記念</strong></div>
+        <div><div class="h-block">Opening</div><strong style="font-size:13px">開業・移転祝い</strong></div>
+        <div><div class="h-block">Retirement</div><strong style="font-size:13px">退任・記念品</strong></div>
+        <div><div class="h-block">VIP</div><strong style="font-size:13px">海外要人贈答</strong></div>
+      </div>
+    </div>
+
+    <!-- C. Lots & timeline -->
+    <div class="block">
+      <span class="label">C. ロット / リードタイム / 価格レンジ</span>
+      <div style="font-size:12px; padding:8px 0">
+        <div class="form-row"><div class="l">最小ロット</div><div>5個から</div></div>
+        <div class="form-row"><div class="l">想定ロット</div><div>5 / 10 / 20 / 50 個</div></div>
+        <div class="form-row"><div class="l">通常リードタイム</div><div>6週</div></div>
+        <div class="form-row"><div class="l">カスタムリードタイム</div><div>8〜10週</div></div>
+        <div class="form-row"><div class="l">参考価格レンジ</div><div>10個 ¥500,000〜（カスタム内容により変動）</div></div>
+      </div>
+    </div>
+
+    <!-- D. Customs available -->
+    <div class="block paper">
+      <span class="label">D. 対応可能カスタム</span>
+      <div class="row cols-3" style="padding:8px 0">
+        <div><div class="ph" style="aspect-ratio:4/3">[ 底裏ロゴ刻印 ]</div><strong style="font-size:13px; display:block; margin-top:8px">底裏ロゴ刻印</strong><p style="font-size:11px; color:#555; margin:4px 0 0">金箔 / 焼印</p></div>
+        <div><div class="ph" style="aspect-ratio:4/3">[ 専用化粧箱 ]</div><strong style="font-size:13px; display:block; margin-top:8px">専用化粧箱</strong><p style="font-size:11px; color:#555; margin:4px 0 0">ロゴ箔押し対応</p></div>
+        <div><div class="ph" style="aspect-ratio:4/3">[ 複数配送先 ]</div><strong style="font-size:13px; display:block; margin-top:8px">複数配送先</strong><p style="font-size:11px; color:#555; margin:4px 0 0">CSV一括対応</p></div>
+      </div>
+    </div>
+
+    <!-- E. Process / SLA -->
+    <div class="block dark">
+      <span class="label">E. 商談フロー / SLA — 5営業日</span>
+      <div style="padding:24px 16px; font-family:var(--mono); font-size:12px; color:#ddd; line-height:2.0">
+        ① 問合せ送信　→　② 当日：自動受付メール（JA/EN自動判定）<br>
+        ③ 翌営業日：担当者から有人返信　→　④ 3営業日以内：見積書送付<br>
+        ⑤ 合意 → 請求書発行（前払100% or 50/50）　→　⑥ 製造（4–8週）<br>
+        ⑦ 出荷 → 納品完了　→　⑧ 30日後：フォローメール
+      </div>
+    </div>
+
+    <!-- F. Inquiry form -->
+    <div class="block">
+      <span class="label">F. 問合せフォーム — 主CTA</span>
+      <div style="padding:16px 0">
+        <div class="row cols-2" style="gap:24px">
+          <div class="form-row" style="border:none; padding:6px 0; display:block"><div class="l">会社名 *</div><div class="f">———</div></div>
+          <div class="form-row" style="border:none; padding:6px 0; display:block"><div class="l">部署 / 役職</div><div class="f">———</div></div>
+          <div class="form-row" style="border:none; padding:6px 0; display:block"><div class="l">担当者氏名 *</div><div class="f">———</div></div>
+          <div class="form-row" style="border:none; padding:6px 0; display:block"><div class="l">メール *</div><div class="f">———</div></div>
+          <div class="form-row" style="border:none; padding:6px 0; display:block"><div class="l">電話</div><div class="f">———</div></div>
+          <div class="form-row" style="border:none; padding:6px 0; display:block"><div class="l">用途 *</div><div class="f">[ 開業 / 周年 / 海外要人 / その他 ]</div></div>
+          <div class="form-row" style="border:none; padding:6px 0; display:block"><div class="l">想定数量 *</div><div class="f">[ 5 / 10 / 20 / 50 / 自由入力 ]</div></div>
+          <div class="form-row" style="border:none; padding:6px 0; display:block"><div class="l">希望納期</div><div class="f">———</div></div>
+          <div class="form-row" style="border:none; padding:6px 0; display:block"><div class="l">予算レンジ</div><div class="f">[ 〜30万 / 〜100万 / 100万〜 ]</div></div>
+          <div class="form-row" style="border:none; padding:6px 0; display:block"><div class="l">カスタム要望</div><div class="f">[ ロゴ刻印 / 専用箱 / 熨斗 / メッセージ ]</div></div>
+        </div>
+        <div class="form-row" style="border:none; padding:6px 0; display:block; margin-top:8px"><div class="l">自由記述</div><div class="f t">———</div></div>
+        <button style="margin-top:18px; padding:16px 32px; background:#0a0a0a; color:#fff; border:none; font-family:var(--mono); font-size:12px; letter-spacing:.2em">問合せを送信 →</button>
+        <span style="margin-left:14px; font-size:11px; color:#555">5営業日以内にご返信します。</span>
+      </div>
+    </div>
+
+    <!-- G. Wholesale (EN download) -->
+    <div class="block gray">
+      <span class="label">G. 卸 / プレス向け — Wholesale & Press</span>
+      <div style="display:grid; grid-template-columns: 1fr 1fr; gap:32px; padding:24px 16px; align-items:center">
+        <div>
+          <div class="h-block">For Buyers / Press</div>
+          <h3 style="font-size:18px; letter-spacing:.04em; font-weight:500; margin:8px 0">Linecard PDF (English) — for galleries & select shops</h3>
+          <p style="font-size:12px; color:#444; line-height:1.8">MOQ / wholesale pricing / lead time / packaging / shipping (DDP) / breakage policy.</p>
+        </div>
+        <div>
+          <a href="#" style="display:block; padding:16px; border:1px solid #000; text-align:center; font-family:var(--mono); font-size:12px; letter-spacing:.2em; text-decoration:none">⬇ DOWNLOAD LINECARD (PDF)</a>
+          <a href="#" style="display:block; margin-top:8px; padding:10px; text-align:center; font-size:11px; color:#444">or contact press@engineko.com</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="site-footer">
+      <div><h4>ENGINEKO</h4><p style="margin:0">余白に、意味を。</p></div>
+      <div><h4>SHOP</h4><ul><li>Collection</li><li>Gift</li><li>Business</li></ul></div>
+      <div><h4>STORY</h4><ul><li>Concept</li><li>Process</li><li>Artisans</li></ul></div>
+      <div><h4>SUPPORT</h4><ul><li>Shipping</li><li>Returns</li><li>FAQ</li></ul></div>
+      <div><h4>LEGAL</h4><ul><li>特商法</li><li>Privacy</li><li>Terms</li></ul></div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ============================================================ -->
+<!-- LEGEND                                                       -->
+<!-- ============================================================ -->
+<section id="legend" class="page" style="background:#0a0a0a; color:#bbb; border-bottom:none">
+  <div class="page-head">
+    <div class="num" style="color:#888; border-color:#444">L</div>
+    <div>
+      <h2 style="color:#fff">凡例 / 補足</h2>
+      <div class="purpose" style="color:#aaa">本ワイヤーフレーム上の記号・色の意味</div>
+    </div>
+    <div></div>
+  </div>
+  <div class="legend">
+    <span><b>[ ALL CAPS ]</b> = 画像プレースホルダ</span>
+    <span><span class="anno">v2 新設</span> = 原案からの追加要素</span>
+    <span><span class="anno b">補足</span> = 機能仕様メモ</span>
+    <span><span class="anno r">注意</span> = リスク/要決定事項</span>
+    <span>点線枠 = ブロック境界（実装時は消失）</span>
+    <span>各ブロック左上の小ラベル = ブロックID（実装指示用）</span>
+  </div>
+
+  <div class="legend">
+    <b>次のステップ案：</b>
+    <span>① モバイル版ワイヤー（mobile-first前提の縦展開）</span>
+    <span>② STORY / JOURNAL / ABOUT / Checkout の追加4ページ</span>
+    <span>③ ハイファイモック（実画像・タイポ・色適用）</span>
+    <span>④ Shopify Liquid テンプレ化（セクション単位）</span>
+    <span>⑤ Figma化（コンポーネント分解）</span>
+  </div>
+</section>
+
+</body>
+</html>
