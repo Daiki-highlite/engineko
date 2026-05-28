@@ -664,73 +664,138 @@
 </div>
 
 <script>
-// ─── 定数 ────────────────────────────────────────────────────
+// ================================================================
+// ▼ セットアップ後にここへ Apps Script の URL を貼り付けてください
+//   未設定のままでも localStorage に保存されるので動作します
+const APPS_SCRIPT_URL = '';
+// ================================================================
+
 const TARGET       = 5000000;
 const TARGET_UNITS = 100;
 const LS_KEY       = 'engineko_products_v1';
-let nextId = 1;
+let nextId   = 1;
+let _skipSave = false;
 
 const fmt    = n => '¥' + Math.round(n).toLocaleString('ja-JP');
 const fmtPct = p => Math.min(100, Math.round(p * 10) / 10) + '%';
 
-// ─── 行を1つ生成して tbody に追加 ────────────────────────────
+// ─── 行を1つ生成 ─────────────────────────────────────────────
 function createRow(name, price, qty) {
-  const id = nextId++;
+  const id    = nextId++;
   const tbody = document.getElementById('productTbody');
-  const tr = document.createElement('tr');
+  const tr    = document.createElement('tr');
   tr.dataset.id = id;
   tr.innerHTML = `
     <td><input type="text" oninput="calcSales()"></td>
     <td><input type="number" class="price-input" min="0" step="1000" oninput="calcSales()"></td>
-    <td><input type="number" class="qty-input" min="0" max="9999" oninput="calcSales()"></td>
+    <td><input type="number" class="qty-input"   min="0" max="9999"  oninput="calcSales()"></td>
     <td class="sub-cell" id="sub-${id}">¥0</td>
     <td class="del-cell"><button class="btn-del" onclick="delRow(this)" title="削除">×</button></td>
   `;
-  tr.querySelector('input[type="text"]').value   = name;
-  tr.querySelector('.price-input').value          = price;
-  tr.querySelector('.qty-input').value            = qty;
+  tr.querySelector('input[type="text"]').value = name;
+  tr.querySelector('.price-input').value        = price;
+  tr.querySelector('.qty-input').value          = qty;
   tbody.appendChild(tr);
   return tr;
 }
 
-// ─── localStorage 保存 ───────────────────────────────────────
-let _saveTimer = null;
-function saveProducts() {
-  const rows = document.querySelectorAll('#productTbody tr[data-id]');
-  const data = [];
-  rows.forEach(row => {
-    data.push({
-      name:  row.querySelector('input[type="text"]').value,
-      price: row.querySelector('.price-input').value,
-      qty:   row.querySelector('.qty-input').value,
-    });
-  });
-  localStorage.setItem(LS_KEY, JSON.stringify(data));
-
-  // 「保存済み ✓」バッジを一瞬表示
-  const badge = document.getElementById('saveBadge');
-  badge.textContent = '保存済み ✓';
-  badge.classList.add('show');
-  clearTimeout(_saveTimer);
-  _saveTimer = setTimeout(() => badge.classList.remove('show'), 1800);
+// ─── テーブルから現在のデータを収集 ──────────────────────────
+function collectProducts() {
+  return [...document.querySelectorAll('#productTbody tr[data-id]')].map(row => ({
+    name:  row.querySelector('input[type="text"]').value,
+    price: row.querySelector('.price-input').value,
+    qty:   row.querySelector('.qty-input').value,
+  }));
 }
 
-// ─── localStorage 復元 ───────────────────────────────────────
-function loadProducts() {
-  let data;
-  try { data = JSON.parse(localStorage.getItem(LS_KEY)); } catch(e) {}
+// ─── バッジ表示 ──────────────────────────────────────────────
+let _badgeTimer = null;
+function showBadge(msg, color) {
+  const b = document.getElementById('saveBadge');
+  b.textContent  = msg;
+  b.style.color  = color || '#00a878';
+  b.classList.add('show');
+  clearTimeout(_badgeTimer);
+  _badgeTimer = setTimeout(() => b.classList.remove('show'), 2200);
+}
+
+// ─── 保存（入力後 0.8 秒でまとめて送信） ─────────────────────
+let _saveDebounce = null;
+function saveProducts() {
+  if (_skipSave) return;
+  clearTimeout(_saveDebounce);
+  _saveDebounce = setTimeout(async () => {
+    const data = collectProducts();
+    // 常に localStorage にも保持（オフライン時の備え）
+    localStorage.setItem(LS_KEY, JSON.stringify(data));
+
+    if (APPS_SCRIPT_URL) {
+      showBadge('保存中…', '#9A9A9A');
+      try {
+        const url = APPS_SCRIPT_URL
+          + '?action=save&data='
+          + encodeURIComponent(JSON.stringify(data));
+        await fetch(url);
+        showBadge('Sheets に保存済み ✓', '#00a878');
+      } catch (e) {
+        showBadge('Sheets 保存失敗（ローカルに保存）', '#e05c5c');
+      }
+    } else {
+      showBadge('保存済み ✓', '#00a878');
+    }
+  }, 800);
+}
+
+// ─── 読み込み ────────────────────────────────────────────────
+async function loadProducts() {
+  _skipSave = true;
+  setLoading(true);
+  let data = null;
+
+  if (APPS_SCRIPT_URL) {
+    try {
+      const res  = await fetch(APPS_SCRIPT_URL);
+      const json = await res.json();
+      if (Array.isArray(json) && json.length > 0) data = json;
+    } catch (e) {
+      console.warn('Apps Script 読み込み失敗。localStorage にフォールバック:', e);
+    }
+  }
+
+  // Apps Script 未設定 or 失敗 → localStorage
+  if (!data) {
+    try { data = JSON.parse(localStorage.getItem(LS_KEY)); } catch (e) {}
+  }
+
+  // どこにもデータなし → デフォルト行
   if (!Array.isArray(data) || data.length === 0) {
-    // 保存データなし → デフォルト行
     createRow('国内販売（ENGINEKO猫）', 50000, 0);
     createRow('欧州B2B', 128000, 0);
-    return;
+  } else {
+    data.forEach(p => createRow(p.name, p.price, p.qty));
   }
-  data.forEach(item => createRow(item.name, item.price, item.qty));
+
+  setLoading(false);
+  _skipSave = false;
+}
+
+function setLoading(on) {
+  const tbody = document.getElementById('productTbody');
+  const b     = document.getElementById('saveBadge');
+  if (on) {
+    tbody.style.opacity = '0.4';
+    b.textContent = APPS_SCRIPT_URL ? 'Sheets からデータ読み込み中…' : '読み込み中…';
+    b.style.color = '#9A9A9A';
+    b.classList.add('show');
+  } else {
+    tbody.style.opacity = '1';
+    b.classList.remove('show');
+  }
 }
 
 // ─── リセット ────────────────────────────────────────────────
 function resetProducts() {
-  if (!confirm('入力内容をリセットしますか？\n（商品名・単価・販売数がすべて初期値に戻ります）')) return;
+  if (!confirm('入力内容をリセットしますか？\n初期の2行（国内販売・欧州B2B）に戻ります。')) return;
   localStorage.removeItem(LS_KEY);
   document.getElementById('productTbody').innerHTML = '';
   nextId = 1;
@@ -743,7 +808,6 @@ function resetProducts() {
 function calcSales() {
   const rows = document.querySelectorAll('#productTbody tr[data-id]');
   let total = 0, units = 0;
-
   rows.forEach(row => {
     const id    = row.dataset.id;
     const price = parseFloat(row.querySelector('.price-input').value) || 0;
@@ -772,8 +836,8 @@ function calcSales() {
   document.getElementById('catUnits').textContent   = units;
   document.getElementById('catBarFill').style.width = fillPct + '%';
 
-  const fill    = document.getElementById('catFill');
-  const bar     = document.getElementById('catBarFill');
+  const fill = document.getElementById('catFill');
+  const bar  = document.getElementById('catBarFill');
   if (pct >= 100) {
     fill.style.background = 'linear-gradient(to top, #00a878 0%, #5de0b3 55%, #a8f0d8 100%)';
     bar.style.background  = 'linear-gradient(90deg,#00a878,#5de0b3)';
@@ -794,14 +858,13 @@ function addRow() {
   tr.querySelector('input[type="text"]').select();
   calcSales();
 }
-
 function delRow(btn) {
   if (document.querySelectorAll('#productTbody tr[data-id]').length <= 1) return;
   btn.closest('tr').remove();
   calcSales();
 }
 
-// ─── 実績ログ集計 ──────────────────────────────────────────────
+// ─── 実績ログ集計 ────────────────────────────────────────────
 (function() {
   const tbody = document.getElementById('actual-tbody');
   const empty = document.getElementById('actual-empty');
@@ -823,9 +886,11 @@ function delRow(btn) {
   document.getElementById('actual-count').textContent       = rows.length;
 })();
 
-// ─── 初期化：localStorage から復元してから計算 ────────────────
-loadProducts();
-calcSales();
+// ─── 初期化 ──────────────────────────────────────────────────
+(async function() {
+  await loadProducts();
+  calcSales();
+})();
 </script>
 
 </body>
