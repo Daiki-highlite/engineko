@@ -735,7 +735,8 @@ function saveProducts() {
         const url = APPS_SCRIPT_URL
           + '?action=save&data='
           + encodeURIComponent(JSON.stringify(data));
-        await fetch(url);
+        // no-cors: レスポンスは読めないが Apps Script 側では確実に処理される
+        await fetch(url, { mode: 'no-cors' });
         showBadge('Sheets に保存済み ✓', '#00a878');
       } catch (e) {
         showBadge('Sheets 保存失敗（ローカルに保存）', '#e05c5c');
