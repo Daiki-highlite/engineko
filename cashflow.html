@@ -322,6 +322,18 @@
     transition: background 220ms, color 220ms, border-color 220ms;
   }
   .btn-add:hover { background: #EBF1F4; color: #5A6870; border-color: #8AABBA; }
+  .btn-reset {
+    background: none; border: 1px solid #E0E0DC; border-radius: 8px;
+    padding: 7px 12px; font-size: 12px; font-family: inherit;
+    color: #9A9A9A; cursor: pointer;
+    transition: background 220ms, color 220ms, border-color 220ms;
+  }
+  .btn-reset:hover { background: #fff0f0; color: #e05c5c; border-color: #e05c5c; }
+  .save-badge {
+    font-size: 11px; color: #00a878; font-weight: 600;
+    opacity: 0; transition: opacity 400ms;
+  }
+  .save-badge.show { opacity: 1; }
   .ach-row { display: flex; gap: 10px; margin-top: 14px; padding-top: 12px; border-top: 1px solid #F0F0EC; flex-wrap: wrap; }
   .ach-pill {
     background: #F5F5F2; border-radius: 6px; padding: 6px 12px;
@@ -423,22 +435,7 @@
           <th style="width:30px;"></th>
         </tr>
       </thead>
-      <tbody id="productTbody">
-        <tr data-id="1">
-          <td><input type="text" value="国内販売（ENGINEKO猫）" oninput="calcSales()"></td>
-          <td><input type="number" class="price-input" value="50000" min="0" step="1000" oninput="calcSales()"></td>
-          <td><input type="number" class="qty-input" value="0" min="0" max="9999" oninput="calcSales()"></td>
-          <td class="sub-cell" id="sub-1">¥0</td>
-          <td class="del-cell"><button class="btn-del" onclick="delRow(this)" title="削除">×</button></td>
-        </tr>
-        <tr data-id="2">
-          <td><input type="text" value="欧州B2B" oninput="calcSales()"></td>
-          <td><input type="number" class="price-input" value="128000" min="0" step="1000" oninput="calcSales()"></td>
-          <td><input type="number" class="qty-input" value="0" min="0" max="9999" oninput="calcSales()"></td>
-          <td class="sub-cell" id="sub-2">¥0</td>
-          <td class="del-cell"><button class="btn-del" onclick="delRow(this)" title="削除">×</button></td>
-        </tr>
-      </tbody>
+      <tbody id="productTbody"></tbody>
       <tfoot>
         <tr>
           <td class="tf-label" colspan="2">合計売上</td>
@@ -447,7 +444,11 @@
         </tr>
       </tfoot>
     </table>
-    <button class="btn-add" onclick="addRow()">＋ 商品を追加</button>
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:0;">
+      <button class="btn-add" onclick="addRow()">＋ 商品を追加</button>
+      <button class="btn-reset" onclick="resetProducts()" title="入力内容をリセット">↺ リセット</button>
+      <span class="save-badge" id="saveBadge"></span>
+    </div>
 
     <div class="ach-row">
       <div class="ach-pill green">売上合計 <strong id="sumDisp">¥0</strong></div>
@@ -663,14 +664,82 @@
 </div>
 
 <script>
-// ─── 商品別入力 & ねこメーター ─────────────────────────────────
-const TARGET     = 5000000;
+// ─── 定数 ────────────────────────────────────────────────────
+const TARGET       = 5000000;
 const TARGET_UNITS = 100;
-let nextId = 3;
+const LS_KEY       = 'engineko_products_v1';
+let nextId = 1;
 
 const fmt    = n => '¥' + Math.round(n).toLocaleString('ja-JP');
 const fmtPct = p => Math.min(100, Math.round(p * 10) / 10) + '%';
 
+// ─── 行を1つ生成して tbody に追加 ────────────────────────────
+function createRow(name, price, qty) {
+  const id = nextId++;
+  const tbody = document.getElementById('productTbody');
+  const tr = document.createElement('tr');
+  tr.dataset.id = id;
+  tr.innerHTML = `
+    <td><input type="text" oninput="calcSales()"></td>
+    <td><input type="number" class="price-input" min="0" step="1000" oninput="calcSales()"></td>
+    <td><input type="number" class="qty-input" min="0" max="9999" oninput="calcSales()"></td>
+    <td class="sub-cell" id="sub-${id}">¥0</td>
+    <td class="del-cell"><button class="btn-del" onclick="delRow(this)" title="削除">×</button></td>
+  `;
+  tr.querySelector('input[type="text"]').value   = name;
+  tr.querySelector('.price-input').value          = price;
+  tr.querySelector('.qty-input').value            = qty;
+  tbody.appendChild(tr);
+  return tr;
+}
+
+// ─── localStorage 保存 ───────────────────────────────────────
+let _saveTimer = null;
+function saveProducts() {
+  const rows = document.querySelectorAll('#productTbody tr[data-id]');
+  const data = [];
+  rows.forEach(row => {
+    data.push({
+      name:  row.querySelector('input[type="text"]').value,
+      price: row.querySelector('.price-input').value,
+      qty:   row.querySelector('.qty-input').value,
+    });
+  });
+  localStorage.setItem(LS_KEY, JSON.stringify(data));
+
+  // 「保存済み ✓」バッジを一瞬表示
+  const badge = document.getElementById('saveBadge');
+  badge.textContent = '保存済み ✓';
+  badge.classList.add('show');
+  clearTimeout(_saveTimer);
+  _saveTimer = setTimeout(() => badge.classList.remove('show'), 1800);
+}
+
+// ─── localStorage 復元 ───────────────────────────────────────
+function loadProducts() {
+  let data;
+  try { data = JSON.parse(localStorage.getItem(LS_KEY)); } catch(e) {}
+  if (!Array.isArray(data) || data.length === 0) {
+    // 保存データなし → デフォルト行
+    createRow('国内販売（ENGINEKO猫）', 50000, 0);
+    createRow('欧州B2B', 128000, 0);
+    return;
+  }
+  data.forEach(item => createRow(item.name, item.price, item.qty));
+}
+
+// ─── リセット ────────────────────────────────────────────────
+function resetProducts() {
+  if (!confirm('入力内容をリセットしますか？\n（商品名・単価・販売数がすべて初期値に戻ります）')) return;
+  localStorage.removeItem(LS_KEY);
+  document.getElementById('productTbody').innerHTML = '';
+  nextId = 1;
+  createRow('国内販売（ENGINEKO猫）', 50000, 0);
+  createRow('欧州B2B', 128000, 0);
+  calcSales();
+}
+
+// ─── 集計 & メーター更新 ─────────────────────────────────────
 function calcSales() {
   const rows = document.querySelectorAll('#productTbody tr[data-id]');
   let total = 0, units = 0;
@@ -686,54 +755,42 @@ function calcSales() {
     if (cell) cell.textContent = fmt(sub);
   });
 
-  const pct    = TARGET > 0 ? (total / TARGET) * 100 : 0;
-  const remain = Math.max(0, TARGET - total);
+  const pct     = TARGET > 0 ? (total / TARGET) * 100 : 0;
+  const remain  = Math.max(0, TARGET - total);
   const fillPct = Math.min(100, pct);
 
-  // テーブルフッター
-  document.getElementById('tfTotal').textContent = fmt(total);
-  document.getElementById('tfUnits').textContent = units + '体';
-
-  // サマリー pill
+  document.getElementById('tfTotal').textContent    = fmt(total);
+  document.getElementById('tfUnits').textContent    = units + '体';
   document.getElementById('sumDisp').textContent    = fmt(total);
   document.getElementById('remainDisp').textContent = fmt(remain);
   document.getElementById('pctDisp').textContent    = fmtPct(pct);
   document.getElementById('unitsDisp').textContent  = units + ' / 100体';
 
-  // ねこメーター
-  document.getElementById('catFill').style.height  = fillPct + '%';
-  document.getElementById('catPct').textContent    = Math.min(100, Math.round(pct));
-  document.getElementById('catAmt').textContent    = Math.round(total).toLocaleString('ja-JP');
-  document.getElementById('catUnits').textContent  = units;
+  document.getElementById('catFill').style.height   = fillPct + '%';
+  document.getElementById('catPct').textContent     = Math.min(100, Math.round(pct));
+  document.getElementById('catAmt').textContent     = Math.round(total).toLocaleString('ja-JP');
+  document.getElementById('catUnits').textContent   = units;
   document.getElementById('catBarFill').style.width = fillPct + '%';
 
-  // 達成率に応じてねこの色変化
-  const fill = document.getElementById('catFill');
+  const fill    = document.getElementById('catFill');
+  const bar     = document.getElementById('catBarFill');
   if (pct >= 100) {
     fill.style.background = 'linear-gradient(to top, #00a878 0%, #5de0b3 55%, #a8f0d8 100%)';
-    document.getElementById('catBarFill').style.background = 'linear-gradient(90deg,#00a878,#5de0b3)';
+    bar.style.background  = 'linear-gradient(90deg,#00a878,#5de0b3)';
   } else if (pct >= 50) {
     fill.style.background = 'linear-gradient(to top, #e07b39 0%, #f6a623 55%, #ffd97d 100%)';
-    document.getElementById('catBarFill').style.background = 'linear-gradient(90deg,#e07b39,#f6a623)';
+    bar.style.background  = 'linear-gradient(90deg,#e07b39,#f6a623)';
   } else {
     fill.style.background = 'linear-gradient(to top, #f6a623 0%, #ffd97d 55%, #ffe8a3 100%)';
-    document.getElementById('catBarFill').style.background = 'linear-gradient(90deg,#f6a623,#ffd97d)';
+    bar.style.background  = 'linear-gradient(90deg,#f6a623,#ffd97d)';
   }
+
+  saveProducts();
 }
 
+// ─── 行の追加・削除 ──────────────────────────────────────────
 function addRow() {
-  const id = nextId++;
-  const tbody = document.getElementById('productTbody');
-  const tr = document.createElement('tr');
-  tr.dataset.id = id;
-  tr.innerHTML = `
-    <td><input type="text" value="新商品" oninput="calcSales()"></td>
-    <td><input type="number" class="price-input" value="50000" min="0" step="1000" oninput="calcSales()"></td>
-    <td><input type="number" class="qty-input" value="0" min="0" max="9999" oninput="calcSales()"></td>
-    <td class="sub-cell" id="sub-${id}">¥0</td>
-    <td class="del-cell"><button class="btn-del" onclick="delRow(this)" title="削除">×</button></td>
-  `;
-  tbody.appendChild(tr);
+  const tr = createRow('新商品', 50000, 0);
   tr.querySelector('input[type="text"]').select();
   calcSales();
 }
@@ -766,6 +823,8 @@ function delRow(btn) {
   document.getElementById('actual-count').textContent       = rows.length;
 })();
 
+// ─── 初期化：localStorage から復元してから計算 ────────────────
+loadProducts();
 calcSales();
 </script>
 
