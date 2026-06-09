@@ -11,19 +11,19 @@
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap');
   :root {
-    --paper:      #FAFAF8;
-    --ink:        #232323;
-    --ink-3:      #6B6B6B;
-    --ink-4:      #9A9A9A;
-    --ink-5:      #C8C8C8;
-    --border:     #E0E0DC;
-    --surface:    #F5F5F2;
+    --paper:       #FAFAF8;
+    --ink:         #232323;
+    --ink-3:       #6B6B6B;
+    --ink-4:       #9A9A9A;
+    --ink-5:       #C8C8C8;
+    --border:      #E0E0DC;
+    --surface:     #F5F5F2;
     --silver-dark: #5A6870;
     --silver:      #8AABBA;
     --silver-light:#BACCDA;
     --silver-pale: #EBF1F4;
-    --t:          220ms cubic-bezier(0.25, 0.1, 0.25, 1);
-    --t-spring:   400ms cubic-bezier(0.34, 1.56, 0.64, 1);
+    --t:           220ms cubic-bezier(0.25, 0.1, 0.25, 1);
+    --t-spring:    400ms cubic-bezier(0.34, 1.56, 0.64, 1);
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body {
@@ -52,7 +52,7 @@
   .nav-brand { text-decoration: none; display: flex; align-items: center; }
   .nav-brand img { height: 28px; width: auto; display: block; }
   .nav-links { display: flex; gap: 4px; }
-  .nav-link { text-decoration: none; font-size: 13px; font-weight: 500; color: #6B6B6B; padding: 6px 14px; border-radius: 8px; transition: background 220ms cubic-bezier(0.25, 0.1, 0.25, 1), color 220ms cubic-bezier(0.25, 0.1, 0.25, 1); }
+  .nav-link { text-decoration: none; font-size: 13px; font-weight: 500; color: #6B6B6B; padding: 6px 14px; border-radius: 8px; transition: background 220ms, color 220ms; }
   .nav-link:hover { background: #F5F5F2; color: #232323; }
   .nav-link.active { background: #EBF1F4; color: #5A6870; font-weight: 600; }
   .nav-logout { text-decoration: none; font-size: 12px; color: #C8C8C8; padding: 6px 10px; border-radius: 8px; cursor: pointer; background: none; border: none; font-family: inherit; }
@@ -67,7 +67,6 @@
     padding-bottom: 16px;
     border-bottom: 1px solid #E0E0DC;
   }
-  header h1 { font-size: 22px; font-weight: 700; letter-spacing: 0.08em; color: #232323; }
   header .subtitle { font-size: 12px; color: #9A9A9A; margin-top: 4px; }
   .date-badge {
     background: #fff;
@@ -82,21 +81,16 @@
 
   /* ========= KPI ROW ========= */
   .kpi-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 24px; }
-  .kpi {
-    background: #fff;
-    border: 1px solid #E0E0DC;
-    border-radius: 12px;
-    padding: 16px 18px;
-  }
+  .kpi { background: #fff; border: 1px solid #E0E0DC; border-radius: 12px; padding: 16px 18px; }
   .kpi .label { font-size: 11px; color: #9A9A9A; text-transform: uppercase; letter-spacing: 0.06em; }
   .kpi .value { font-size: 26px; font-weight: 700; margin-top: 4px; }
-  .kpi .sub { font-size: 11px; color: #C8C8C8; margin-top: 2px; }
+  .kpi .sub   { font-size: 11px; color: #C8C8C8; margin-top: 2px; }
   .kpi.green .value  { color: #00a878; }
   .kpi.red .value    { color: #e05c5c; }
   .kpi.purple .value { color: #5A6870; }
   .kpi.blue .value   { color: #4a90d9; }
 
-  /* ========= SECTION ========= */
+  /* ========= SECTION TITLE ========= */
   .section-title {
     font-size: 11px;
     text-transform: uppercase;
@@ -109,19 +103,10 @@
   .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 24px; }
 
   /* ========= CARD ========= */
-  .card {
-    background: #fff;
-    border: 1px solid #E0E0DC;
-    border-radius: 12px;
-    padding: 16px 18px;
-  }
+  .card { background: #fff; border: 1px solid #E0E0DC; border-radius: 12px; padding: 16px 18px; }
   .card-title {
-    font-size: 12px;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.07em;
-    color: #9A9A9A;
-    margin-bottom: 12px;
+    font-size: 12px; font-weight: 600; text-transform: uppercase;
+    letter-spacing: 0.07em; color: #9A9A9A; margin-bottom: 12px;
   }
   .card-title.color-purple { color: #5A6870; }
   .card-title.color-blue   { color: #4a90d9; }
@@ -134,7 +119,7 @@
   .money-table tr { border-bottom: 1px solid #F0F0EC; }
   .money-table tr:last-child { border-bottom: none; }
   .money-table td { padding: 9px 4px; font-size: 13px; vertical-align: middle; line-height: 1.5; }
-  .money-table td:first-child { color: #666; flex: 1; }
+  .money-table td:first-child { color: #666; }
   .money-table td:last-child { text-align: right; font-weight: 700; white-space: nowrap; }
   .money-table .sub-row td { font-size: 11px; color: #9A9A9A; padding: 3px 4px; }
   .money-table .sub-row td:last-child { font-weight: 400; }
@@ -143,14 +128,9 @@
 
   /* ========= BADGE ========= */
   .badge {
-    display: inline-block;
-    font-size: 10px;
-    font-weight: 700;
-    border-radius: 5px;
-    padding: 2px 8px;
-    letter-spacing: 0.04em;
-    margin-left: 4px;
-    vertical-align: middle;
+    display: inline-block; font-size: 10px; font-weight: 700;
+    border-radius: 5px; padding: 2px 8px; letter-spacing: 0.04em;
+    margin-left: 4px; vertical-align: middle;
   }
   .badge-red    { background: #fff0f0; color: #e05c5c; }
   .badge-yellow { background: #fffbee; color: #c49010; }
@@ -158,121 +138,297 @@
   .badge-purple { background: #EBF1F4; color: #5A6870; }
   .badge-blue   { background: #eef4fd; color: #4a90d9; }
 
-  /* ========= SUBSIDY CARD ========= */
+  /* ========= SUBSIDY ========= */
   .subsidy-item {
-    border: 1px solid #E0E0DC;
-    border-radius: 10px;
-    padding: 14px 16px;
-    margin-bottom: 10px;
-    background: #fff;
-    position: relative;
+    border: 1px solid #E0E0DC; border-radius: 10px; padding: 14px 16px;
+    margin-bottom: 10px; background: #fff; position: relative;
   }
   .subsidy-item:last-child { margin-bottom: 0; }
   .subsidy-name { font-size: 14px; font-weight: 700; color: #232323; margin-bottom: 4px; }
-  .subsidy-amount {
-    font-size: 20px;
-    font-weight: 700;
-    color: #00a878;
-    margin-bottom: 6px;
-  }
+  .subsidy-amount { font-size: 20px; font-weight: 700; color: #00a878; margin-bottom: 6px; }
   .subsidy-amount span { font-size: 12px; font-weight: 400; color: #9A9A9A; margin-left: 6px; }
   .subsidy-meta { font-size: 12px; color: #6B6B6B; line-height: 1.6; }
   .subsidy-deadline {
-    position: absolute;
-    top: 14px;
-    right: 16px;
-    font-size: 11px;
-    font-weight: 700;
-    color: #e05c5c;
-    background: #fff0f0;
-    border-radius: 5px;
-    padding: 2px 8px;
+    position: absolute; top: 14px; right: 16px;
+    font-size: 11px; font-weight: 700; color: #e05c5c;
+    background: #fff0f0; border-radius: 5px; padding: 2px 8px;
   }
-
-  /* ========= FORECAST BAR ========= */
-  .forecast-bar-wrap { margin-top: 10px; }
-  .forecast-bar-label { display: flex; justify-content: space-between; font-size: 11px; color: #9A9A9A; margin-bottom: 4px; }
-  .forecast-bar-track { background: #F0F0EC; border-radius: 99px; height: 8px; overflow: hidden; }
-  .forecast-bar-fill  { height: 8px; border-radius: 99px; background: linear-gradient(90deg, #8AABBA, #BACCDA); }
 
   /* ========= ACTUAL PAID LOG ========= */
   .actual-table { width: 100%; border-collapse: collapse; }
   .actual-table thead th {
-    text-align: left;
-    font-size: 10px;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    color: #9A9A9A;
-    font-weight: 600;
-    padding: 6px 8px;
-    border-bottom: 1px solid #E0E0DC;
+    text-align: left; font-size: 10px; text-transform: uppercase;
+    letter-spacing: 0.08em; color: #9A9A9A; font-weight: 600;
+    padding: 6px 8px; border-bottom: 1px solid #E0E0DC;
   }
   .actual-table thead th.amt { text-align: right; }
   .actual-table tbody tr { border-bottom: 1px solid #F5F5F2; }
   .actual-table tbody tr:last-child { border-bottom: none; }
-  .actual-table tbody td {
-    font-size: 12.5px;
-    color: #444;
-    padding: 9px 8px;
-    vertical-align: top;
-    line-height: 1.5;
-  }
-  .actual-table tbody td.date { color: #6B6B6B; white-space: nowrap; font-variant-numeric: tabular-nums; }
-  .actual-table tbody td.item { color: #232323; font-weight: 500; }
-  .actual-table tbody td.amt {
-    text-align: right;
-    color: #e05c5c;
-    font-weight: 700;
-    white-space: nowrap;
-    font-variant-numeric: tabular-nums;
-  }
+  .actual-table tbody td { font-size: 12.5px; color: #444; padding: 9px 8px; vertical-align: top; line-height: 1.5; }
+  .actual-table tbody td.date  { color: #6B6B6B; white-space: nowrap; font-variant-numeric: tabular-nums; }
+  .actual-table tbody td.item  { color: #232323; font-weight: 500; }
+  .actual-table tbody td.amt   { text-align: right; color: #e05c5c; font-weight: 700; white-space: nowrap; font-variant-numeric: tabular-nums; }
   .actual-table tbody td.payer { color: #6B6B6B; white-space: nowrap; }
-  .actual-table tbody td.memo { color: #9A9A9A; font-size: 11.5px; }
+  .actual-table tbody td.memo  { color: #9A9A9A; font-size: 11.5px; }
   .actual-table tbody td.memo a { color: #4a90d9; text-decoration: none; }
   .actual-table tbody td.memo a:hover { text-decoration: underline; }
   .actual-empty {
-    padding: 22px 12px;
-    text-align: center;
-    font-size: 12px;
-    color: #9A9A9A;
-    background: #FAFAF8;
-    border: 1px dashed #E0E0DC;
-    border-radius: 8px;
+    padding: 22px 12px; text-align: center; font-size: 12px; color: #9A9A9A;
+    background: #FAFAF8; border: 1px dashed #E0E0DC; border-radius: 8px;
   }
-  .actual-summary {
-    display: flex;
-    gap: 14px;
-    margin-bottom: 12px;
-    flex-wrap: wrap;
-  }
+  .actual-summary { display: flex; gap: 14px; margin-bottom: 12px; flex-wrap: wrap; }
   .actual-summary .pill {
-    background: #F5F5F2;
-    border-radius: 6px;
-    padding: 6px 12px;
-    font-size: 11px;
-    color: #6B6B6B;
+    background: #F5F5F2; border-radius: 6px; padding: 6px 12px;
+    font-size: 11px; color: #6B6B6B;
   }
-  .actual-summary .pill strong {
-    color: #232323;
-    font-size: 14px;
-    font-weight: 700;
-    margin-left: 4px;
-    font-variant-numeric: tabular-nums;
-  }
+  .actual-summary .pill strong { color: #232323; font-size: 14px; font-weight: 700; margin-left: 4px; font-variant-numeric: tabular-nums; }
   .actual-summary .pill.red strong { color: #e05c5c; }
 
   /* ========= NOTE ========= */
   .note {
-    font-size: 12px;
-    color: #5A6870;
+    font-size: 12px; color: #5A6870;
     background: rgba(138,171,186,0.10);
     border-left: 3px solid #BACCDA;
     border-radius: 0 6px 6px 0;
-    padding: 7px 10px;
-    margin-top: 10px;
-    line-height: 1.6;
+    padding: 7px 10px; margin-top: 10px; line-height: 1.6;
   }
-  .note-label { font-weight: 700; font-size: 11px; margin-bottom: 2px; color: #6B6B6B0c8; letter-spacing: 0.04em; }
+  .note-label { font-weight: 700; font-size: 11px; margin-bottom: 2px; color: #6B6B6B; letter-spacing: 0.04em; }
+
+  /* ========= CAT ACHIEVEMENT METER ========= */
+  .achievement-wrap {
+    display: grid;
+    grid-template-columns: 260px 1fr;
+    gap: 20px;
+    align-items: start;
+    margin-bottom: 24px;
+  }
+  .cat-meter-card {
+    background: #fff;
+    border: 1px solid #E0E0DC;
+    border-radius: 12px;
+    padding: 18px 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+  }
+  .cat-meter-label {
+    font-size: 11px; font-weight: 600; text-transform: uppercase;
+    letter-spacing: 0.1em; color: #9A9A9A; align-self: flex-start;
+  }
+  .cat-meter-container {
+    position: relative;
+    width: 196px;
+    height: 196px;
+    background: #fff;
+    border-radius: 8px;
+    overflow: hidden;
+    flex-shrink: 0;
+  }
+  .cat-fill {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 0%;
+    background: linear-gradient(to top, #f6a623 0%, #ffd97d 60%, #ffe8a3 100%);
+    transition: height 1.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+  .cat-overlay {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    object-fit: contain;
+    mix-blend-mode: multiply;
+    pointer-events: none;
+  }
+  .cat-stats {
+    text-align: center;
+    line-height: 1;
+    width: 100%;
+  }
+  .cat-pct-num {
+    font-size: 38px; font-weight: 700; color: #232323;
+    font-variant-numeric: tabular-nums; line-height: 1;
+  }
+  .cat-pct-suffix { font-size: 20px; font-weight: 400; color: #9A9A9A; }
+  .cat-yen {
+    font-size: 13px; color: #6B6B6B; margin-top: 5px;
+    font-variant-numeric: tabular-nums;
+  }
+  .cat-yen-target { font-size: 11px; color: #C8C8C8; margin-top: 2px; }
+  .cat-bar-wrap { width: 100%; }
+  .cat-bar-track { background: #F0F0EC; border-radius: 99px; height: 6px; overflow: hidden; }
+  .cat-bar-fill {
+    height: 6px; border-radius: 99px;
+    background: linear-gradient(90deg, #f6a623, #ffd97d);
+    width: 0%;
+    transition: width 1.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+  .cat-units-row {
+    display: flex; justify-content: space-between;
+    font-size: 11px; color: #9A9A9A; width: 100%; margin-top: 4px;
+  }
+  .cat-units-row strong { color: #232323; }
+
+  /* ========= PRODUCT INPUT TABLE ========= */
+  .product-card { background: #fff; border: 1px solid #E0E0DC; border-radius: 12px; padding: 16px 18px; }
+  .product-table { width: 100%; border-collapse: collapse; margin-bottom: 12px; }
+  .product-table thead th {
+    text-align: left; font-size: 10px; text-transform: uppercase;
+    letter-spacing: 0.08em; color: #9A9A9A; font-weight: 600;
+    padding: 6px 8px; border-bottom: 1px solid #E0E0DC;
+  }
+  .product-table thead th.r { text-align: right; }
+  .product-table tbody tr { border-bottom: 1px solid #F5F5F2; }
+  .product-table tbody tr:last-child { border-bottom: none; }
+  .product-table tbody td { padding: 9px 8px; font-size: 13px; vertical-align: middle; }
+  .product-table input[type="text"] {
+    border: 1px solid #E0E0DC; border-radius: 6px; padding: 5px 8px;
+    font-size: 13px; font-family: inherit; color: #232323;
+    background: #FAFAF8; outline: none; width: 170px;
+    transition: border-color 220ms;
+  }
+  .product-table input[type="number"] {
+    border: 1px solid #E0E0DC; border-radius: 6px; padding: 5px 8px;
+    font-size: 13px; font-family: inherit; color: #232323;
+    background: #FAFAF8; outline: none; width: 88px; text-align: right;
+    transition: border-color 220ms;
+  }
+  .product-table input:focus { border-color: #8AABBA; background: #fff; }
+  .product-table td.sub-cell {
+    text-align: right; font-weight: 700; color: #00a878;
+    font-variant-numeric: tabular-nums; white-space: nowrap;
+  }
+  .product-table td.del-cell { text-align: center; }
+  .product-table tfoot tr { border-top: 2px solid #E0E0DC; }
+  .product-table tfoot td { padding: 11px 8px 6px; font-size: 14px; font-weight: 700; }
+  .product-table tfoot .tf-label { color: #232323; }
+  .product-table tfoot .tf-units { text-align: center; color: #5A6870; font-size: 13px; }
+  .product-table tfoot .tf-total {
+    text-align: right; color: #00a878; font-size: 17px;
+    font-variant-numeric: tabular-nums; white-space: nowrap;
+  }
+  .btn-del {
+    background: none; border: none; cursor: pointer;
+    color: #C8C8C8; font-size: 16px; padding: 2px 5px;
+    border-radius: 4px; line-height: 1;
+    transition: color 220ms, background 220ms;
+  }
+  .btn-del:hover { color: #e05c5c; background: #fff0f0; }
+  .btn-add {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: none; border: 1px dashed #BACCDA; border-radius: 8px;
+    padding: 7px 14px; font-size: 12px; font-family: inherit;
+    font-weight: 500; color: #8AABBA; cursor: pointer;
+    transition: background 220ms, color 220ms, border-color 220ms;
+  }
+  .btn-add:hover { background: #EBF1F4; color: #5A6870; border-color: #8AABBA; }
+  .btn-reset {
+    background: none; border: 1px solid #E0E0DC; border-radius: 8px;
+    padding: 7px 12px; font-size: 12px; font-family: inherit;
+    color: #9A9A9A; cursor: pointer;
+    transition: background 220ms, color 220ms, border-color 220ms;
+  }
+  .btn-reset:hover { background: #fff0f0; color: #e05c5c; border-color: #e05c5c; }
+  .save-badge {
+    font-size: 11px; color: #00a878; font-weight: 600;
+    opacity: 0; transition: opacity 400ms;
+  }
+  .save-badge.show { opacity: 1; }
+  .ach-row { display: flex; gap: 10px; margin-top: 14px; padding-top: 12px; border-top: 1px solid #F0F0EC; flex-wrap: wrap; }
+  .ach-pill {
+    background: #F5F5F2; border-radius: 6px; padding: 6px 12px;
+    font-size: 11px; color: #6B6B6B;
+  }
+  .ach-pill strong { color: #232323; font-size: 13px; font-weight: 700; margin-left: 4px; font-variant-numeric: tabular-nums; }
+  .ach-pill.green strong { color: #00a878; }
+  .ach-pill.orange strong { color: #e07b39; }
+
+  /* ========= FY TOGGLE ========= */
+  .fy-wrap { display: flex; align-items: center; gap: 8px; margin-bottom: 12px; }
+  .fy-label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em; color: #9A9A9A; }
+  .fy-btn {
+    background: #fff; border: 1px solid #E0E0DC; border-radius: 20px;
+    padding: 5px 16px; font-size: 12px; font-weight: 600; font-family: inherit;
+    color: #9A9A9A; cursor: pointer; transition: all 220ms;
+  }
+  .fy-btn.active { background: #232323; border-color: #232323; color: #fff; }
+  .fy-btn:not(.active):hover { background: #F5F5F2; color: #232323; }
+
+  /* ========= 収支サマリー ========= */
+  .bs-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 14px; margin-bottom: 28px; }
+  .bs-card { background: #fff; border: 1px solid #E0E0DC; border-radius: 12px; padding: 18px 20px; }
+  .bs-card-title { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: #9A9A9A; margin-bottom: 8px; }
+  .bs-total { font-size: 28px; font-weight: 700; font-variant-numeric: tabular-nums; margin-bottom: 10px; }
+  .bs-total.green  { color: #00a878; }
+  .bs-total.red    { color: #e05c5c; }
+  .bs-total.purple { color: #5A6870; }
+  .bs-net-chip {
+    display: inline-block; font-size: 11px; font-weight: 700;
+    padding: 2px 10px; border-radius: 20px; margin-bottom: 10px;
+  }
+  .bs-net-chip.black { background: #f0fdf8; color: #00a878; }
+  .bs-net-chip.red   { background: #fff0f0; color: #e05c5c; }
+  .bs-breakdown { display: flex; flex-direction: column; gap: 5px; }
+  .bs-row { display: flex; justify-content: space-between; align-items: center; font-size: 12px; }
+  .bs-row .bs-cat { color: #6B6B6B; display: flex; align-items: center; gap: 5px; }
+  .bs-row .bs-amt { font-weight: 700; font-variant-numeric: tabular-nums; color: #232323; }
+  .bs-row .bs-amt.red { color: #e05c5c; }
+  .bs-row .bs-amt.green { color: #00a878; }
+  .bs-divider { border: none; border-top: 1px solid #F0F0EC; margin: 6px 0; }
+  .bs-empty { font-size: 12px; color: #C8C8C8; padding: 8px 0; }
+  .bs-sheets-link {
+    display: inline-flex; align-items: center; gap: 4px;
+    font-size: 11px; color: #8AABBA; text-decoration: none; margin-top: 10px;
+    padding: 4px 10px; border: 1px solid #BACCDA; border-radius: 6px;
+    transition: background 220ms;
+  }
+  .bs-sheets-link:hover { background: #EBF1F4; }
+
+  /* ========= 実績テーブル（汎用） ========= */
+  .ledger-table { width: 100%; border-collapse: collapse; }
+  .ledger-table thead th {
+    text-align: left; font-size: 10px; text-transform: uppercase;
+    letter-spacing: 0.08em; color: #9A9A9A; font-weight: 600;
+    padding: 6px 8px; border-bottom: 1px solid #E0E0DC;
+  }
+  .ledger-table thead th.r { text-align: right; }
+  .ledger-table tbody tr { border-bottom: 1px solid #F5F5F2; }
+  .ledger-table tbody tr:last-child { border-bottom: none; }
+  .ledger-table tbody td { font-size: 12.5px; color: #444; padding: 9px 8px; vertical-align: top; line-height: 1.5; }
+  .ledger-table tbody td.r   { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .ledger-table tbody td.amt-red   { color: #e05c5c; font-weight: 700; }
+  .ledger-table tbody td.amt-green { color: #00a878; font-weight: 700; }
+  .ledger-table tfoot tr { border-top: 2px solid #E0E0DC; }
+  .ledger-table tfoot td { padding: 10px 8px; font-size: 13px; font-weight: 700; }
+  .ledger-table tfoot td.r { text-align: right; color: #232323; }
+
+  /* カテゴリ仕切り行 */
+  .ledger-table tr.cat-header td {
+    background: #F5F5F2; font-size: 11px; font-weight: 700;
+    color: #5A6870; padding: 6px 8px; letter-spacing: 0.04em;
+  }
+  .ledger-table tr.cat-header td.r { text-align: right; color: #5A6870; }
+
+  /* カテゴリバッジ */
+  .cat-chip {
+    display: inline-block; font-size: 10px; font-weight: 700;
+    padding: 2px 7px; border-radius: 4px; white-space: nowrap;
+    background: #F5F5F2; color: #5A6870;
+  }
+
+  /* type チップ */
+  .type-chip { display: inline-block; font-size: 10px; font-weight: 700; padding: 2px 7px; border-radius: 4px; }
+  .type-chip.sales  { background: #f0fdf8; color: #00a878; }
+  .type-chip.grant  { background: #eef4fd; color: #4a90d9; }
+
+  /* 空状態 */
+  .ledger-empty {
+    padding: 28px 16px; text-align: center; font-size: 12px; color: #9A9A9A;
+    background: #FAFAF8; border: 1px dashed #E0E0DC; border-radius: 8px; line-height: 1.8;
+  }
+
+  /* ローディング */
+  .ledger-loading { padding: 20px 8px; text-align: center; font-size: 12px; color: #C8C8C8; }
 </style>
 </head>
 <body>
@@ -299,20 +455,20 @@
     <div class="subtitle">経費・収入・補助金 ／ Slack #05-コアメンバー より</div>
   </div>
   <div class="date-badge">
-    <strong>2026年5月8日（金）</strong>
-    最終更新: 本日（型代 ¥460,900 反映）
+    <strong>2026年5月28日（木）</strong>
+    最終更新: 本日
   </div>
 </header>
 
 <!-- KPI -->
 <div class="kpi-row">
   <div class="kpi green">
-    <div class="label">💹 初年度売上目標</div>
-    <div class="value">400万</div>
-    <div class="sub">欧州B2B 5社想定</div>
+    <div class="label">🎯 売上目標（〜2027/3）</div>
+    <div class="value">500万</div>
+    <div class="sub">初期100体完売</div>
   </div>
   <div class="kpi purple">
-    <div class="label">🎯 2年目目標</div>
+    <div class="label">🚀 2年目目標</div>
     <div class="value">1,000万</div>
     <div class="sub">国内EC + 欧州拡大</div>
   </div>
@@ -328,83 +484,129 @@
   </div>
 </div>
 
-<!-- 収入見込み + 経費 -->
-<div class="section-title">📊 収支概要（初年度見込み）</div>
-<div class="grid-2">
+<!-- 年度切替 + 収支サマリー -->
+<div class="fy-wrap">
+  <span class="fy-label">年度</span>
+  <button class="fy-btn active" id="btn-fy2026" onclick="switchFY('FY2026')">FY2026</button>
+  <button class="fy-btn"        id="btn-fy2027" onclick="switchFY('FY2027')">FY2027</button>
+</div>
+<div class="section-title">⚖️ 収支サマリー（実績ベース）</div>
+<div class="bs-grid" id="bsGrid">
+  <!-- 収入 -->
+  <div class="bs-card">
+    <div class="bs-card-title">💹 収入合計</div>
+    <div class="bs-total green" id="bsTotalIncome">¥—</div>
+    <div class="bs-breakdown" id="bsIncomeBreak"><div class="bs-empty">読み込み中…</div></div>
+  </div>
+  <!-- 支出 -->
+  <div class="bs-card">
+    <div class="bs-card-title">💸 支出合計</div>
+    <div class="bs-total red" id="bsTotalExpense">¥—</div>
+    <div class="bs-breakdown" id="bsExpenseBreak"><div class="bs-empty">読み込み中…</div></div>
+  </div>
+  <!-- 収支 -->
+  <div class="bs-card">
+    <div class="bs-card-title">⚖️ 収支（差引）</div>
+    <div class="bs-total purple" id="bsNet">¥—</div>
+    <div id="bsNetChip"></div>
+    <div style="font-size:11px;color:#9A9A9A;margin-top:6px;" id="bsNetSub"></div>
+  </div>
+</div>
 
-  <div class="card">
-    <div class="card-title color-green">💹 収入見込み</div>
-    <table class="money-table">
-      <tr>
-        <td>国内販売（30個 × ¥50,000）</td>
-        <td style="color:#00a878;">¥1,500,000</td>
-      </tr>
-      <tr class="sub-row">
-        <td>初回出荷：30個（4/28発送）</td>
-        <td>単価 ¥50,000</td>
-      </tr>
-      <tr>
-        <td>欧州B2B（5社 × €800相当）</td>
-        <td style="color:#00a878;">¥4,000,000</td>
-      </tr>
-      <tr class="sub-row">
-        <td>€1 ≈ ¥160換算での試算</td>
-        <td>5社 × €800 × 10個想定</td>
-      </tr>
-      <tr class="total-row">
-        <td>初年度売上合計（目標）</td>
-        <td>¥4,000,000〜</td>
-      </tr>
-    </table>
-    <div class="forecast-bar-wrap">
-      <div class="forecast-bar-label"><span>進捗</span><span>達成率 推定 15%（初回出荷前）</span></div>
-      <div class="forecast-bar-track"><div class="forecast-bar-fill" style="width:15%;"></div></div>
+<!-- 売上達成メーター -->
+<div class="section-title">📈 売上達成状況（目標：¥5,000,000 / 100体 ／ 2027年3月まで）</div>
+<div class="achievement-wrap">
+
+  <!-- ねこメーター -->
+  <div class="cat-meter-card">
+    <div class="cat-meter-label">達成度メーター</div>
+    <div class="cat-meter-container">
+      <div class="cat-fill" id="catFill"></div>
+      <img src="nekorinkaku.png" class="cat-overlay" alt="達成度">
+    </div>
+    <div class="cat-stats">
+      <div class="cat-pct-num"><span id="catPct">0</span><span class="cat-pct-suffix">%</span></div>
+      <div class="cat-yen">¥<span id="catAmt">0</span></div>
+      <div class="cat-yen-target">目標 ¥5,000,000</div>
+    </div>
+    <div class="cat-bar-wrap">
+      <div class="cat-bar-track"><div class="cat-bar-fill" id="catBarFill"></div></div>
+      <div class="cat-units-row">
+        <span>販売数: <strong><span id="catUnits">0</span>体</strong></span>
+        <span>目標: <strong>100体</strong></span>
+      </div>
     </div>
   </div>
 
+  <!-- 商品別入力 -->
+  <div class="product-card">
+    <div class="card-title color-green">📦 商品別 販売数・単価入力</div>
+    <table class="product-table">
+      <thead>
+        <tr>
+          <th>商品名</th>
+          <th class="r" style="width:100px;">単価（¥）</th>
+          <th class="r" style="width:80px;">販売数</th>
+          <th class="r" style="width:110px;">小計</th>
+          <th style="width:30px;"></th>
+        </tr>
+      </thead>
+      <tbody id="productTbody"></tbody>
+      <tfoot>
+        <tr>
+          <td class="tf-label" colspan="2">合計売上</td>
+          <td class="tf-units" id="tfUnits">0体</td>
+          <td class="tf-total" id="tfTotal" colspan="2">¥0</td>
+        </tr>
+      </tfoot>
+    </table>
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:0;">
+      <button class="btn-add" onclick="addRow()">＋ 商品を追加</button>
+      <button class="btn-reset" onclick="resetProducts()" title="入力内容をリセット">↺ リセット</button>
+      <span class="save-badge" id="saveBadge"></span>
+    </div>
+
+    <div class="ach-row">
+      <div class="ach-pill green">売上合計 <strong id="sumDisp">¥0</strong></div>
+      <div class="ach-pill orange">残り <strong id="remainDisp">¥5,000,000</strong></div>
+      <div class="ach-pill">達成率 <strong id="pctDisp">0%</strong></div>
+      <div class="ach-pill">販売数 <strong id="unitsDisp">0 / 100体</strong></div>
+    </div>
+  </div>
+
+</div>
+
+<!-- 経費 -->
+<div class="section-title">💸 経費項目</div>
+<div class="grid-2">
   <div class="card">
-    <div class="card-title color-red">💸 主要経費項目</div>
+    <div class="card-title color-red">支出内訳</div>
     <table class="money-table">
       <tr>
         <td>EU商標出願</td>
         <td style="color:#e05c5c;">¥15〜25万</td>
       </tr>
-      <tr class="sub-row">
-        <td>弁理士費用含む</td>
-        <td><span class="badge badge-yellow">検討中</span></td>
-      </tr>
+      <tr class="sub-row"><td>弁理士費用含む</td><td><span class="badge badge-yellow">検討中</span></td></tr>
       <tr>
         <td>ハーグ意匠出願</td>
         <td style="color:#e05c5c;">¥10〜30万 + USD1,500〜3,000</td>
       </tr>
-      <tr class="sub-row">
-        <td>WIPO経由・国際意匠登録</td>
-        <td><span class="badge badge-yellow">検討中</span></td>
-      </tr>
+      <tr class="sub-row"><td>WIPO経由・国際意匠登録</td><td><span class="badge badge-yellow">検討中</span></td></tr>
       <tr>
         <td>梱包資材（発泡スチロール等）</td>
         <td style="color:#e05c5c;">要見積もり</td>
       </tr>
-      <tr class="sub-row">
-        <td>ウレタン→発泡スチロール代替で抑制</td>
-        <td>30%節約見込み</td>
-      </tr>
+      <tr class="sub-row"><td>ウレタン→発泡スチロール代替で抑制</td><td>30%節約見込み</td></tr>
       <tr>
         <td>ダンボール代</td>
         <td style="color:#e05c5c;">¥2,415</td>
       </tr>
-      <tr class="sub-row">
-        <td>初回出荷用 梱包資材実費</td>
-        <td><span class="badge badge-green">確定</span></td>
-      </tr>
+      <tr class="sub-row"><td>初回出荷用 梱包資材実費</td><td><span class="badge badge-green">確定</span></td></tr>
       <tr>
         <td>初期型費用（フジコウ）</td>
         <td style="color:#e05c5c;"><strong>¥460,900</strong></td>
       </tr>
-      <tr class="sub-row">
-        <td>想定の2倍。100体ベースで実質 +¥4,609/体</td>
-        <td><span class="badge badge-red">確定</span></td>
-      </tr>
+      <tr class="sub-row"><td>想定の2倍。100体ベースで実質 +¥4,609/体</td><td><span class="badge badge-red">確定</span></td></tr>
       <tr>
         <td>試作・製造費（富山/文京区）</td>
         <td style="color:#e05c5c;">要見積もり</td>
@@ -416,76 +618,64 @@
     </div>
   </div>
 
+  <div class="card">
+    <div class="card-title color-purple">単価試算（100体完売時）</div>
+    <table class="money-table">
+      <tr>
+        <td>型費用（100体ベース）</td>
+        <td style="color:#e05c5c;">+¥4,609/体</td>
+      </tr>
+      <tr class="sub-row"><td>実際支払: ¥460,900 ÷ 100体</td><td></td></tr>
+      <tr>
+        <td>製造原価（見積中）</td>
+        <td>未確定</td>
+      </tr>
+      <tr>
+        <td>梱包資材（1体あたり）</td>
+        <td>〜¥1,000</td>
+      </tr>
+      <tr>
+        <td>国内販売 想定単価</td>
+        <td style="color:#00a878;font-weight:700;">¥50,000</td>
+      </tr>
+      <tr class="sub-row"><td>利益率：製造原価確定後に見直し</td><td></td></tr>
+      <tr class="total-row">
+        <td>100体完売時の売上</td>
+        <td style="color:#00a878;">¥5,000,000</td>
+      </tr>
+    </table>
+  </div>
 </div>
 
-<!-- 実際に払った金額（実績ログ） -->
-<div class="section-title">💴 実際に払った金額（実績ログ）</div>
-<div class="card" style="margin-bottom: 24px;">
-  <div class="card-title color-red">💸 支出実績</div>
-
-  <div class="actual-summary">
-    <div class="pill red">今月実績合計 <strong id="actual-month-total">¥0</strong></div>
-    <div class="pill red">累計（FY2026） <strong id="actual-fy-total">¥0</strong></div>
-    <div class="pill">記録件数 <strong id="actual-count">0</strong></div>
+<!-- 収入実績 -->
+<div class="section-title">💹 収入実績</div>
+<div class="card" style="margin-bottom:24px;">
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+    <div class="card-title color-green" style="margin-bottom:0;">実際に受け取った収入</div>
+    <a href="https://docs.google.com/spreadsheets" target="_blank" class="bs-sheets-link" id="incomeSheetsLink">📊 Sheets で編集</a>
   </div>
+  <div id="incomeTableWrap"><div class="ledger-loading">読み込み中…</div></div>
+</div>
 
-  <table class="actual-table">
-    <thead>
-      <tr>
-        <th style="width:90px;">日付</th>
-        <th>項目</th>
-        <th class="amt" style="width:110px;">金額</th>
-        <th style="width:100px;">支払者</th>
-        <th>メモ・出典</th>
-      </tr>
-    </thead>
-    <tbody id="actual-tbody">
-      <!-- Slack「to Claude（cashflow）」または「払った／振込／立替」キーワードで吸い上げて自動追記 -->
-      <tr data-date="2026-05-01" data-amount="22946">
-        <td class="date">2026/05/01</td>
-        <td class="item">先行の箱（外箱・梱包資材）<br><span style="font-size:11px;color:#9A9A9A;">請求支払い完了</span></td>
-        <td class="amt">¥22,946</td>
-        <td class="payer">早川 大貴</td>
-        <td class="memo"><a href="https://highlite-brand.slack.com/archives/C0A5564Q0QN/p1777618150498549?thread_ts=1777618123.631469&cid=C0A5564Q0QN" target="_blank">Slackメモ</a></td>
-      </tr>
-      <tr data-date="2026-05-01" data-amount="988">
-        <td class="date">2026/05/01</td>
-        <td class="item">エアークッション（梱包緩衝材・テスト分）<br><span style="font-size:11px;color:#9A9A9A;">メルカリ／出品者: 猫じゃん</span></td>
-        <td class="amt">¥988</td>
-        <td class="payer">早川 大貴</td>
-        <td class="memo"><a href="https://highlite-brand.slack.com/archives/C0A5564Q0QN/p1777600012363259?thread_ts=1777010130.043879&cid=C0A5564Q0QN" target="_blank">Slackメモ</a></td>
-      </tr>
-      <tr data-date="2026-05-07" data-amount="460900">
-        <td class="date">2026/05/07</td>
-        <td class="item">初期型費用（フジコウ／猫の型）<br><span style="font-size:11px;color:#9A9A9A;">想定の2倍・要見直し</span></td>
-        <td class="amt"><strong style="color:#e05c5c;">¥460,900</strong></td>
-        <td class="payer">早川 大貴</td>
-        <td class="memo"><a href="https://highlite-brand.slack.com/archives/C0A5564Q0QN/p1778160286663919" target="_blank">Slackメモ</a></td>
-      </tr>
-    </tbody>
-  </table>
-
-  <div class="actual-empty" id="actual-empty">
-    まだ実績データはありません。<br>
-    Slack <code style="background:#fff;padding:1px 5px;border-radius:3px;">#05-engineko-コアメンバー</code> で
-    「払った」「振り込んだ」「立て替えた」「支払い完了」などのキーワードや
-    <code style="background:#fff;padding:1px 5px;border-radius:3px;">to Claude（cashflow）</code>
-    タグ付きメモが投稿されると、次回更新時にここへ自動追記されます。
+<!-- 支出実績 -->
+<div class="section-title">💸 支出実績</div>
+<div class="card" style="margin-bottom:24px;">
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+    <div class="card-title color-red" style="margin-bottom:0;">カテゴリ別 支出明細</div>
+    <a href="https://docs.google.com/spreadsheets" target="_blank" class="bs-sheets-link" id="expenseSheetsLink">📊 Sheets で編集</a>
   </div>
-
+  <div id="expenseTableWrap"><div class="ledger-loading">読み込み中…</div></div>
   <div class="note" style="margin-top:14px;">
     <div class="note-label">📝 運用ルール</div>
-    Slackメモから取り込む項目：<strong>日付・項目・金額・支払者・出典リンク</strong>。
-    Claude が週次更新タイミングで <code style="background:#fff;padding:1px 5px;border-radius:3px;">engineko-update</code> スキル経由で吸い上げる。
-    取り込みに迷うものはここに <span class="badge badge-yellow">要確認</span> 付きで仮登録 →
-    次回定例で確定する運用。
+    支出が発生したら Google Sheets の「支出」シートに直接入力してください。
+    ページをリロードすると最新データが反映されます。
+    Slack での「払った」報告 → 週次で Sheets に転記 が推奨フローです。
   </div>
 </div>
 
 <!-- 補助金 -->
 <div class="section-title">🏦 補助金・助成金</div>
 <div class="grid-3">
-
   <div>
     <div class="subsidy-item">
       <div class="subsidy-deadline">4/30締切</div>
@@ -498,7 +688,6 @@
       </div>
     </div>
   </div>
-
   <div>
     <div class="subsidy-item">
       <div class="subsidy-name">INPIT 外国出願補助金</div>
@@ -511,7 +700,6 @@
       </div>
     </div>
   </div>
-
   <div>
     <div class="subsidy-item">
       <div class="subsidy-name">ものづくり補助金 グローバル枠</div>
@@ -524,18 +712,17 @@
       </div>
     </div>
   </div>
-
 </div>
 
-<!-- 2年目ロードマップ -->
+<!-- ロードマップ -->
 <div class="section-title">🗺️ 財務ロードマップ</div>
 <div class="card" style="margin-bottom:24px;">
   <div class="card-title color-purple">年次目標</div>
   <table class="money-table">
     <tr>
-      <td style="width:100px;"><strong>2026年（初年度）</strong></td>
-      <td>国内30個出荷 ＋ 欧州5社開拓</td>
-      <td style="color:#00a878; text-align:right;">目標 ¥4,000,000</td>
+      <td style="width:150px;"><strong>〜2027年3月（初年度）</strong></td>
+      <td>国内100体完売 ＋ 欧州B2B開拓</td>
+      <td style="color:#00a878; text-align:right;">目標 ¥5,000,000</td>
     </tr>
     <tr class="sub-row">
       <td></td>
@@ -543,7 +730,7 @@
       <td></td>
     </tr>
     <tr>
-      <td><strong>2027年（2年目）</strong></td>
+      <td><strong>2027〜2028年（2年目）</strong></td>
       <td>欧州顧客拡大 ＋ 国内EC強化 ＋ 金ライン量産</td>
       <td style="color:#5A6870; text-align:right;">目標 ¥10,000,000</td>
     </tr>
@@ -561,30 +748,421 @@
 </div>
 
 <script>
-  // 実績ログ：行数に応じてempty状態を切り替え＋合計を自動計算
-  (function() {
-    const tbody = document.getElementById('actual-tbody');
-    const empty = document.getElementById('actual-empty');
-    if (!tbody || !empty) return;
-    const rows = tbody.querySelectorAll('tr[data-amount]');
-    if (rows.length === 0) return;
-    empty.style.display = 'none';
-    const now = new Date();
-    let monthTotal = 0;
-    let fyTotal = 0;
-    rows.forEach(r => {
-      const amt = parseInt(r.dataset.amount, 10) || 0;
-      const d = new Date(r.dataset.date);
-      fyTotal += amt;
-      if (d.getFullYear() === now.getFullYear() && d.getMonth() === now.getMonth()) {
-        monthTotal += amt;
+// ================================================================
+// ▼ セットアップ後にここへ Apps Script の URL を貼り付けてください
+//   未設定のままでも localStorage に保存されるので動作します
+const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwZu63UDIMgqjG_JllDAwFRcnrA9XzEPpY_o024-8MWZ8tHUvtsxGx9nu9PfeVprYTEHg/exec';
+// ================================================================
+
+const TARGET       = 5000000;
+const TARGET_UNITS = 100;
+const LS_KEY       = 'engineko_products_v1';
+let nextId   = 1;
+let _skipSave = false;
+
+const fmt    = n => '¥' + Math.round(n).toLocaleString('ja-JP');
+const fmtPct = p => Math.min(100, Math.round(p * 10) / 10) + '%';
+
+// ─── 行を1つ生成 ─────────────────────────────────────────────
+function createRow(name, price, qty) {
+  const id    = nextId++;
+  const tbody = document.getElementById('productTbody');
+  const tr    = document.createElement('tr');
+  tr.dataset.id = id;
+  tr.innerHTML = `
+    <td><input type="text" oninput="calcSales()"></td>
+    <td><input type="number" class="price-input" min="0" step="1000" oninput="calcSales()"></td>
+    <td><input type="number" class="qty-input"   min="0" max="9999"  oninput="calcSales()"></td>
+    <td class="sub-cell" id="sub-${id}">¥0</td>
+    <td class="del-cell"><button class="btn-del" onclick="delRow(this)" title="削除">×</button></td>
+  `;
+  tr.querySelector('input[type="text"]').value = name;
+  tr.querySelector('.price-input').value        = price;
+  tr.querySelector('.qty-input').value          = qty;
+  tbody.appendChild(tr);
+  return tr;
+}
+
+// ─── テーブルから現在のデータを収集 ──────────────────────────
+function collectProducts() {
+  return [...document.querySelectorAll('#productTbody tr[data-id]')].map(row => ({
+    name:  row.querySelector('input[type="text"]').value,
+    price: row.querySelector('.price-input').value,
+    qty:   row.querySelector('.qty-input').value,
+  }));
+}
+
+// ─── バッジ表示 ──────────────────────────────────────────────
+let _badgeTimer = null;
+function showBadge(msg, color) {
+  const b = document.getElementById('saveBadge');
+  b.textContent  = msg;
+  b.style.color  = color || '#00a878';
+  b.classList.add('show');
+  clearTimeout(_badgeTimer);
+  _badgeTimer = setTimeout(() => b.classList.remove('show'), 2200);
+}
+
+// ─── 保存（入力後 0.8 秒でまとめて送信） ─────────────────────
+let _saveDebounce = null;
+function saveProducts() {
+  if (_skipSave) return;
+  clearTimeout(_saveDebounce);
+  _saveDebounce = setTimeout(async () => {
+    const data = collectProducts();
+    // 常に localStorage にも保持（オフライン時の備え）
+    localStorage.setItem(LS_KEY, JSON.stringify(data));
+
+    if (APPS_SCRIPT_URL) {
+      showBadge('保存中…', '#9A9A9A');
+      try {
+        const url = APPS_SCRIPT_URL
+          + '?action=save&data='
+          + encodeURIComponent(JSON.stringify(data));
+        // no-cors: レスポンスは読めないが Apps Script 側では確実に処理される
+        await fetch(url, { mode: 'no-cors' });
+        showBadge('Sheets に保存済み ✓', '#00a878');
+      } catch (e) {
+        showBadge('Sheets 保存失敗（ローカルに保存）', '#e05c5c');
       }
+    } else {
+      showBadge('保存済み ✓', '#00a878');
+    }
+  }, 800);
+}
+
+// ─── 読み込み ────────────────────────────────────────────────
+async function loadProducts() {
+  _skipSave = true;
+  setLoading(true);
+  let data = null;
+
+  if (APPS_SCRIPT_URL) {
+    try {
+      const res  = await fetch(APPS_SCRIPT_URL);
+      const json = await res.json();
+      if (Array.isArray(json) && json.length > 0) data = json;
+    } catch (e) {
+      console.warn('Apps Script 読み込み失敗。localStorage にフォールバック:', e);
+    }
+  }
+
+  // Apps Script 未設定 or 失敗 → localStorage
+  if (!data) {
+    try { data = JSON.parse(localStorage.getItem(LS_KEY)); } catch (e) {}
+  }
+
+  // どこにもデータなし → デフォルト行
+  if (!Array.isArray(data) || data.length === 0) {
+    createRow('国内販売（ENGINEKO猫）', 50000, 0);
+    createRow('欧州B2B', 128000, 0);
+  } else {
+    data.forEach(p => createRow(p.name, p.price, p.qty));
+  }
+
+  setLoading(false);
+  _skipSave = false;
+}
+
+function setLoading(on) {
+  const tbody = document.getElementById('productTbody');
+  const b     = document.getElementById('saveBadge');
+  if (on) {
+    tbody.style.opacity = '0.4';
+    b.textContent = APPS_SCRIPT_URL ? 'Sheets からデータ読み込み中…' : '読み込み中…';
+    b.style.color = '#9A9A9A';
+    b.classList.add('show');
+  } else {
+    tbody.style.opacity = '1';
+    b.classList.remove('show');
+  }
+}
+
+// ─── リセット ────────────────────────────────────────────────
+function resetProducts() {
+  if (!confirm('入力内容をリセットしますか？\n初期の2行（国内販売・欧州B2B）に戻ります。')) return;
+  localStorage.removeItem(LS_KEY);
+  document.getElementById('productTbody').innerHTML = '';
+  nextId = 1;
+  createRow('国内販売（ENGINEKO猫）', 50000, 0);
+  createRow('欧州B2B', 128000, 0);
+  calcSales();
+}
+
+// ─── 集計 & メーター更新 ─────────────────────────────────────
+function calcSales() {
+  const rows = document.querySelectorAll('#productTbody tr[data-id]');
+  let total = 0, units = 0;
+  rows.forEach(row => {
+    const id    = row.dataset.id;
+    const price = parseFloat(row.querySelector('.price-input').value) || 0;
+    const qty   = parseInt(row.querySelector('.qty-input').value, 10) || 0;
+    const sub   = price * qty;
+    total += sub;
+    units += qty;
+    const cell = document.getElementById('sub-' + id);
+    if (cell) cell.textContent = fmt(sub);
+  });
+
+  const pct     = TARGET > 0 ? (total / TARGET) * 100 : 0;
+  const remain  = Math.max(0, TARGET - total);
+  const fillPct = Math.min(100, pct);
+
+  document.getElementById('tfTotal').textContent    = fmt(total);
+  document.getElementById('tfUnits').textContent    = units + '体';
+  document.getElementById('sumDisp').textContent    = fmt(total);
+  document.getElementById('remainDisp').textContent = fmt(remain);
+  document.getElementById('pctDisp').textContent    = fmtPct(pct);
+  document.getElementById('unitsDisp').textContent  = units + ' / 100体';
+
+  document.getElementById('catFill').style.height   = fillPct + '%';
+  document.getElementById('catPct').textContent     = Math.min(100, Math.round(pct));
+  document.getElementById('catAmt').textContent     = Math.round(total).toLocaleString('ja-JP');
+  document.getElementById('catUnits').textContent   = units;
+  document.getElementById('catBarFill').style.width = fillPct + '%';
+
+  const fill = document.getElementById('catFill');
+  const bar  = document.getElementById('catBarFill');
+  if (pct >= 100) {
+    fill.style.background = 'linear-gradient(to top, #00a878 0%, #5de0b3 55%, #a8f0d8 100%)';
+    bar.style.background  = 'linear-gradient(90deg,#00a878,#5de0b3)';
+  } else if (pct >= 50) {
+    fill.style.background = 'linear-gradient(to top, #e07b39 0%, #f6a623 55%, #ffd97d 100%)';
+    bar.style.background  = 'linear-gradient(90deg,#e07b39,#f6a623)';
+  } else {
+    fill.style.background = 'linear-gradient(to top, #f6a623 0%, #ffd97d 55%, #ffe8a3 100%)';
+    bar.style.background  = 'linear-gradient(90deg,#f6a623,#ffd97d)';
+  }
+
+  saveProducts();
+}
+
+// ─── 行の追加・削除 ──────────────────────────────────────────
+function addRow() {
+  const tr = createRow('新商品', 50000, 0);
+  tr.querySelector('input[type="text"]').select();
+  calcSales();
+}
+function delRow(btn) {
+  if (document.querySelectorAll('#productTbody tr[data-id]').length <= 1) return;
+  btn.closest('tr').remove();
+  calcSales();
+}
+
+// ================================================================
+// 収支管理（収入・支出 from Google Sheets）
+// ================================================================
+const EXPENSE_CATS = [
+  { key: '製造原価',     color: '#e07b39' },
+  { key: '梱包・資材費', color: '#c49010' },
+  { key: '人件費',       color: '#5A6870' },
+  { key: '広告宣伝費',   color: '#4a90d9' },
+  { key: '送料・物流費', color: '#8AABBA' },
+  { key: '旅費交通費',   color: '#9A9A9A' },
+  { key: '外注費',       color: '#7B68EE' },
+  { key: '知財・法務費', color: '#e05c5c' },
+  { key: '通信費',       color: '#00a878' },
+  { key: '消耗品・雑費', color: '#C8C8C8' },
+];
+
+let currentFY  = 'FY2026';
+let _expenses  = [];
+let _income    = [];
+
+// ─── 年度切替 ────────────────────────────────────────────────
+function switchFY(fy) {
+  currentFY = fy;
+  document.querySelectorAll('.fy-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('btn-' + fy.toLowerCase()).classList.add('active');
+  loadFinancials(fy);
+}
+
+// ─── Sheets からデータ取得 ───────────────────────────────────
+async function fetchJSON(url) {
+  try {
+    const res = await fetch(url);
+    return await res.json();
+  } catch (e) {
+    console.warn('fetch failed:', e);
+    return null;
+  }
+}
+
+async function loadFinancials(fy) {
+  if (!APPS_SCRIPT_URL) {
+    renderSummary([], []);
+    renderExpenseTable([]);
+    renderIncomeTable([]);
+    return;
+  }
+  const base = APPS_SCRIPT_URL;
+  const [expenses, income] = await Promise.all([
+    fetchJSON(base + '?action=getExpenses&fy=' + fy),
+    fetchJSON(base + '?action=getIncome&fy=' + fy),
+  ]);
+  _expenses = Array.isArray(expenses) ? expenses : [];
+  _income   = Array.isArray(income)   ? income   : [];
+  renderSummary(_expenses, _income);
+  renderExpenseTable(_expenses);
+  renderIncomeTable(_income);
+}
+
+// ─── 収支サマリー描画 ────────────────────────────────────────
+function renderSummary(expenses, income) {
+  const totalExp = expenses.reduce((s, r) => s + r.amount, 0);
+  const totalInc = income.reduce((s, r) => s + r.amount, 0);
+  const net      = totalInc - totalExp;
+
+  document.getElementById('bsTotalIncome').textContent  = fmt(totalInc);
+  document.getElementById('bsTotalExpense').textContent = fmt(totalExp);
+  document.getElementById('bsNet').textContent          = fmt(Math.abs(net));
+  document.getElementById('bsNet').className = 'bs-total ' + (net >= 0 ? 'green' : 'red');
+
+  const chip = document.getElementById('bsNetChip');
+  chip.innerHTML = net >= 0
+    ? '<span class="bs-net-chip black">黒字</span>'
+    : '<span class="bs-net-chip red">赤字</span>';
+
+  document.getElementById('bsNetSub').textContent =
+    net >= 0 ? '収入 > 支出' : '収入が支出を ' + fmt(Math.abs(net)) + ' 下回っています';
+
+  // 収入内訳
+  const incByType = {};
+  income.forEach(r => { incByType[r.type] = (incByType[r.type] || 0) + r.amount; });
+  const incHtml = Object.keys(incByType).length === 0
+    ? '<div class="bs-empty">データなし</div>'
+    : Object.entries(incByType).map(([k, v]) =>
+        `<div class="bs-row"><span class="bs-cat">${k}</span><span class="bs-amt green">${fmt(v)}</span></div>`
+      ).join('');
+  document.getElementById('bsIncomeBreak').innerHTML = incHtml;
+
+  // 支出内訳（カテゴリ別上位）
+  const expByCat = {};
+  expenses.forEach(r => { expByCat[r.category] = (expByCat[r.category] || 0) + r.amount; });
+  const sorted = Object.entries(expByCat).sort((a, b) => b[1] - a[1]);
+  const expHtml = sorted.length === 0
+    ? '<div class="bs-empty">データなし</div>'
+    : sorted.map(([k, v]) =>
+        `<div class="bs-row"><span class="bs-cat">${k}</span><span class="bs-amt red">${fmt(v)}</span></div>`
+      ).join('');
+  document.getElementById('bsExpenseBreak').innerHTML = expHtml;
+}
+
+// ─── 支出テーブル描画（カテゴリグループ） ────────────────────
+function renderExpenseTable(expenses) {
+  const wrap = document.getElementById('expenseTableWrap');
+  if (expenses.length === 0) {
+    wrap.innerHTML = `<div class="ledger-empty">
+      まだ支出データがありません。<br>
+      Google Sheets の「支出」シートに入力してください。<br>
+      <strong>列構成：</strong> 日付 ／ カテゴリ ／ 項目 ／ 金額 ／ 支払者 ／ メモ
+    </div>`;
+    return;
+  }
+
+  // カテゴリでグループ化
+  const groups = {};
+  expenses.forEach(r => {
+    if (!groups[r.category]) groups[r.category] = [];
+    groups[r.category].push(r);
+  });
+
+  // カテゴリ順序
+  const catOrder = EXPENSE_CATS.map(c => c.key);
+  const sortedKeys = [
+    ...catOrder.filter(k => groups[k]),
+    ...Object.keys(groups).filter(k => !catOrder.includes(k)),
+  ];
+
+  let rows = '';
+  let grandTotal = 0;
+  sortedKeys.forEach(cat => {
+    const items   = groups[cat];
+    const catTotal = items.reduce((s, r) => s + r.amount, 0);
+    grandTotal += catTotal;
+    rows += `<tr class="cat-header">
+      <td colspan="4">${cat}</td>
+      <td class="r">${fmt(catTotal)}</td>
+    </tr>`;
+    items.forEach(r => {
+      rows += `<tr>
+        <td style="color:#9A9A9A;white-space:nowrap;">${r.date}</td>
+        <td>${r.item}</td>
+        <td style="color:#6B6B6B;white-space:nowrap;">${r.payer || '—'}</td>
+        <td style="color:#9A9A9A;font-size:11.5px;">${r.memo || ''}</td>
+        <td class="r amt-red">${fmt(r.amount)}</td>
+      </tr>`;
     });
-    const fmt = n => '¥' + n.toLocaleString('ja-JP');
-    document.getElementById('actual-month-total').textContent = fmt(monthTotal);
-    document.getElementById('actual-fy-total').textContent = fmt(fyTotal);
-    document.getElementById('actual-count').textContent = rows.length;
-  })();
+  });
+
+  wrap.innerHTML = `
+    <table class="ledger-table">
+      <thead><tr>
+        <th style="width:90px;">日付</th>
+        <th>項目</th>
+        <th style="width:90px;">支払者</th>
+        <th>メモ</th>
+        <th class="r" style="width:110px;">金額</th>
+      </tr></thead>
+      <tbody>${rows}</tbody>
+      <tfoot><tr>
+        <td colspan="4">合計</td>
+        <td class="r">${fmt(grandTotal)}</td>
+      </tr></tfoot>
+    </table>`;
+}
+
+// ─── 収入テーブル描画 ─────────────────────────────────────────
+function renderIncomeTable(income) {
+  const wrap = document.getElementById('incomeTableWrap');
+  if (income.length === 0) {
+    wrap.innerHTML = `<div class="ledger-empty">
+      まだ収入データがありません。<br>
+      Google Sheets の「収入」シートに入力してください。<br>
+      <strong>列構成：</strong> 日付 ／ 種別（売上 or 助成金）／ 項目 ／ 金額 ／ メモ
+    </div>`;
+    return;
+  }
+
+  let rows = '';
+  let total = 0;
+  income.forEach(r => {
+    total += r.amount;
+    const chip = r.type === '助成金'
+      ? '<span class="type-chip grant">助成金</span>'
+      : '<span class="type-chip sales">売上</span>';
+    rows += `<tr>
+      <td style="color:#9A9A9A;white-space:nowrap;">${r.date}</td>
+      <td>${chip}</td>
+      <td>${r.item}</td>
+      <td style="color:#9A9A9A;font-size:11.5px;">${r.memo || ''}</td>
+      <td class="r amt-green">${fmt(r.amount)}</td>
+    </tr>`;
+  });
+
+  wrap.innerHTML = `
+    <table class="ledger-table">
+      <thead><tr>
+        <th style="width:90px;">日付</th>
+        <th style="width:70px;">種別</th>
+        <th>項目</th>
+        <th>メモ</th>
+        <th class="r" style="width:110px;">金額</th>
+      </tr></thead>
+      <tbody>${rows}</tbody>
+      <tfoot><tr>
+        <td colspan="4">合計</td>
+        <td class="r">${fmt(total)}</td>
+      </tr></tfoot>
+    </table>`;
+}
+
+// ─── 初期化 ──────────────────────────────────────────────────
+(async function() {
+  await loadProducts();
+  calcSales();
+  await loadFinancials(currentFY);
+})();
 </script>
 
 </body>
