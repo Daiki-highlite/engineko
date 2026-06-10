@@ -1,0 +1,713 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ENGINEKO — ROAD TO LE LOUVRE 作戦書</title>
+<style>
+  :root{
+    --paper:#FAFAF8; --ink:#232323; --gray:#9A9A9A; --line:#E5E3DD;
+    --gold:#B08D57; --gold-deep:#8A6A35; --gold-soft:#F3ECDF; --red:#A4453A;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  body{background:var(--paper);color:var(--ink);font-family:"Hiragino Kaku Gothic ProN","Hiragino Sans","Yu Gothic",-apple-system,sans-serif;padding-bottom:100px;}
+  .wrap{max-width:1240px;margin:0 auto;padding:0 24px;}
+
+  /* nav */
+  nav{position:sticky;top:0;z-index:50;background:rgba(250,250,248,.94);backdrop-filter:blur(6px);border-bottom:1px solid var(--line);}
+  nav .inner{max-width:1240px;margin:0 auto;display:flex;align-items:center;gap:4px;padding:0 24px;overflow-x:auto;}
+  nav .logo{font-size:11px;letter-spacing:5px;color:var(--ink);font-weight:600;margin-right:18px;white-space:nowrap;}
+  nav a{font-size:11px;letter-spacing:1px;color:#666;text-decoration:none;padding:14px 10px;white-space:nowrap;border-bottom:2px solid transparent;}
+  nav a:hover{color:var(--gold-deep);border-bottom-color:var(--gold);}
+
+  /* hero */
+  header{text-align:center;padding:64px 24px 48px;}
+  header .brand{font-size:13px;letter-spacing:10px;color:var(--gray);margin-bottom:14px;}
+  header h1{font-family:"Hiragino Mincho ProN","Yu Mincho",serif;font-weight:600;font-size:28px;letter-spacing:4px;}
+  header .sub{margin-top:10px;font-size:12px;color:var(--gray);letter-spacing:3px;}
+  header .kgi-line{margin-top:22px;display:inline-block;border:1px solid var(--gold);color:var(--gold-deep);font-size:13px;letter-spacing:2px;padding:10px 28px;background:#fff;}
+  .stats{display:flex;justify-content:center;gap:0;margin-top:34px;flex-wrap:wrap;}
+  .stat{padding:0 34px;border-right:1px solid var(--line);text-align:center;}
+  .stat:last-child{border-right:none;}
+  .stat b{display:block;font-family:"Hiragino Mincho ProN",serif;font-size:30px;color:var(--ink);font-weight:600;}
+  .stat span{font-size:10px;letter-spacing:2px;color:var(--gray);}
+  .thesis{max-width:760px;margin:36px auto 0;font-size:13.5px;line-height:2.1;color:#444;text-align:left;border-top:1px solid var(--line);padding-top:28px;}
+  .thesis b{color:var(--gold-deep);}
+
+  /* section commons */
+  section{margin-top:96px;}
+  .sec-no{text-align:center;font-size:10px;letter-spacing:4px;color:var(--gold);margin-bottom:8px;}
+  h2{font-family:"Hiragino Mincho ProN","Yu Mincho",serif;font-size:21px;letter-spacing:4px;text-align:center;margin-bottom:8px;font-weight:600;}
+  .h2sub{text-align:center;font-size:11px;color:var(--gray);letter-spacing:2px;margin-bottom:40px;}
+  .lead{max-width:760px;margin:0 auto 36px;font-size:13px;line-height:2;color:#555;}
+
+  /* ===== logic ===== */
+  .formula{display:flex;align-items:stretch;justify-content:center;gap:10px;flex-wrap:wrap;margin-bottom:14px;}
+  .f-term{background:#fff;border:1px solid var(--line);padding:16px 18px;text-align:center;min-width:158px;position:relative;}
+  .f-term .cond{font-size:12.5px;font-weight:600;letter-spacing:1px;}
+  .f-term .who{margin-top:7px;font-size:10px;color:var(--gold-deep);letter-spacing:1px;}
+  .f-term .desc{margin-top:7px;font-size:10px;color:#888;line-height:1.7;}
+  .f-x{align-self:center;font-family:serif;font-size:20px;color:var(--gold);}
+  .f-fuel{text-align:center;margin-top:6px;}
+  .f-fuel span{display:inline-block;font-size:11px;letter-spacing:2px;color:#fff;background:var(--ink);padding:7px 26px;}
+  .f-note{text-align:center;font-size:11px;color:var(--gray);margin-top:14px;letter-spacing:1px;}
+
+  .quad{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:44px;}
+  .quad .q-card{background:#fff;border:1px solid var(--line);border-top:3px solid var(--gold);padding:18px 16px;}
+  .quad .q-card h4{font-size:12px;letter-spacing:2px;margin-bottom:4px;}
+  .quad .q-card .tag{font-size:10px;color:var(--gold-deep);letter-spacing:1px;}
+  .quad .q-card p{font-size:11px;color:#666;line-height:1.9;margin-top:10px;}
+  .quad .q-card .th{margin-top:10px;font-size:11px;font-weight:600;color:var(--ink);}
+
+  .proxy{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:44px;}
+  .proxy .p-card{background:var(--gold-soft);border:1px solid #E0D5BF;padding:22px 24px;}
+  .proxy .p-card h4{font-size:13px;letter-spacing:1px;margin-bottom:10px;color:var(--gold-deep);}
+  .proxy .p-card p{font-size:12px;line-height:2;color:#5a4d35;}
+
+  #routes-svg{margin-top:48px;}
+  #routes-svg svg{width:100%;min-width:880px;height:auto;display:block;}
+  .scroll-x{overflow-x:auto;}
+
+  /* ===== mandala ===== */
+  .mandala{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;}
+  .block{display:grid;grid-template-columns:repeat(3,1fr);gap:3px;transition:opacity .25s;}
+  .cell{background:#fff;border:1px solid var(--line);padding:7px 6px;font-size:10.5px;line-height:1.45;min-height:74px;display:flex;align-items:center;justify-content:center;text-align:center;color:#444;}
+  .cell .num{display:block;font-size:9px;color:var(--gray);letter-spacing:1px;margin-bottom:2px;}
+  .theme-cell{background:var(--ink);color:#fff;font-weight:600;font-size:11.5px;letter-spacing:1px;cursor:pointer;flex-direction:column;gap:3px;border-color:var(--ink);}
+  .theme-cell .tno{font-size:9px;color:var(--gold);letter-spacing:2px;}
+  .center-block .cell{background:var(--gold-soft);border-color:#E0D5BF;}
+  .kgi-cell{background:var(--gold) !important;border-color:var(--gold) !important;color:#fff;font-weight:700;font-size:12px;letter-spacing:1px;line-height:1.6;flex-direction:column;}
+  .kgi-cell small{font-weight:400;font-size:9px;letter-spacing:2px;opacity:.85;}
+  .block.dim{opacity:.22;}
+  .block.lit .cell{border-color:var(--gold);}
+  .hint{text-align:center;font-size:11px;color:var(--gray);margin:14px 0 0;letter-spacing:1px;}
+
+  /* ===== actions ===== */
+  .acc{background:#fff;border:1px solid var(--line);margin-bottom:8px;}
+  .acc summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:14px;padding:16px 20px;user-select:none;}
+  .acc summary::-webkit-details-marker{display:none;}
+  .acc summary .tno{font-size:11px;color:var(--gold);letter-spacing:2px;font-weight:600;min-width:18px;}
+  .acc summary .tname{font-size:13.5px;font-weight:600;letter-spacing:1px;}
+  .acc summary .trole{font-size:10px;color:var(--gray);letter-spacing:1px;margin-left:auto;}
+  .acc summary .arrow{color:var(--gray);font-size:11px;transition:transform .2s;}
+  .acc[open] summary .arrow{transform:rotate(90deg);}
+  .acc[open] summary{border-bottom:1px solid var(--line);}
+  .acc .why{padding:14px 20px 0;font-size:11.5px;line-height:1.9;color:#6e5a36;background:transparent;}
+  .acc table{width:100%;border-collapse:collapse;margin:12px 0 4px;}
+  .acc th{font-size:10px;letter-spacing:1px;color:var(--gray);text-align:left;padding:8px 10px;border-bottom:1px solid var(--line);font-weight:500;}
+  .acc td{font-size:11.5px;line-height:1.8;padding:10px;border-bottom:1px solid #F0EEE8;vertical-align:top;color:#444;}
+  .acc td.id{color:var(--gold-deep);font-weight:600;white-space:nowrap;}
+  .acc td.due{white-space:nowrap;color:#666;}
+  .acc td.own{white-space:nowrap;}
+  .acc td .done{display:block;margin-top:4px;font-size:10.5px;color:#8a8678;}
+  .acc td .done::before{content:"完了条件：";color:var(--gold-deep);}
+  .own-chip{display:inline-block;font-size:9.5px;letter-spacing:1px;background:#F1EFE9;color:#555;padding:2px 8px;white-space:nowrap;}
+
+  /* ===== roadmap ===== */
+  #roadmap-svg{margin-top:8px;overflow-x:auto;}
+  #roadmap-svg svg{width:100%;min-width:960px;height:auto;display:block;}
+
+  /* ===== timeline ===== */
+  .tl{position:relative;margin-left:8px;border-left:1px solid var(--line);padding-left:34px;}
+  .q{position:relative;padding-bottom:38px;}
+  .q::before{content:"";position:absolute;left:-39px;top:4px;width:9px;height:9px;border-radius:50%;background:#fff;border:2px solid var(--gray);}
+  .q.major::before{background:var(--gold);border-color:var(--gold);width:11px;height:11px;left:-40px;}
+  .q .when{font-size:11px;letter-spacing:2px;color:var(--gray);margin-bottom:4px;}
+  .q .title{font-weight:600;font-size:14.5px;margin-bottom:8px;letter-spacing:1px;}
+  .q.major .title{color:var(--gold-deep);}
+  .q ul{list-style:none;}
+  .q li{font-size:12px;color:#555;line-height:1.9;padding-left:14px;position:relative;}
+  .q li::before{content:"—";position:absolute;left:0;color:var(--gold);}
+  .q .exit{margin-top:10px;font-size:11.5px;line-height:1.9;background:#fff;border:1px solid var(--line);border-left:3px solid var(--gold);padding:10px 14px;color:#555;}
+  .q .exit b{color:var(--gold-deep);font-size:10px;letter-spacing:1px;display:block;margin-bottom:2px;}
+
+  /* ===== risks ===== */
+  .risk-table{width:100%;border-collapse:collapse;background:#fff;border:1px solid var(--line);}
+  .risk-table th{font-size:10.5px;letter-spacing:1px;color:var(--gray);font-weight:500;text-align:left;padding:12px 14px;border-bottom:1px solid var(--line);background:#FCFBF8;}
+  .risk-table td{font-size:11.5px;line-height:1.9;padding:13px 14px;border-bottom:1px solid #F0EEE8;vertical-align:top;color:#444;}
+  .risk-table td.r-name{font-weight:600;color:var(--ink);min-width:150px;}
+  .risk-table td.r-trig{color:var(--red);min-width:170px;}
+
+  /* ===== ops ===== */
+  .ops{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+  .ops .o-card{background:#fff;border:1px solid var(--line);padding:24px;}
+  .ops .o-card h4{font-size:12.5px;letter-spacing:2px;margin-bottom:14px;color:var(--gold-deep);}
+  .ops .o-card ol{padding-left:18px;}
+  .ops .o-card li{font-size:12px;line-height:2.1;color:#555;}
+  .ops .o-card p{font-size:12px;line-height:2.1;color:#555;}
+
+  footer{margin-top:96px;text-align:center;font-size:10px;color:var(--gray);letter-spacing:2px;line-height:2.2;}
+  footer a{color:var(--gold-deep);}
+
+  @media(max-width:900px){
+    .mandala{grid-template-columns:1fr;}
+    .cell{min-height:58px;}
+    .quad{grid-template-columns:1fr 1fr;}
+    .proxy,.ops{grid-template-columns:1fr;}
+  }
+</style>
+</head>
+<body>
+
+<nav><div class="inner">
+  <span class="logo">ENGINEKO</span>
+  <a href="#logic">00 戦略ロジック</a>
+  <a href="#mandala-sec">01 マンダラ</a>
+  <a href="#actions">02 アクション詳細</a>
+  <a href="#roadmap">03 ロードマップ</a>
+  <a href="#quarters">04 四半期計画</a>
+  <a href="#risks">05 リスク&プランB</a>
+  <a href="#ops">06 運用</a>
+</div></nav>
+
+<header>
+  <div class="brand">ENGINEKO</div>
+  <h1>ROAD TO LE LOUVRE — 作戦書</h1>
+  <div class="sub">STRATEGIC PLAYBOOK / 2026.06 → 2028.06</div>
+  <div class="kgi-line">KGI：2028年6月　ルーブル美術館ショップ（Boutique du Louvre／運営：RMN-GP）取扱開始</div>
+  <div class="stats">
+    <div class="stat"><b>24</b><span>MONTHS</span></div>
+    <div class="stat"><b>8</b><span>THEMES</span></div>
+    <div class="stat"><b>64</b><span>ACTIONS</span></div>
+    <div class="stat"><b>3+1</b><span>ROUTES</span></div>
+  </div>
+  <p class="thesis">
+    ルーブル納品とは、運営元<b>RMN-GP（国立美術館連合）のバイヤー一人の意思決定</b>である。
+    本書はその「Yes」に必要な条件を8テーマ×64アクションに分解し、<b>Noの理由を一つずつ潰し、Yesに至る経路を3+1本に複線化</b>する。
+    8テーマは足し算ではなく掛け算——どれか一つがゼロなら結果もゼロになる。だからすべてのテーマに「ゼロを作らない」ことが、この2年間の規律である。
+  </p>
+</header>
+
+<div class="wrap">
+
+<!-- ============ 00 LOGIC ============ -->
+<section id="logic">
+  <div class="sec-no">SECTION 00</div>
+  <h2>戦略ロジック — なぜA〜Hでルーブルに届くのか</h2>
+  <div class="h2sub">THE LOGIC MODEL — FOUR AND-CONDITIONS, ONE FUEL</div>
+
+  <div class="formula">
+    <div class="f-term"><div class="cond">出会える</div><div class="who">D｜パリNW＆展示会</div><div class="desc">バイヤーは飛び込みを受けない。<br>彼らが自ら回る場に立つ</div></div>
+    <div class="f-x">×</div>
+    <div class="f-term"><div class="cond">欲しいと思われる</div><div class="who">A・E｜プロダクト×物語</div><div class="desc">「お土産」ではなく<br>「日本の現代工芸」として</div></div>
+    <div class="f-x">×</div>
+    <div class="f-term"><div class="cond">信じられる</div><div class="who">B・C・F｜実績×評判</div><div class="desc">G6とMoMAの実績が<br>バイヤーの社内稟議を通す</div></div>
+    <div class="f-x">×</div>
+    <div class="f-term"><div class="cond">取引できる</div><div class="who">G｜法務・物流・生産</div><div class="desc">商標・DDP物流・€建て決済。<br>一つ欠けると調達部門で死ぬ</div></div>
+  </div>
+  <div class="f-fuel"><span>H｜チーム・資金 — すべての項に燃料を供給する</span></div>
+  <div class="f-note">掛け算構造：どれか一つがゼロなら、他が満点でも結果はゼロ</div>
+
+  <div class="quad">
+    <div class="q-card"><h4>必要条件</h4><span class="tag">落とされないために</span><div class="th">A プロダクト／G 法務・物流</div><p>満たしても加点されないが、欠けると即失格になる土台。品質基準・権利・物流は「検討の土俵に乗る資格」。</p></div>
+    <div class="q-card"><h4>攻め筋</h4><span class="tag">選ばれるために</span><div class="th">B G6／C MoMA／D パリNW</div><p>バイヤーがYesと言う積極的理由を作る。実績と接点。この3つがクリティカルパスの本体。</p></div>
+    <div class="q-card"><h4>増幅器</h4><span class="tag">確率を上げるために</span><div class="th">E ブランド／F ギフティングPR</div><p>商談前に「すでに知られている」状態を作り、すべてのルートの成功確率を底上げする。</p></div>
+    <div class="q-card"><h4>燃料</h4><span class="tag">走り切るために</span><div class="th">H チーム・資金</div><p>5名と限られた資金で24ヶ月走り切るための役割分担・補助金・資金繰り・レビュー運用。</p></div>
+  </div>
+
+  <div class="proxy">
+    <div class="p-card"><h4>なぜG6が「ルーブルの代理実証」なのか</h4><p>銀座シックスの客層——インバウンド富裕層・ギフト需要・5万円を即決する層——は、ルーブルショップで€1,600の工芸品を買う客と<b>ほぼ同一人物</b>。G6の国籍別・客単価データは「ルーブルでも売れる」ことの最も安価な実証実験になる。だからG6では売ることと同じくらい<b>測ること</b>が重要（B2・B3）。</p></div>
+    <div class="p-card"><h4>なぜMoMAが「最強の紹介状」なのか</h4><p>ミュージアムリテールの世界は狭く、バイヤーは互いの棚を見ている。「MoMA Design Storeが既に扱っている」は、RMN-GPのバイヤーにとって<b>同業者による審査済みの証明</b>であり、稟議の難易度が桁で変わる。注意：MoMAは公式サブミッション制でバイヤー直接接触は不可。返信は「興味があった場合のみ」——だから依存しすぎない（→ルート複線化）。</p></div>
+  </div>
+
+  <div class="scroll-x"><div id="routes-svg"></div></div>
+</section>
+
+<!-- ============ 01 MANDALA ============ -->
+<section id="mandala-sec">
+  <div class="sec-no">SECTION 01</div>
+  <h2>マンダラチャート</h2>
+  <div class="h2sub">8 THEMES × 8 ACTIONS — THE 81-CELL MAP</div>
+  <div class="mandala" id="mandala"></div>
+  <p class="hint">中央のテーマをクリック → 対応ブロックをハイライト／ダブルクリック → 該当アクション詳細へ移動</p>
+</section>
+
+<!-- ============ 02 ACTIONS ============ -->
+<section id="actions">
+  <div class="sec-no">SECTION 02</div>
+  <h2>アクション詳細 — 64の実行計画</h2>
+  <div class="h2sub">WHAT / WHEN / WHO / DONE — EXECUTION LEVEL</div>
+  <p class="lead">担当は5名を <b>代表</b>（意思決定・対外交渉）／<b>欧州</b>（海外営業・展示会）／<b>プロダクト</b>（製造・品質）／<b>PR</b>（ブランド・メディア・ギフティング）／<b>オペ</b>（法務・物流・資金）の5ロールに割り当てる。各アクションには完了条件を定義済み——「やった」ではなく「この状態になった」で消し込むこと。</p>
+  <div id="action-accordions"></div>
+</section>
+
+<!-- ============ 03 ROADMAP ============ -->
+<section id="roadmap">
+  <div class="sec-no">SECTION 03</div>
+  <h2>マイルストーン・ロードマップ</h2>
+  <div class="h2sub">2026.06 → 2028.06 — 24 MONTHS TO THE LOUVRE</div>
+  <div id="roadmap-svg"></div>
+</section>
+
+<!-- ============ 04 QUARTERS ============ -->
+<section id="quarters">
+  <div class="sec-no">SECTION 04</div>
+  <h2>四半期マイルストーン詳細</h2>
+  <div class="h2sub">QUARTERLY EXIT CRITERIA — 8 QUARTERS</div>
+  <div class="tl" id="tl"></div>
+</section>
+
+<!-- ============ 05 RISKS ============ -->
+<section id="risks">
+  <div class="sec-no">SECTION 05</div>
+  <h2>リスク＆コンティンジェンシー</h2>
+  <div class="h2sub">TRIGGER → PLAN B — DECIDE BEFORE IT HAPPENS</div>
+  <p class="lead">プランBは「起きてから考える」のではなく、<b>発動トリガーをいま決めておく</b>。月次レビューで毎回トリガー該当の有無を確認する。</p>
+  <div class="scroll-x"><table class="risk-table">
+    <thead><tr><th>リスク</th><th>発動トリガー（兆候）</th><th>プランB</th></tr></thead>
+    <tbody id="risk-body"></tbody>
+  </table></div>
+</section>
+
+<!-- ============ 06 OPS ============ -->
+<section id="ops">
+  <div class="sec-no">SECTION 06</div>
+  <h2>運用 — この作戦書の使い方</h2>
+  <div class="h2sub">OPERATING CADENCE</div>
+  <div class="ops">
+    <div class="o-card">
+      <h4>月次レビュー（毎月第1月曜・60分）</h4>
+      <ol>
+        <li>KPIスナップショット確認（販売数・欧州取引社数・メディア掲載数・ギフティング送付数）</li>
+        <li>当月期限アクションの消し込み（完了条件ベースで判定）</li>
+        <li>リスクトリガー該当チェック（SECTION 05を上から全件）</li>
+        <li>翌月のアクション担当・期限を再確認、必要ならマンダラ自体を改訂</li>
+      </ol>
+    </div>
+    <div class="o-card">
+      <h4>KPIツリー（先行指標で進捗を測る）</h4>
+      <p>
+      <b>KGI</b>：2028.06 ルーブル納品<br>
+      ├ <b>KSF1 実績</b>：G6月販30個／MoMA取扱／欧州B2B5社→1,000万円<br>
+      ├ <b>KSF2 接点</b>：M&Oリード50件／RMN-GP面談1件以上<br>
+      ├ <b>KSF3 評判</b>：海外メディア掲載3件／受賞1件／ギフティング40件<br>
+      └ <b>KSF4 体制</b>：EU商標登録／DDP物流確立／月産60個体制
+      </p>
+    </div>
+    <div class="o-card">
+      <h4>意思決定の優先順位（迷ったら）</h4>
+      <ol>
+        <li><b>D（パリ接点）＞ C（MoMA）</b>：MoMAは返信が来ない前提で設計。接点づくりを止めない</li>
+        <li><b>測れるものを優先</b>：G6は売上よりデータ。提案資料の弾になる数字を残す</li>
+        <li><b>必要条件（A・G）は前倒し</b>：商標・物流・品質は商談が動いてからでは間に合わない</li>
+      </ol>
+    </div>
+    <div class="o-card">
+      <h4>更新ルール</h4>
+      <p>このHTMLがマスタープラン。完了アクションはマンダラの該当セルに反映し、四半期ごとにロードマップのNOWラインを進める。大きな環境変化（MoMA返信・M&O採否・G6実績確定）があった時点で、四半期を待たず全体を改訂する。</p>
+    </div>
+  </div>
+</section>
+
+</div><!-- /wrap -->
+
+<footer>
+  ENGINEKO PROJECT — STRATEGIC PLAYBOOK v2.0 / 作成 2026.06.10<br>
+  納品ルート：RMN-GP（Réunion des musées nationaux – Grand Palais）／ 卸€800・小売想定€1,600〜<br>
+  参照：MoMA Product Submission（storehelpcenter.moma.org）／ RMN-GP法人窓口（pro.boutiquesdemusees.fr）／ JETROジャパンパビリオン（Maison&Objet Hall 5A）
+</footer>
+
+<script>
+/* ================================================================
+   DATA — themes / actions / quarters / risks
+   ================================================================ */
+const KGI = {title:"ルーブル美術館\nショップ取扱", sub:"2028.06 — BOUTIQUE DU LOUVRE"};
+
+const THEMES = [
+ {no:"A", pos:0, name:"プロダクト＆品質", role:"必要条件", own:"プロダクト",
+  why:"バイヤー審査の第一関門。ミュージアムリテールは「文化的オブジェ」としての完成度と、供給の安定性の両方を見る。ここが弱いと他の全テーマが無意味になる。",
+  items:[
+   {t:"金箔モデル完成・発売", a:"佐野鍍金と金箔/メッキ仕様を最終確定 → 金ライン10個（6月末）→ 品評会（9月）→ 発売", due:"2026.11", own:"プロダクト", done:"EC掲載・初回ロット20個完売"},
+   {t:"漆モデル完成・発売", a:"漆工房の選定（輪島・会津・山中から2候補）→ 試作（12月）→ 量産仕様確定 → 発売", due:"2027.03", own:"プロダクト", done:"試作承認・初回ロット生産開始"},
+   {t:"ルーブル特別エディション開発", a:"RMN-GP提案専用モデルを企画：エディション50・シリアルプレート・作家証明書付き。ルーブル文脈（縁起×祝祭）の意匠検討", due:"2027.09", own:"プロダクト", done:"仕様書＋サンプル1体完成"},
+   {t:"化粧箱・同梱物の英仏多言語化", a:"コンセプトブックの英訳・仏訳（ネイティブチェック必須）、お手入れガイド同梱、箱の筆押しロゴ品質の安定化", due:"2026.12", own:"PR", done:"英仏版コンセプトブック印刷納品"},
+   {t:"価格アーキテクチャ検証", a:"卸€800 → 小売€1,600〜2,000の整合性検証。関税・VAT・DDP送料・RMN-GPマージンを織り込んだ価格表を作成", due:"2026.09", own:"オペ", done:"利益率20%以上を確保した英仏価格表"},
+   {t:"品質基準書・検品プロセス", a:"検品チェックリスト20項目（釉薬ムラ・金箔密着・重量公差等）と許容限度見本を作成、フジコウと合意", due:"2026.10", own:"プロダクト", done:"基準書にフジコウ捺印・運用開始"},
+   {t:"職人ストーリーの裏付け資料", a:"産地証明・制作工程写真・職人プロフィール・材料調達元を文書化（バイヤーは物語の「証拠」を求める）", due:"2026.12", own:"PR", done:"英仏版ストーリードキュメント完成"},
+   {t:"国際輸送テスト", a:"DHL/EMSでパリへ実輸送3回・落下試験・温湿度確認。発泡スチロール3層梱包の破損ゼロを実証、輸送保険条件確定", due:"2027.02", own:"オペ", done:"3回連続破損ゼロ＋保険契約"}]},
+ {no:"B", pos:1, name:"国内旗艦実績", role:"攻め筋", own:"代表",
+  why:"G6の客層はルーブルショップの客層とほぼ同一。ここでの販売データが「ルーブルでも売れる」証明になる。売ることと同じくらい測ることが重要。",
+  items:[
+   {t:"GINZA SIX出店（2027.01）", a:"区画契約・補助金300万円の交付決定確認 → 什器/VMD設計（ENGINEKOデザインシステム準拠）→ オープン", due:"2027.01", own:"代表", done:"オープン＋初月売上報告"},
+   {t:"G6のKPI設定と達成", a:"月販30個・完売率・客単価・転換率を週次計測。スタッフ向け接客スクリプト（英語含む）整備", due:"2027.03", own:"代表", done:"月販30個達成 or 要因分析完了"},
+   {t:"インバウンド購買データ収集", a:"国籍・言語・購買動機のヒアリングシート＋POSタグ運用。「欧州客比率」「ギフト比率」を数字で取る", due:"2027.03", own:"オペ", done:"3ヶ月分データ＋分析1枚もの（英仏）"},
+   {t:"百貨店美術画廊への展開", a:"G6実績を持って三越本店・伊勢丹新宿の美術画廊/催事に商談。「百貨店美術部が扱う工芸」の格を獲得", due:"2027.06", own:"代表", done:"催事1回 or 常設取扱1店"},
+   {t:"EC海外発送対応", a:"Shopify Markets設定・英仏LP制作・EU向けDDP送料設定・Klarna等の決済対応", due:"2026.12", own:"オペ", done:"EU圏から実注文1件を完遂"},
+   {t:"著名人・コレクター実績の記録化", a:"購入者の許諾を取得し事例集化（匿名でも「仏ギャラリスト購入」等の事実が効く）", due:"継続", own:"PR", done:"事例5件をセールスキットに掲載"},
+   {t:"成長譚の体系化", a:"津田沼→OPEN中目黒→Choose Base→G6の売上推移を1枚に。「2年でここまで来た」物語は新興ブランドの最強の武器", due:"2027.04", own:"PR", done:"英仏版グロースシート完成"},
+   {t:"国内メディア掲載", a:"日経MJ・Casa BRUTUS・AXISへプレスリリース3本（金箔発売/G6出店/MoMA提案）。掲載実績を海外提案資料に転用", due:"2027.03", own:"PR", done:"全国媒体掲載2件以上"}]},
+ {no:"C", pos:2, name:"MoMA Design Store 攻略", role:"攻め筋", own:"欧州",
+  why:"「MoMAが既に扱っている」はRMN-GPバイヤーへの最強の紹介状。ただしMoMAは公式サブミッション制・返信非保証——依存せず、ルートの一つとして淡々と最善を尽くす。",
+  items:[
+   {t:"提案資料の作成（英語）", a:"MoMA公式Product Submission要件に準拠：製品画像・価格・MOQ・ブランドストーリー・既存実績。先行採用された日本工芸の前例を研究し体裁を合わせる", due:"2026.12", own:"欧州", done:"社内レビュー済み提出パッケージ"},
+   {t:"公式サブミッション提出", a:"storehelpcenter.moma.org の提出窓口から申請。G6オープン直後に提出しニュース性を最大化（提出日を戦略的に選ぶ）", due:"2027.01", own:"欧州", done:"提出完了・控え保存"},
+   {t:"バイヤー選定基準のリサーチ", a:"MoMA取扱の日本ブランド（陶磁器・工芸系）をリストアップし、価格帯・物語・デザイン言語の共通項を分析 → 提案資料に反映", due:"2026.11", own:"欧州", done:"分析メモ＋資料への反映"},
+   {t:"卸条件シミュレーション", a:"卸価格（小売の50%想定）・MOQ30・リードタイム60日・FOB/DDP条件のシートを準備。先方から聞かれて即答できる状態に", due:"2026.12", own:"オペ", done:"英語版取引条件シート"},
+   {t:"サンプル即応体制", a:"問い合わせから48時間以内にサンプル発送できる在庫・梱包・書類（インボイス）の常備", due:"2027.01", own:"オペ", done:"発送リハーサル1回完了"},
+   {t:"取扱交渉 → 開始", a:"返信があり次第、条件交渉 → テスト発注 → 取扱開始。無反応の場合は90日でフォローアップ1回、その後はD・Fルートに重心移動", due:"2027.12", own:"欧州", done:"取扱開始 or 撤退判断の記録"},
+   {t:"「MoMA取扱」プレスリリース", a:"取扱決定の瞬間に英仏日3言語で配信。RMN-GP提案資料の表紙に載せる", due:"取扱+2週", own:"PR", done:"3言語配信＋掲載1件"},
+   {t:"他館への横展開", a:"同じ提案パッケージを V&A（ロンドン）・ポンピドゥー・装飾美術館（MAD）のショップへ展開。1館でも通れば「美術館実績」が立つ", due:"2027.10", own:"欧州", done:"3館へ提案送付完了"}]},
+ {no:"D", pos:3, name:"パリ現地ネットワーク＆展示会", role:"攻め筋（主経路）", own:"欧州",
+  why:"RMN-GPバイヤーへの物理的な接点を作る本丸。MoMAが沈黙しても、このルートだけで独立してKGIに到達できるよう設計する。",
+  items:[
+   {t:"パリ16区アートフェス出展", a:"マモルさんルートで2027年春の出展枠を確定（2026年内に）。現地での初の実地販売・反応テストの場", due:"2027.05", own:"欧州", done:"出展完了・現地リード10件"},
+   {t:"Maison&Objet出展", a:"JETROジャパンパビリオン（Hall 5A・工芸枠）の公募に応募（2026年夏〜秋公募想定・要JETRO定期確認）。落選時は単独小間（€6,000〜10,000）で2027.09に必ず立つ", due:"2027.09", own:"欧州", done:"M&O 2027.09出展完了"},
+   {t:"現地エージェント契約", a:"日本工芸を扱う仏販売代理・ショールーム3候補と面談（M&O・アートフェスで発掘）→ 1社と契約。RMN-GPとの商談に同席できる相手を選ぶ", due:"2027.10", own:"欧州", done:"代理店契約1社締結"},
+   {t:"ギャラリー/セレクト5社取引", a:"パリのギャラリー・セレクトショップ30社リスト → アプローチ → 5社取引（欧州B2B初年度目標・売上400万円）", due:"2027.06", own:"欧州", done:"5社と取引開始・入金確認"},
+   {t:"RMN-GPバイヤー接触", a:"①pro.boutiquesdemusees.fr の法人窓口へ資料送付 ②M&Oブースへの来訪誘致（事前にインビテーション送付）③エージェント経由の紹介。三方向同時に", due:"2027.09", own:"欧州", done:"RMN-GP担当者との面談1件"},
+   {t:"ポンピドゥー/MADへ先行納品", a:"RMN-GPより意思決定が速い美術館ショップへ小ロット納品し「仏美術館での販売実績」を先に作る（→RMN-GP再提案の弾）", due:"2027.12", own:"欧州", done:"1館で販売開始"},
+   {t:"JETRO・在仏商工会議所の活用", a:"JETROパリのハンズオン支援申請・現地商習慣/契約のブリーフィング受講・専門家紹介。無料で使える公的支援は全部使う", due:"2026.12", own:"オペ", done:"JETRO支援採択 or 相談実施"},
+   {t:"現地ビジュアル制作", a:"柴田さん（写真家・パリ16区アートフェス人脈）とパリの生活空間でのライフスタイル撮影。「パリの部屋に置かれたENGINEKO」の画はRMN-GP提案の説得力を倍にする", due:"2027.09", own:"PR", done:"提案資料用カット20点納品"}]},
+ {no:"E", pos:5, name:"ブランド＆ストーリー", role:"増幅器", own:"PR",
+  why:"招き猫を「お土産」から「日本の現代工芸」へ再定義する。バイヤーが社内で「なぜこれを置くのか」を説明できる言葉と証拠を先回りで用意する。",
+  items:[
+   {t:"ブランドブック英仏版", a:"既存コンセプトブックを基に、英語・仏語のブランドブックを制作（ネイティブ編集者によるトーン監修）", due:"2026.12", own:"PR", done:"印刷版＋PDF版完成"},
+   {t:"物語の言語化", a:"「ENGI（縁起）×ENGINE」のブランドステートメント300字を英仏で確定。招き猫の文化的文脈（江戸期からの歴史・福を招く手の意味）を一次資料付きで解説", due:"2026.10", own:"PR", done:"全資料・サイトに同一文言適用"},
+   {t:"カイカイキキコラボ実現", a:"村上隆側とライセンス条件を合意 → コラボモデル発表。アート市場での文脈（=ルーブルが好む文脈）を一気に獲得する切り札", due:"2027.06", own:"代表", done:"コラボ発表 or 撤退判断"},
+   {t:"ビジュアル資産化", a:"富山工房（製造現場）・KAGUA（空間）での撮影実施。職人の手元・窯・金箔工程の動画素材も確保", due:"2026.09", own:"PR", done:"写真50点・動画3本のライブラリ"},
+   {t:"Instagram海外運用", a:"LOEWE/AESOPトーンの余白あるラグジュアリー運用を継続。仏語キャプション併記・海外フォロワー比率50%目標", due:"継続", own:"PR", done:"海外比率50%・月次レポート"},
+   {t:"海外メディア掲載", a:"Dezeen・Wallpaper*・Monocleへピッチレター各3回（金箔発売／MoMA／M&Oのニュースに合わせて）。掲載をRMN-GP提案に同梱", due:"2027.12", own:"PR", done:"海外掲載3件"},
+   {t:"受賞歴の獲得", a:"グッドデザイン賞2027（5月応募）・LOEWE Craft Prize（秋応募）。受賞は審査済みシグナルとして実績欄を埋める", due:"2027.10", own:"PR", done:"応募2件・受賞/入選1件"},
+   {t:"カテゴリの確立", a:"「contemporary maneki-neko / 現代の招き猫」の呼称をすべてのPR・SEO・展示会資料で統一。検索した時に独占している状態を作る", due:"継続", own:"PR", done:"指名検索でEC1位表示"}]},
+ {no:"F", pos:6, name:"ギフティング＆PR", role:"増幅器・ワイルドカード", own:"PR",
+  why:"商談前に「すでに知られている」状態を作る。また外交・文化ルートからの「上からの紹介」は、正攻法が詰まった時の最後の抜け道になる。",
+  items:[
+   {t:"ターゲット50リスト", a:"メゾン幹部・美術館キュレーター・在日仏外交官・仏ジャーナリスト・コレクターの50名リスト（優先度A/B/C付き）を作成", due:"2026.09", own:"PR", done:"リスト完成・四半期更新運用"},
+   {t:"在日フランス大使館ルート", a:"大使館文化部・アンスティチュ・フランセのイベントへ寄贈/出展打診。日仏文化交流の文脈に乗る（ルーブルへの「外交的」推薦の種）", due:"2027.03", own:"代表", done:"大使館関連イベント参加1回"},
+   {t:"ハイブランド日本法人へ提案", a:"LVMH・エルメス・シャネル日本法人へ「周年記念・来日VIP手土産」として提案。1社でも採用されれば「メゾンが選んだギフト」の称号", due:"2027.06", own:"代表", done:"提案5社・採用1社"},
+   {t:"パリ高級ホテルルート", a:"リッツ・ムーリス等のコンシェルジュへサンプル＋カード送付（M&O渡仏時に手渡し）。富裕層ギフト需要の入口", due:"2027.09", own:"欧州", done:"3館へ手渡し完了"},
+   {t:"公的支援の獲得", a:"JAPANブランド育成支援等事業（上限500万円・例年2-3月公募）・クールジャパン関連・自治体の海外展開補助を申請", due:"2027.03", own:"オペ", done:"1件採択（500万円規模）"},
+   {t:"国際イベントでのギフト採用", a:"日仏交流イベント・国際会議・万博関連のレセプションギフトとして売り込み。「公式ギフト採用」実績を作る", due:"2027.12", own:"代表", done:"公式採用1件"},
+   {t:"戦略的ギフティング実行", a:"四半期10個（原価ベース予算化）を送付 → 2週間後フォロー → 取材/紹介の打診、を機械的に回す", due:"継続", own:"PR", done:"累計40個・取材化3件"},
+   {t:"PRループの台帳管理", a:"ギフト送付→SNS投稿→メディア掲載→次の紹介、の連鎖を台帳で管理。「誰経由で誰に届いたか」を資産化する", due:"継続", own:"PR", done:"台帳運用・月次更新"}]},
+ {no:"G", pos:7, name:"法務・物流・生産体制", role:"必要条件", own:"オペ",
+  why:"バイヤーのYesは調達部門の審査で死ぬことがある。商標・物流・決済・供給力は「商談が動いてから」では間に合わない。全項目を商談開始前に完了させる。",
+  items:[
+   {t:"EU商標出願", a:"EUIPO直接出願（基本料€850/1区分〜）またはマドプロ経由。クラス21（陶磁器置物）中心に弁理士と区分設計。RMN-GPは権利不明確な商品を扱わない", due:"2026.09", own:"オペ", done:"出願完了（登録は2027年内目処）"},
+   {t:"ハーグ意匠出願の判断", a:"模倣リスク（特に量産後）を弁理士と評価し、要否を決定。出願する場合は意匠図面を準備（USD1,500〜3,000＋国内費用）", due:"2026.11", own:"オペ", done:"判断記録＋（要なら）出願完了"},
+   {t:"輸出体制の整備", a:"HSコード確認（6913：陶磁製置物）・日EU EPAの原産地申告で関税ゼロ活用・EU側VAT/IOSSの処理方法確定", due:"2026.12", own:"オペ", done:"輸出手順書1枚完成"},
+   {t:"量産体制の増強", a:"フジコウと月産30→60個体制を合意（ルーブル発注+既存チャネルの同時供給に必要）。リードタイム表・繁忙期の優先順位も文書化", due:"2027.06", own:"プロダクト", done:"月産60個の覚書締結"},
+   {t:"欧州物流パートナー選定", a:"DHL・ヤマト国際等からDDP（関税込み配送）対応で見積もり、破損率・保険・リードタイムで比較し1社確定。美術品輸送オプションも確認", due:"2027.03", own:"オペ", done:"物流契約＋料金表確定"},
+   {t:"取引条件書の英仏整備", a:"卸価格表・支払条件（60日）・Incoterms（DDP）・破損補償・最低発注量を英仏で文書化。商談の場で即提示できる状態に", due:"2027.06", own:"オペ", done:"英仏版取引条件書完成"},
+   {t:"EU規制の確認", a:"CEマーキング不要（装飾品）の確認記録・「食品接触用途ではない」旨の表示・梱包材のEU規制（包装廃棄物指令）対応", due:"2027.03", own:"オペ", done:"規制チェックリスト完了"},
+   {t:"ユーロ決済体制", a:"Wise Business等で€建て請求・受領体制、為替予約のルール（半年分の予定取引をヘッジ）を決定", due:"2027.03", own:"オペ", done:"€建て初回入金の完遂"}]},
+ {no:"H", pos:8, name:"チーム・資金・推進", role:"燃料", own:"代表",
+  why:"5名・限られた資金で24ヶ月走り切る。誰が何をやるかの曖昧さと資金切れが、戦略ではなく体力で負ける典型パターン——それを潰す。",
+  items:[
+   {t:"5ロールのRACI確定", a:"代表（意思決定・対外）／欧州（海外営業）／プロダクト（製造品質）／PR（ブランド・ギフティング）／オペ（法務物流資金）の責任分担表を作成・合意", due:"2026.07", own:"代表", done:"RACI表に全員合意"},
+   {t:"補助金の最大活用", a:"G6の300万円の執行計画（什器/内装/PR按分）＋JAPANブランド育成支援等事業（上限500万・2027年度公募）の申請準備を年内に開始", due:"2027.03", own:"オペ", done:"300万執行完了＋次の申請提出"},
+   {t:"2026年度目標の達成", a:"国内販売＋欧州B2B5社・売上400万円。月次で進捗管理", due:"2027.06", own:"代表", done:"400万円着金ベースで達成"},
+   {t:"2027年欧州1,000万円", a:"B2B拡大＋美術館ショップ取扱で欧州年商1,000万円。月次P/Lで利益率も管理（ルーブル商談の体力＝キャッシュ）", due:"2027.12", own:"代表", done:"欧州売上1,000万円"},
+   {t:"仏語対応体制", a:"パリ在住の通訳・翻訳パートナーと業務契約（商談同席・契約書チェック・メール対応）。エージェントとは別に自前の言語インフラを持つ", due:"2027.06", own:"欧州", done:"パートナー契約1名"},
+   {t:"2年間の投資予算化", a:"出願30万・展示会150万・渡仏4回200万・PR/ギフト100万・制作100万＝約600〜800万円の資金計画と調達手段（補助金/売上/借入）を確定", due:"2026.09", own:"オペ", done:"資金繰り表24ヶ月分完成"},
+   {t:"月次レビュー運用", a:"毎月第1月曜・60分。本作戦書のKPI確認→アクション消し込み→リスクトリガー確認のアジェンダで実施（SECTION 06）", due:"継続", own:"代表", done:"24回連続実施"},
+   {t:"渡仏ミッション年2回", a:"M&O（1月/9月）に合わせ年2回の渡仏を計画。1回の渡仏で展示会+RMN-GP+ギャラリー商談+ホテルギフティングを束ねる（費用対効果最大化）", due:"継続", own:"欧州", done:"渡仏4回・各回の商談記録"}]}
+];
+
+const QUARTERS = [
+ {when:"2026 Q3（7–9月）", title:"基盤固め — 欧州展開の法務・生産インフラ着手", major:false, items:[
+   "RACI確定・2年間の資金計画（H1・H6）／ EU商標出願（G1）",
+   "価格アーキテクチャ検証・品質基準書（A5・A6）",
+   "Choose Base Shibuya出店・工房/KAGUA撮影（B・E4）",
+   "ギフティング50リスト作成（F1）／ M&O JETROパビリオン公募を監視・応募（D2）"],
+  exit:"EU商標出願済み・資金繰り表完成・全員の役割が確定し、誰も「何をすべきか分からない」状態にない。",
+  kpi:"KPI：EU商標出願完了／資金計画24ヶ月分FIX"},
+ {when:"2026 Q4（10–12月）", title:"弾込め — 金箔モデル発売＆英仏ブランド資産の完成", major:false, items:[
+   "金箔モデル発売（A1）／ ハーグ意匠の判断（G2）",
+   "ブランドブック・ストーリー資料・コンセプトブック英仏版（E1・A4・A7）",
+   "MoMA提案パッケージ完成・前例リサーチ（C1・C3）／ EC海外発送対応（B5）",
+   "JETROパリ支援申請（D7）／ 輸出手順書（G3）"],
+  exit:"「英仏で見せられる資料一式」と「売る商品（金箔）」が揃い、年明けのG6 → MoMA提出の連続技の準備が完了している。",
+  kpi:"KPI：金箔モデル発売／英仏セールスキット一式完成"},
+ {when:"2027 Q1（1–3月）", title:"★ GINZA SIX出店 — 国内旗艦実績の獲得", major:true, items:[
+   "GINZA SIX出店（B1）→ 直後にMoMA公式サブミッション提出（C2）",
+   "漆モデル発売（A2）／ 国際輸送テスト完了（A8）",
+   "インバウンド購買データ収集開始（B3）／ 国内メディア3本（B8）",
+   "JAPANブランド補助金申請（F5）／ 大使館ルート始動（F2）"],
+  exit:"G6オープンの勢いでMoMA提出済み。販売データの計測が回り始めている。漆モデルでラインナップ3種に。",
+  kpi:"KPI：G6オープン＋MoMA提出完了／月販30個ペース"},
+ {when:"2027 Q2（4–6月）", title:"★ パリ初上陸 — アートフェス＆欧州B2B確立", major:true, items:[
+   "パリ16区アートフェス出展（D1）＝現地初実売",
+   "ギャラリー/セレクト5社取引達成・売上400万円（D4・H3）",
+   "百貨店美術画廊商談（B4）／ カイカイキキ判断（E3）",
+   "量産月60個体制合意（G4）／ ハイブランド手土産提案5社（F3）"],
+  exit:"欧州で「売った実績」と「売れる体制」が両方立った。M&O（9月）に持っていく数字が揃っている。",
+  kpi:"KPI：欧州5社・400万円／現地リード10件"},
+ {when:"2027 Q3（7–9月）", title:"★ Maison&Objet出展 — RMN-GPバイヤー接触", major:true, items:[
+   "M&O Paris出展（D2）＝渡仏ミッション：RMN-GPブース誘致・ギャラリー商談・ホテルギフティングを同時実行（D5・F4）",
+   "ルーブル特別エディションのサンプル完成（A3）",
+   "パリでのライフスタイル撮影（D8）／ LOEWE Craft Prize応募（E7）",
+   "現地エージェント候補面談（D3）"],
+  exit:"RMN-GPと面談が成立し、特別エディション＋実績資料で「検討の土俵」に乗っている。エージェント候補が絞れている。",
+  kpi:"KPI：M&Oリード50件／RMN-GP面談1件"},
+ {when:"2027 Q4（10–12月）", title:"実績の収穫 — MoMA取扱＆仏美術館先行納品", major:false, items:[
+   "MoMA取扱開始（C6・目標）→ 3言語プレスリリース（C7）",
+   "ポンピドゥー/MADへ先行納品（D6）＝「仏美術館実績」獲得",
+   "RMN-GPへ正式提案：実績資料＋特別エディション＋仏美術館実績（D5）",
+   "エージェント契約締結（D3）／ 欧州1,000万円ペース確立（H4）"],
+  exit:"「MoMA＋仏美術館で販売中」という2枚の紹介状を添えてRMN-GPに正式提案済み。あとは交渉フェーズ。",
+  kpi:"KPI：美術館ショップ取扱2館／RMN-GPサンプル提出"},
+ {when:"2028 Q1（1–3月）", title:"条件交渉・初回発注 — M&O再出展", major:false, items:[
+   "RMN-GPと取引条件交渉：卸€800・MOQ・納期・DDP（G6・オペ同席）",
+   "M&O 1月再出展で交渉を後押し・欧州取引拡大（D2）",
+   "ルーブル特別エディション生産開始（A3→G4）",
+   "初回PO受領 → 生産・検品・輸送計画FIX（G5）"],
+  exit:"初回発注書を受領し、生産ラインが動いている。物流・決済・検品のすべてがリハーサル済み。",
+  kpi:"KPI：初回PO受領／生産計画FIX"},
+ {when:"2028 Q2（4–6月）", title:"★ KGI達成 — ルーブル美術館ショップ納品", major:true, items:[
+   "Boutique du Louvreへ初回納品・店頭展開（KGI達成）",
+   "「ルーブルで販売中」を起点とした世界PR（E・F総動員）",
+   "オルセー等RMN-GP系列他館への横展開提案（C8）",
+   "次期3カ年計画の策定（H）——ルーブルは終点ではなく起点"],
+  exit:"2028年6月、ルーブルの棚にENGINEKOが並んでいる。そしてそれが次の10館への扉になっている。",
+  kpi:"KGI：2028年6月 ルーブル納品 達成"}
+];
+
+const RISKS = [
+ {r:"MoMA無反応", t:"提出後90日返信なし", b:"フォローアップ1回 → 以降はD（M&O直接）に重心移動。V&A/ポンピドゥー/MADへの横展開を前倒しし「美術館実績」を別ルートで確保（C8）。"},
+ {r:"M&O JETROパビリオン落選", t:"公募結果で不採択", b:"単独小間（€6,000〜10,000・H6予算内）で必ず出展。同時期のPremière Classe等の代替見本市も検討。JETROハンズオン支援は出展と別枠で継続活用。"},
+ {r:"G6販売不振", t:"2ヶ月連続 月販15個未満", b:"価格・VMD・接客スクリプトを2週間で改修。それでも未達なら「販売数」ではなく「欧州客比率・ギフト比率」を提案資料の主役に切替（データの語り方を変える）。百貨店催事へ転換検討。"},
+ {r:"量産ボトルネック", t:"フジコウ月産30個未達が2ヶ月", b:"もくもくはりねずみ工房を量産二号ラインとして育成開始。並行して受注生産（納期8週）モデルに切替え、エディション制で希少性を価値に転換。"},
+ {r:"カイカイキキ遅延・破談", t:"2027.06までに条件合意なし", b:"コラボ非依存のブランド物語（E2）で進行。代替として柴田さん（写真）や仏アーティストとの小規模コラボでアート文脈を補完。"},
+ {r:"原価・為替高騰", t:"原価率10pt以上悪化 or €/¥が10%超変動", b:"卸価格改定条項（年1回・±10%）を取引条件書に事前に入れておく（G6）。緩衝材は発泡スチロール代替を既に検討済み。為替はWiseで半年分ヘッジ（G8）。"},
+ {r:"RMN-GP無反応・不調", t:"正式提案後90日進展なし", b:"ポンピドゥー/MADでの販売実績を3ヶ月積んでから再提案（「仏美術館で売れている」は最も反論しにくい）。並行して大使館・日仏文化交流ルート（F2）から文化的推薦を獲得。"},
+ {r:"チームリソース枯渇", t:"月次レビューでアクション消化率50%未満が2ヶ月", b:"優先順位ルール発動：D＞C＞B＞他。PR業務は外部代行へ切り出し。マンダラの「増幅器」テーマ（E・F）を一時縮小し、攻め筋と必要条件に集中。"}
+];
+
+/* ================================================================
+   RENDER — mandala
+   ================================================================ */
+const mandala = document.getElementById("mandala");
+const blocks = [];
+function makeCell(html, cls){
+  const d = document.createElement("div");
+  d.className = "cell" + (cls ? " " + cls : "");
+  d.innerHTML = html;
+  return d;
+}
+for(let b=0;b<9;b++){
+  const block = document.createElement("div");
+  block.className = "block" + (b===4 ? " center-block" : "");
+  if(b===4){
+    for(let i=0;i<9;i++){
+      if(i===4){ block.appendChild(makeCell(KGI.title.replace("\n","<br>")+"<small>"+KGI.sub+"</small>","kgi-cell")); }
+      else{
+        const t = THEMES.find(t=>t.pos===i);
+        const c = makeCell('<span class="tno">'+t.no+'｜'+t.role+'</span>'+t.name,"theme-cell");
+        c.addEventListener("click",()=>highlight(t.pos));
+        c.addEventListener("dblclick",()=>gotoTheme(t.no));
+        block.appendChild(c);
+      }
+    }
+  }else{
+    const t = THEMES.find(t=>t.pos===b);
+    let k=0;
+    for(let i=0;i<9;i++){
+      if(i===4){
+        const c = makeCell('<span class="tno">'+t.no+'｜'+t.role+'</span>'+t.name,"theme-cell");
+        c.addEventListener("click",()=>highlight(t.pos));
+        c.addEventListener("dblclick",()=>gotoTheme(t.no));
+        block.appendChild(c);
+      }else{
+        block.appendChild(makeCell('<span><span class="num">'+t.no+(k+1)+'</span>'+t.items[k].t+'</span>'));
+        k++;
+      }
+    }
+  }
+  blocks.push(block);
+  mandala.appendChild(block);
+}
+let active = null;
+function highlight(pos){
+  if(active===pos){ active=null; blocks.forEach(b=>b.classList.remove("dim","lit")); return; }
+  active = pos;
+  blocks.forEach((b,i)=>{
+    b.classList.toggle("dim", i!==pos && i!==4);
+    b.classList.toggle("lit", i===pos);
+  });
+}
+function gotoTheme(no){
+  const el = document.getElementById("acc-"+no);
+  if(el){ el.open = true; el.scrollIntoView({behavior:"smooth", block:"start"}); }
+}
+
+/* ================================================================
+   RENDER — action accordions
+   ================================================================ */
+const accWrap = document.getElementById("action-accordions");
+THEMES.forEach(t=>{
+  const d = document.createElement("details");
+  d.className = "acc"; d.id = "acc-"+t.no;
+  let rows = t.items.map((it,i)=>(
+    '<tr><td class="id">'+t.no+(i+1)+'</td>'+
+    '<td><b>'+it.t+'</b><br>'+it.a+'<span class="done">'+it.done+'</span></td>'+
+    '<td class="due">'+it.due+'</td>'+
+    '<td class="own"><span class="own-chip">'+it.own+'</span></td></tr>'
+  )).join("");
+  d.innerHTML =
+    '<summary><span class="arrow">▶</span><span class="tno">'+t.no+'</span>'+
+    '<span class="tname">'+t.name+'</span><span class="trole">'+t.role+'｜主担当：'+t.own+'</span></summary>'+
+    '<div class="why">'+t.why+'</div>'+
+    '<table><thead><tr><th style="width:48px">ID</th><th>アクション／完了条件</th><th style="width:88px">期限</th><th style="width:90px">担当</th></tr></thead>'+
+    '<tbody>'+rows+'</tbody></table>';
+  accWrap.appendChild(d);
+});
+
+/* ================================================================
+   RENDER — routes SVG (logic section)
+   ================================================================ */
+(function(){
+  const W=1140,H=330;
+  let s='<svg viewBox="0 0 '+W+' '+H+'" xmlns="http://www.w3.org/2000/svg" font-family="Hiragino Kaku Gothic ProN, sans-serif">';
+  function node(x,y,w,h,title,sub,fill,tcol){
+    s+='<rect x="'+x+'" y="'+y+'" width="'+w+'" height="'+h+'" fill="'+fill+'" stroke="#D8CDB8" stroke-width="1"/>';
+    s+='<text x="'+(x+w/2)+'" y="'+(y+h/2-(sub?5:-4))+'" font-size="11.5" font-weight="600" fill="'+tcol+'" text-anchor="middle" letter-spacing="1">'+title+'</text>';
+    if(sub) s+='<text x="'+(x+w/2)+'" y="'+(y+h/2+13)+'" font-size="9" fill="'+(tcol==='#fff'?'rgba(255,255,255,.7)':'#999')+'" text-anchor="middle">'+sub+'</text>';
+  }
+  function arrow(x1,y1,x2,y2,dash,col){
+    col=col||"#B08D57";
+    s+='<line x1="'+x1+'" y1="'+y1+'" x2="'+(x2-9)+'" y2="'+y2+'" stroke="'+col+'" stroke-width="1.5" '+(dash?'stroke-dasharray="5 4"':'')+'/>';
+    const a=Math.atan2(y2-y1,x2-x1);
+    const p=(ang)=> (x2-10*Math.cos(a-ang))+' '+(y2-10*Math.sin(a-ang));
+    s+='<path d="M'+x2+' '+y2+' L'+p(.4)+' L'+p(-.4)+' Z" fill="'+col+'"/>';
+  }
+  function label(x,y,t,col){ s+='<text x="'+x+'" y="'+y+'" font-size="9.5" fill="'+(col||'#8a6a35')+'" text-anchor="middle" letter-spacing="1">'+t+'</text>'; }
+
+  // start
+  node(20,130,150,70,"ENGINEKO","G6実績×英仏資料","#232323","#fff");
+  // route 1 (top): MoMA
+  node(330,28,180,56,"MoMA Design Store","公式サブミッション 2027.01","#fff","#232323");
+  // route 2 (mid): M&O
+  node(330,137,180,56,"Maison&Objet Paris","JETROパビリオン 2027.09","#fff","#232323");
+  // route 3 (bottom): pompidou
+  node(330,246,180,56,"ポンピドゥー／MAD","先行納品 2027Q4","#fff","#232323");
+  // goal
+  node(880,118,230,94,"RMN-GP バイヤー","Boutique du Louvre ｜ 2028.06 納品","#B08D57","#fff");
+
+  arrow(170,150,330,56);  label(245,85,"ルート① 同業の紹介状");
+  arrow(170,165,330,165); label(245,155,"ルート② 直接接触（主経路）");
+  arrow(170,180,330,274); label(245,245,"ルート③ 仏美術館の踏み台");
+
+  arrow(510,56,880,135);  label(700,78,"「MoMA取扱」を提案資料の表紙に");
+  arrow(510,165,880,165); label(695,155,"ブース誘致＋pro.boutiquesdemusees.fr＋エージェント紹介");
+  arrow(510,274,880,195); label(700,255,"「仏美術館で販売中」で再提案");
+
+  // wildcard
+  node(540,8,210,40,"ワイルドカード：F","大使館・メゾン・外交ギフト","#FAF6EC","#8a6a35");
+  arrow(750,28,930,118,true,"#A4453A");
+  label(880,60,"文化的推薦・上からの紹介","#A4453A");
+
+  s+='<text x="20" y="'+(H-6)+'" font-size="9.5" fill="#9A9A9A" letter-spacing="1">3ルートは独立——1本が死んでもKGIに到達できる。実線＝計画ルート／破線＝ワイルドカード</text>';
+  s+='</svg>';
+  document.getElementById("routes-svg").innerHTML=s;
+})();
+
+/* ================================================================
+   RENDER — roadmap (chevron)
+   ================================================================ */
+(function(){
+  const W=1240, x0=170, x1=1215, M=24;
+  const px = (x1-x0)/M;
+  const X = m => x0 + m*px;
+  const phases=[
+    {s:0,  e:7,  label:"PHASE 1｜基盤構築・弾込め",   sub:"法務・量産・英仏資料・金箔発売", fill:"#3A3A38"},
+    {s:7,  e:13, label:"PHASE 2｜国内旗艦×海外突破", sub:"GINZA SIX → MoMA提出 → パリ初実売", fill:"#6E5A3A"},
+    {s:13, e:19, label:"PHASE 3｜パリ攻略",           sub:"M&O出展 → RMN-GP接触・正式提案",    fill:"#B08D57"},
+    {s:19, e:24, label:"PHASE 4｜商談・納品",         sub:"条件交渉 → 初回PO → 納品",      fill:"#A4453A"}
+  ];
+  const ms=[
+    {m:1,  t:"EU商標出願",            major:false, row:0},
+    {m:5,  t:"金箔モデル発売",        major:false, row:1},
+    {m:7,  t:"★ GINZA SIX＋MoMA提出",major:true,  row:0},
+    {m:11, t:"★ パリ初実売",         major:true,  row:1},
+    {m:12, t:"欧州B2B 5社/400万",     major:false, row:0},
+    {m:15, t:"★ M&O出展・RMN-GP面談",major:true,  row:1},
+    {m:17, t:"ルーブル正式提案",      major:false, row:0},
+    {m:18, t:"美術館取扱2館",         major:false, row:1},
+    {m:20, t:"初回PO受領",            major:false, row:0},
+    {m:24, t:"★ ルーブル納品 KGI",   major:true,  row:1}
+  ];
+  const lanes=[
+    {no:"A", name:"プロダクト＆品質",   bars:[[0,10,"金箔・漆モデル開発 → 発売"],[14,22,"ルーブル特別ED 開発・生産"]]},
+    {no:"B", name:"国内旗艦実績",       bars:[[0,7,"POPUP実績の積上げ"],[7,12,"GINZA SIX 旗艦×データ計測"]]},
+    {no:"C", name:"MoMA攻略",           bars:[[4,8,"提案資料 → 提出"],[8,19,"交渉 → 取扱 → 横展開"]]},
+    {no:"D", name:"パリNW＆展示会",     bars:[[6,13,"アートフェス・B2B 5社"],[13,24,"M&O → RMN-GP商談"]]},
+    {no:"E", name:"ブランド＆ストーリー",bars:[[0,7,"英仏ブランド資産制作"],[7,24,"海外PR・受賞・カテゴリ確立"]]},
+    {no:"F", name:"ギフティング＆PR",   bars:[[3,24,"ギフティング → 取材 → 掲載ループ"]]},
+    {no:"G", name:"法務・物流・生産",   bars:[[1,10,"商標・意匠・輸出体制"],[14,24,"量産・物流・納品体制"]]},
+    {no:"H", name:"チーム・資金",       bars:[[0,24,"補助金・資金繰り・月次レビュー"]]}
+  ];
+  const yScale=26, yChev=46, hChev=46, yMs=108, hMsArea=92, yLane=yMs+hMsArea+18, hLane=33;
+  const H = yLane + lanes.length*hLane + 16;
+  const esc = s => s.replace(/&/g,"&amp;").replace(/</g,"&lt;");
+  let s = '<svg viewBox="0 0 '+W+' '+H+'" xmlns="http://www.w3.org/2000/svg" font-family="Hiragino Kaku Gothic ProN, sans-serif">';
+  const labels=["2026.06","2026.09","2026.12","2027.03","2027.06","2027.09","2027.12","2028.03","2028.06"];
+  for(let i=0;i<=8;i++){
+    const x=X(i*3);
+    s+='<line x1="'+x+'" y1="'+(yScale+6)+'" x2="'+x+'" y2="'+H+'" stroke="#ECEAE4" stroke-width="1"/>';
+    s+='<text x="'+x+'" y="'+yScale+'" font-size="10" fill="#9A9A9A" text-anchor="middle" letter-spacing="1">'+labels[i]+'</text>';
+  }
+  function chev(xs,xe,y,h,first){
+    const n=14;
+    return 'M'+xs+' '+y+' L'+(xe-n)+' '+y+' L'+xe+' '+(y+h/2)+' L'+(xe-n)+' '+(y+h)+' L'+xs+' '+(y+h)+(first?'':' L'+(xs+n)+' '+(y+h/2))+' Z';
+  }
+  phases.forEach((p,i)=>{
+    const xs=X(p.s), xe=X(p.e);
+    s+='<path d="'+chev(xs,xe,yChev,hChev,i===0)+'" fill="'+p.fill+'"/>';
+    const cx=(xs+xe)/2 + (i===0?0:7);
+    s+='<text x="'+cx+'" y="'+(yChev+19)+'" font-size="11" fill="#fff" text-anchor="middle" font-weight="600" letter-spacing="1">'+esc(p.label)+'</text>';
+    s+='<text x="'+cx+'" y="'+(yChev+35)+'" font-size="9" fill="rgba(255,255,255,.75)" text-anchor="middle">'+esc(p.sub)+'</text>';
+  });
+  const yAxis=yMs+hMsArea-22;
+  s+='<line x1="'+x0+'" y1="'+yAxis+'" x2="'+x1+'" y2="'+yAxis+'" stroke="#C8C5BC" stroke-width="1.2"/>';
+  s+='<path d="M'+x1+' '+(yAxis-4)+' L'+(x1+10)+' '+yAxis+' L'+x1+' '+(yAxis+4)+' Z" fill="#C8C5BC"/>';
+  ms.forEach(o=>{
+    const x=X(o.m), col=o.major?"#B08D57":"#7A776F";
+    const yT = o.row===0 ? yAxis-46 : yAxis-16;
+    s+='<line x1="'+x+'" y1="'+(yT+4)+'" x2="'+x+'" y2="'+yAxis+'" stroke="'+col+'" stroke-width="1" stroke-dasharray="2 2"/>';
+    const r=o.major?6:4.5;
+    s+='<rect x="'+(x-r)+'" y="'+(yAxis-r)+'" width="'+(r*2)+'" height="'+(r*2)+'" transform="rotate(45 '+x+' '+yAxis+')" fill="'+(o.major?'#B08D57':'#fff')+'" stroke="'+col+'" stroke-width="1.5"/>';
+    const anchor = o.m>=23 ? 'end' : (o.m<=1 ? 'start' : 'middle');
+    s+='<text x="'+(o.m>=23?x+8:o.m<=1?x-8:x)+'" y="'+yT+'" font-size="'+(o.major?10.5:9.5)+'" fill="'+(o.major?'#8a6a35':'#555')+'" text-anchor="'+anchor+'" '+(o.major?'font-weight="600"':'')+' letter-spacing=".5">'+esc(o.t)+'</text>';
+  });
+  lanes.forEach((l,i)=>{
+    const y=yLane+i*hLane, h=hLane-11;
+    s+='<text x="'+(x0-12)+'" y="'+(y+h/2+3.5)+'" font-size="10" fill="#555" text-anchor="end" letter-spacing=".5"><tspan fill="#B08D57" font-weight="600">'+l.no+'</tspan>　'+esc(l.name)+'</text>';
+    l.bars.forEach(b=>{
+      const xs=X(b[0]), xe=X(b[1]), n=9;
+      const d='M'+xs+' '+y+' L'+(xe-n)+' '+y+' L'+xe+' '+(y+h/2)+' L'+(xe-n)+' '+(y+h)+' L'+xs+' '+(y+h)+' Z';
+      s+='<path d="'+d+'" fill="#F0EBE0" stroke="#D8CDB8" stroke-width="1"/>';
+      s+='<text x="'+(xs+10)+'" y="'+(y+h/2+3.5)+'" font-size="9.5" fill="#6e5a36">'+esc(b[2])+'</text>';
+    });
+  });
+  const xn=X(0.3);
+  s+='<line x1="'+xn+'" y1="'+(yScale+8)+'" x2="'+xn+'" y2="'+H+'" stroke="#A4453A" stroke-width="1" stroke-dasharray="4 3"/>';
+  s+='<text x="'+(xn+5)+'" y="'+(yScale+18)+'" font-size="9" fill="#A4453A" letter-spacing="2">NOW</text>';
+  s+='</svg>';
+  document.getElementById("roadmap-svg").innerHTML=s;
+})();
+
+/* ================================================================
+   RENDER — quarters & risks
+   ================================================================ */
+const tl = document.getElementById("tl");
+QUARTERS.forEach(q=>{
+  const d = document.createElement("div");
+  d.className = "q" + (q.major ? " major" : "");
+  d.innerHTML = '<div class="when">'+q.when+'　<span style="color:#B08D57">'+q.kpi+'</span></div>'+
+    '<div class="title">'+q.title+'</div><ul>'+
+    q.items.map(i=>'<li>'+i+'</li>').join('')+'</ul>'+
+    '<div class="exit"><b>EXIT CRITERIA — この四半期が終わった時の状態</b>'+q.exit+'</div>';
+  tl.appendChild(d);
+});
+
+const rb = document.getElementById("risk-body");
+RISKS.forEach(r=>{
+  const tr = document.createElement("tr");
+  tr.innerHTML = '<td class="r-name">'+r.r+'</td><td class="r-trig">'+r.t+'</td><td>'+r.b+'</td>';
+  rb.appendChild(tr);
+});
+</script>
+</body>
+</html>
