@@ -429,6 +429,29 @@
 
   /* ローディング */
   .ledger-loading { padding: 20px 8px; text-align: center; font-size: 12px; color: #C8C8C8; }
+
+  /* ========= 支出の区分チップ ========= */
+  .scope-chip { display: inline-block; font-size: 10px; font-weight: 700; padding: 2px 7px; border-radius: 4px; white-space: nowrap; }
+  .scope-initial { background: #eef4fd; color: #4a90d9; }
+  .scope-running { background: #fdf3ea; color: #e07b39; }
+  .scope-product { background: #EBF1F4; color: #5A6870; }
+  .scope-none    { background: #F5F5F2; color: #9A9A9A; }
+
+  /* ========= 商品別 損益 ========= */
+  .pnl-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 14px; }
+  .pnl-card { background: #fff; border: 1px solid #E0E0DC; border-radius: 12px; padding: 16px 18px; }
+  .pnl-name { font-size: 14px; font-weight: 700; color: #232323; margin-bottom: 10px; }
+  .pnl-name .sub { font-size: 11px; font-weight: 400; color: #9A9A9A; margin-left: 6px; }
+  .pnl-rows { display: flex; flex-direction: column; gap: 5px; margin-bottom: 10px; }
+  .pnl-profit { border-top: 1px solid #F0F0EC; padding-top: 8px; display: flex; justify-content: space-between; align-items: baseline; }
+  .pnl-profit .lbl { font-size: 11px; color: #9A9A9A; }
+  .pnl-profit .val { font-size: 20px; font-weight: 700; font-variant-numeric: tabular-nums; }
+  .pnl-profit .val.green { color: #00a878; }
+  .pnl-profit .val.red   { color: #e05c5c; }
+
+  /* ========= 支出フィルタ ========= */
+  .exp-filter { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 12px; }
+  .exp-filter .fy-btn { padding: 4px 12px; font-size: 11px; }
 </style>
 </head>
 <body>
@@ -489,6 +512,7 @@
   <span class="fy-label">年度</span>
   <button class="fy-btn active" id="btn-fy2026" onclick="switchFY('FY2026')">FY2026</button>
   <button class="fy-btn"        id="btn-fy2027" onclick="switchFY('FY2027')">FY2027</button>
+  <button class="fy-btn" onclick="loadFinancials(currentFY)" title="Sheets から最新データを再取得">↻ 最新化</button>
 </div>
 <div class="section-title">⚖️ 収支サマリー（実績ベース）</div>
 <div class="bs-grid" id="bsGrid">
@@ -576,8 +600,29 @@
 
 </div>
 
+<!-- 商品別 損益 -->
+<div class="section-title">🧮 商品別 損益（販売ベースの売上 × 表示年度の支出）</div>
+<div style="margin-bottom:24px;">
+  <div class="pnl-grid" id="pnlGrid"><div class="ledger-loading">読み込み中…</div></div>
+
+  <!-- 事業全体 損益 -->
+  <div class="card" style="margin-top:14px;">
+    <div class="card-title color-purple">⚖️ 事業全体 損益（販売ベース）</div>
+    <div style="display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;">
+      <div class="bs-total purple" id="pnlBizTotal" style="margin-bottom:6px;">¥—</div>
+      <span id="pnlBizChip"></span>
+    </div>
+    <div class="bs-breakdown" id="pnlBizBreak" style="max-width:560px;"></div>
+    <div class="note" style="margin-top:12px;">
+      <div class="note-label">📐 計算の前提</div>
+      売上は上の「商品別 販売数・単価入力」の販売ベース（単価×販売数）、支出は表示中年度の支出実績から集計。
+      助成金などの入金は含みません（入金ベースの収支は上部「収支サマリー（実績ベース）」を参照）。
+    </div>
+  </div>
+</div>
+
 <!-- 経費 -->
-<div class="section-title">💸 経費項目</div>
+<div class="section-title">💸 支出予定・検討中の経費（手動管理）</div>
 <div class="grid-2">
   <div class="card">
     <div class="card-title color-red">支出内訳</div>
@@ -664,12 +709,22 @@
     <div class="card-title color-red" style="margin-bottom:0;">カテゴリ別 支出明細</div>
     <a href="https://docs.google.com/spreadsheets" target="_blank" class="bs-sheets-link" id="expenseSheetsLink">📊 Sheets で編集</a>
   </div>
+  <div class="exp-filter" id="expFilter">
+    <button class="fy-btn active" data-scope="all"     onclick="setExpenseFilter('all')">すべて</button>
+    <button class="fy-btn"        data-scope="initial" onclick="setExpenseFilter('initial')">事業全体・イニシャル</button>
+    <button class="fy-btn"        data-scope="running" onclick="setExpenseFilter('running')">事業全体・ランニング</button>
+    <button class="fy-btn"        data-scope="product" onclick="setExpenseFilter('product')">商品個別</button>
+    <button class="fy-btn"        data-scope="none"    onclick="setExpenseFilter('none')">未分類</button>
+  </div>
   <div id="expenseTableWrap"><div class="ledger-loading">読み込み中…</div></div>
   <div class="note" style="margin-top:14px;">
-    <div class="note-label">📝 運用ルール</div>
-    支出が発生したら Google Sheets の「支出」シートに直接入力してください。
-    ページをリロードすると最新データが反映されます。
-    Slack での「払った」報告 → 週次で Sheets に転記 が推奨フローです。
+    <div class="note-label">📝 運用ルール（Slackから報告）</div>
+    支出が発生したら Slack で <strong>/支出 金額 カテゴリ 項目 区分</strong> と報告してください。
+    Sheets の「支出」シートに自動記録され、このページに反映されます（↻ 最新化 or リロード）。<br>
+    区分は <strong>イニシャル</strong>（事業全体・初期投資）／<strong>ランニング</strong>（事業全体・継続費）／<strong>商品:商品名</strong>（商品個別）のいずれか。<br>
+    例：<code>/支出 4609 製造原価 型費用追加分 商品:ENGINEKO猫</code>
+    例：<code>/支出 18万 知財・法務費 EU商標出願 イニシャル 支払者:早川</code><br>
+    Google Sheets への直接入力も引き続き可能です。
   </div>
 </div>
 
@@ -817,7 +872,7 @@ function saveProducts() {
       showBadge('保存中…', '#9A9A9A');
       try {
         const url = APPS_SCRIPT_URL
-          + '?action=save&data='
+          + '?action=saveProducts&data='
           + encodeURIComponent(JSON.stringify(data));
         // no-cors: レスポンスは読めないが Apps Script 側では確実に処理される
         await fetch(url, { mode: 'no-cors' });
@@ -839,7 +894,7 @@ async function loadProducts() {
 
   if (APPS_SCRIPT_URL) {
     try {
-      const res  = await fetch(APPS_SCRIPT_URL);
+      const res  = await fetch(APPS_SCRIPT_URL + '?action=getProducts');
       const json = await res.json();
       if (Array.isArray(json) && json.length > 0) data = json;
     } catch (e) {
@@ -935,6 +990,7 @@ function calcSales() {
   }
 
   saveProducts();
+  renderPnL();
 }
 
 // ─── 行の追加・削除 ──────────────────────────────────────────
@@ -1000,11 +1056,135 @@ async function loadFinancials(fy) {
     fetchJSON(base + '?action=getExpenses&fy=' + fy),
     fetchJSON(base + '?action=getIncome&fy=' + fy),
   ]);
-  _expenses = Array.isArray(expenses) ? expenses : [];
-  _income   = Array.isArray(income)   ? income   : [];
+  // API が想定外のデータ（旧バージョンの応答やエラーオブジェクト）を返しても壊れないよう正規化
+  const normalize = list => (Array.isArray(list) ? list : [])
+    .filter(r => r && typeof r === 'object' && 'amount' in r)
+    .map(r => ({ ...r, amount: Number(r.amount) || 0 }));
+  _expenses = normalize(expenses);
+  _income   = normalize(income);
   renderSummary(_expenses, _income);
   renderExpenseTable(_expenses);
   renderIncomeTable(_income);
+  renderPnL();
+}
+
+// ─── 支出の区分判定 ──────────────────────────────────────────
+// scope: 事業全体 / 商品個別 ／ costType: イニシャル / ランニング
+function scopeInfo(r) {
+  if (r.scope === '商品個別') {
+    return { key: 'product', label: '商品: ' + (r.product || '不明'), cls: 'scope-product' };
+  }
+  if (r.scope === '事業全体') {
+    return r.costType === 'イニシャル'
+      ? { key: 'initial', label: '全体・イニシャル', cls: 'scope-initial' }
+      : { key: 'running', label: '全体・ランニング', cls: 'scope-running' };
+  }
+  return { key: 'none', label: '未分類', cls: 'scope-none' };
+}
+
+// 支出の「対象商品」名を商品入力テーブルの商品名と突き合わせる
+function matchProduct(products, name) {
+  if (!name) return null;
+  const t = String(name).trim();
+  return products.find(p => p.name === t)
+      || products.find(p => p.name && (p.name.includes(t) || t.includes(p.name)))
+      || null;
+}
+
+// ─── 商品別 損益 & 事業全体 損益 描画 ────────────────────────
+function renderPnL() {
+  const grid = document.getElementById('pnlGrid');
+  if (!grid) return;
+
+  const products = collectProducts().map(p => ({
+    name:  (p.name || '').trim(),
+    price: parseFloat(p.price) || 0,
+    qty:   parseInt(p.qty, 10) || 0,
+  })).filter(p => p.name);
+
+  // 支出を区分ごとに集計
+  const prodExp   = {};   // 商品名 → 個別支出合計
+  const unmatched = [];   // 商品名が突き合わせできなかった個別支出
+  let initTotal = 0, runTotal = 0, noneTotal = 0, prodExpTotal = 0;
+
+  _expenses.forEach(r => {
+    const s = scopeInfo(r);
+    if (s.key === 'initial')      initTotal += r.amount;
+    else if (s.key === 'running') runTotal  += r.amount;
+    else if (s.key === 'none')    noneTotal += r.amount;
+    else {
+      prodExpTotal += r.amount;
+      const target = matchProduct(products, r.product);
+      if (target) prodExp[target.name] = (prodExp[target.name] || 0) + r.amount;
+      else unmatched.push(r);
+    }
+  });
+
+  // 商品カード
+  let cards = '';
+  let salesTotal = 0;
+  products.forEach(p => {
+    const sales  = p.price * p.qty;
+    const exp    = prodExp[p.name] || 0;
+    const profit = sales - exp;
+    salesTotal  += sales;
+    cards += `<div class="pnl-card">
+      <div class="pnl-name">${p.name}<span class="sub">¥${p.price.toLocaleString('ja-JP')} × ${p.qty}体</span></div>
+      <div class="pnl-rows">
+        <div class="bs-row"><span class="bs-cat">売上（販売ベース）</span><span class="bs-amt green">${fmt(sales)}</span></div>
+        <div class="bs-row"><span class="bs-cat">商品個別支出</span><span class="bs-amt red">${fmt(exp)}</span></div>
+      </div>
+      <div class="pnl-profit">
+        <span class="lbl">粗利${sales > 0 ? '（' + Math.round((profit / sales) * 100) + '%）' : ''}</span>
+        <span class="val ${profit >= 0 ? 'green' : 'red'}">${profit < 0 ? '−' : ''}${fmt(Math.abs(profit))}</span>
+      </div>
+    </div>`;
+  });
+
+  // 商品名が突き合わせできなかった個別支出の警告カード
+  if (unmatched.length > 0) {
+    const sum   = unmatched.reduce((s, r) => s + r.amount, 0);
+    const names = [...new Set(unmatched.map(r => r.product || '（空欄）'))].join('、');
+    cards += `<div class="pnl-card" style="border-color:#e0b05c;background:#fffbee;">
+      <div class="pnl-name">⚠️ 商品名 不一致<span class="sub">対象商品の表記を確認</span></div>
+      <div class="pnl-rows">
+        <div class="bs-row"><span class="bs-cat">${names}</span><span class="bs-amt red">${fmt(sum)}</span></div>
+      </div>
+      <div style="font-size:11px;color:#9A9A9A;line-height:1.6;">
+        Sheets の「対象商品」が上の商品入力テーブルの商品名と一致していません。
+      </div>
+    </div>`;
+  }
+
+  grid.innerHTML = cards || '<div class="ledger-empty">商品が登録されていません。</div>';
+
+  // 事業全体 損益
+  const gross = salesTotal - prodExpTotal;
+  const net   = gross - runTotal - initTotal - noneTotal;
+
+  const bizTotal = document.getElementById('pnlBizTotal');
+  bizTotal.textContent = (net < 0 ? '−' : '') + fmt(Math.abs(net));
+  bizTotal.className   = 'bs-total ' + (net >= 0 ? 'green' : 'red');
+
+  document.getElementById('pnlBizChip').innerHTML = net >= 0
+    ? '<span class="bs-net-chip black">黒字</span>'
+    : '<span class="bs-net-chip red">赤字</span>';
+
+  const rows = [
+    ['売上合計（販売ベース）',                       salesTotal,  'green', '+'],
+    ['商品個別支出',                                 prodExpTotal, 'red',  '−'],
+    ['全商品粗利',                                   gross,        gross >= 0 ? 'green' : 'red', '='],
+    ['事業全体支出（ランニング）',                   runTotal,     'red',  '−'],
+    ['事業全体支出（イニシャル）',                   initTotal,    'red',  '−'],
+  ];
+  if (noneTotal > 0) rows.push(['区分未分類の支出', noneTotal, 'red', '−']);
+
+  const fmtSigned = v => (v < 0 ? '−' : '') + fmt(Math.abs(v));
+  document.getElementById('pnlBizBreak').innerHTML = rows.map(([label, v, color, sign]) =>
+    `<div class="bs-row"><span class="bs-cat">${sign} ${label}</span><span class="bs-amt ${color}">${fmtSigned(v)}</span></div>`
+  ).join('') + '<hr class="bs-divider">'
+    + `<div class="bs-row"><span class="bs-cat" style="font-weight:700;color:#232323;">事業損益</span>`
+    + `<span class="bs-amt ${net >= 0 ? 'green' : 'red'}" style="font-size:14px;">${net < 0 ? '−' : ''}${fmt(Math.abs(net))}</span></div>`;
 }
 
 // ─── 収支サマリー描画 ────────────────────────────────────────
@@ -1036,10 +1216,15 @@ function renderSummary(expenses, income) {
       ).join('');
   document.getElementById('bsIncomeBreak').innerHTML = incHtml;
 
-  // 支出内訳（カテゴリ別上位）
-  const expByCat = {};
-  expenses.forEach(r => { expByCat[r.category] = (expByCat[r.category] || 0) + r.amount; });
-  const sorted = Object.entries(expByCat).sort((a, b) => b[1] - a[1]);
+  // 支出内訳（区分別）
+  const expByScope = {};
+  expenses.forEach(r => {
+    const s = scopeInfo(r);
+    const label = s.key === 'product' ? '商品個別' : s.label;
+    expByScope[label] = (expByScope[label] || 0) + r.amount;
+  });
+  const scopeOrder = ['全体・イニシャル', '全体・ランニング', '商品個別', '未分類'];
+  const sorted = scopeOrder.filter(k => expByScope[k]).map(k => [k, expByScope[k]]);
   const expHtml = sorted.length === 0
     ? '<div class="bs-empty">データなし</div>'
     : sorted.map(([k, v]) =>
@@ -1048,21 +1233,39 @@ function renderSummary(expenses, income) {
   document.getElementById('bsExpenseBreak').innerHTML = expHtml;
 }
 
-// ─── 支出テーブル描画（カテゴリグループ） ────────────────────
+// ─── 支出テーブル描画（カテゴリグループ＋区分フィルタ） ──────
+let _expenseFilter = 'all';
+
+function setExpenseFilter(key) {
+  _expenseFilter = key;
+  document.querySelectorAll('#expFilter .fy-btn').forEach(b =>
+    b.classList.toggle('active', b.dataset.scope === key));
+  renderExpenseTable(_expenses);
+}
+
 function renderExpenseTable(expenses) {
   const wrap = document.getElementById('expenseTableWrap');
   if (expenses.length === 0) {
     wrap.innerHTML = `<div class="ledger-empty">
       まだ支出データがありません。<br>
-      Google Sheets の「支出」シートに入力してください。<br>
-      <strong>列構成：</strong> 日付 ／ カテゴリ ／ 項目 ／ 金額 ／ 支払者 ／ メモ
+      Slack で <strong>/支出</strong> コマンドを使うか、Google Sheets の「支出」シートに入力してください。<br>
+      <strong>列構成：</strong> 日付 ／ カテゴリ ／ 項目 ／ 金額 ／ 支払者 ／ メモ ／ 区分 ／ 費用タイプ ／ 対象商品
     </div>`;
+    return;
+  }
+
+  const list = _expenseFilter === 'all'
+    ? expenses
+    : expenses.filter(r => scopeInfo(r).key === _expenseFilter);
+
+  if (list.length === 0) {
+    wrap.innerHTML = `<div class="ledger-empty">この区分の支出はありません。</div>`;
     return;
   }
 
   // カテゴリでグループ化
   const groups = {};
-  expenses.forEach(r => {
+  list.forEach(r => {
     if (!groups[r.category]) groups[r.category] = [];
     groups[r.category].push(r);
   });
@@ -1081,13 +1284,15 @@ function renderExpenseTable(expenses) {
     const catTotal = items.reduce((s, r) => s + r.amount, 0);
     grandTotal += catTotal;
     rows += `<tr class="cat-header">
-      <td colspan="4">${cat}</td>
+      <td colspan="5">${cat}</td>
       <td class="r">${fmt(catTotal)}</td>
     </tr>`;
     items.forEach(r => {
+      const s = scopeInfo(r);
       rows += `<tr>
         <td style="color:#9A9A9A;white-space:nowrap;">${r.date}</td>
         <td>${r.item}</td>
+        <td><span class="scope-chip ${s.cls}">${s.label}</span></td>
         <td style="color:#6B6B6B;white-space:nowrap;">${r.payer || '—'}</td>
         <td style="color:#9A9A9A;font-size:11.5px;">${r.memo || ''}</td>
         <td class="r amt-red">${fmt(r.amount)}</td>
@@ -1100,13 +1305,14 @@ function renderExpenseTable(expenses) {
       <thead><tr>
         <th style="width:90px;">日付</th>
         <th>項目</th>
+        <th style="width:140px;">区分</th>
         <th style="width:90px;">支払者</th>
         <th>メモ</th>
         <th class="r" style="width:110px;">金額</th>
       </tr></thead>
       <tbody>${rows}</tbody>
       <tfoot><tr>
-        <td colspan="4">合計</td>
+        <td colspan="5">合計${_expenseFilter !== 'all' ? '（フィルタ適用中）' : ''}</td>
         <td class="r">${fmt(grandTotal)}</td>
       </tr></tfoot>
     </table>`;
