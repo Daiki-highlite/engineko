@@ -719,11 +719,12 @@
   <div id="expenseTableWrap"><div class="ledger-loading">読み込み中…</div></div>
   <div class="note" style="margin-top:14px;">
     <div class="note-label">📝 運用ルール（Slackから報告）</div>
-    支出が発生したら Slack で <strong>/支出 金額 カテゴリ 項目 区分</strong> と報告してください。
+    支出が発生したら Slack で <strong>/expense 金額 カテゴリ 項目 区分</strong> と報告してください。
     Sheets の「支出」シートに自動記録され、このページに反映されます（↻ 最新化 or リロード）。<br>
     区分は <strong>イニシャル</strong>（事業全体・初期投資）／<strong>ランニング</strong>（事業全体・継続費）／<strong>商品:商品名</strong>（商品個別）のいずれか。<br>
-    例：<code>/支出 4609 製造原価 型費用追加分 商品:ENGINEKO猫</code>
-    例：<code>/支出 18万 知財・法務費 EU商標出願 イニシャル 支払者:早川</code><br>
+    例：<code>/expense 4609 製造原価 型費用追加分 商品:ENGINEKO猫</code>
+    例：<code>/expense 18万 知財・法務費 EU商標出願 イニシャル 支払者:早川</code>
+    例：<code>/income 50000 売上 ENGINEKO猫1体 メモ:〇〇様</code><br>
     Google Sheets への直接入力も引き続き可能です。
   </div>
 </div>
@@ -1248,7 +1249,7 @@ function renderExpenseTable(expenses) {
   if (expenses.length === 0) {
     wrap.innerHTML = `<div class="ledger-empty">
       まだ支出データがありません。<br>
-      Slack で <strong>/支出</strong> コマンドを使うか、Google Sheets の「支出」シートに入力してください。<br>
+      Slack で <strong>/expense</strong> コマンドを使うか、Google Sheets の「支出」シートに入力してください。<br>
       <strong>列構成：</strong> 日付 ／ カテゴリ ／ 項目 ／ 金額 ／ 支払者 ／ メモ ／ 区分 ／ 費用タイプ ／ 対象商品
     </div>`;
     return;
