@@ -706,7 +706,7 @@
 <div class="section-title">💸 支出実績</div>
 <div class="card" style="margin-bottom:24px;">
   <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
-    <div class="card-title color-red" style="margin-bottom:0;">カテゴリ別 支出明細</div>
+    <div class="card-title color-red" style="margin-bottom:0;">費用科目別 支出明細</div>
     <a href="https://docs.google.com/spreadsheets" target="_blank" class="bs-sheets-link" id="expenseSheetsLink">📊 Sheets で編集</a>
   </div>
   <div class="exp-filter" id="expFilter">
@@ -719,12 +719,12 @@
   <div id="expenseTableWrap"><div class="ledger-loading">読み込み中…</div></div>
   <div class="note" style="margin-top:14px;">
     <div class="note-label">📝 運用ルール（Slackから報告）</div>
-    支出が発生したら Slack で <strong>/expense 金額 カテゴリ 項目 区分</strong> と報告してください。
-    Sheets の「支出」シートに自動記録され、このページに反映されます（↻ 最新化 or リロード）。<br>
-    区分は <strong>イニシャル</strong>（事業全体・初期投資）／<strong>ランニング</strong>（事業全体・継続費）／<strong>商品:商品名</strong>（商品個別）のいずれか。<br>
-    例：<code>/expense 4609 製造原価 型費用追加分 商品:ENGINEKO猫</code>
-    例：<code>/expense 18万 知財・法務費 EU商標出願 イニシャル 支払者:早川</code>
-    例：<code>/income 50000 売上 ENGINEKO猫1体 メモ:〇〇様</code><br>
+    支出が発生したら Slack で、ラベルを埋めて報告してください。Sheets の「支出」シートに自動記録され、このページに反映されます（↻ 最新化 or リロード）。<br>
+    <code>/expense 金額: 費用科目: 内容: 商品: 支払者: 日付: メモ:</code><br>
+    <strong>商品</strong>欄は <strong>モデル名</strong>（商品個別）／<strong>共通イニシャル</strong>（事業全体・初期投資）／<strong>共通ランニング</strong>（事業全体・継続費）のいずれか。支払者・日付・メモは任意（省略時は投稿者・今日）。<br>
+    例：<code>/expense 金額:4609 費用科目:製造原価 内容:型費用追加分 商品:ENGINEKO猫</code>
+    例：<code>/expense 金額:18万 費用科目:知財・法務費 内容:EU商標出願 商品:共通イニシャル 支払者:早川</code>
+    例：<code>/income 金額:50000 種別:売上 内容:ENGINEKO猫1体 メモ:〇〇様</code><br>
     Google Sheets への直接入力も引き続き可能です。
   </div>
 </div>
@@ -1010,16 +1010,17 @@ function delRow(btn) {
 // 収支管理（収入・支出 from Google Sheets）
 // ================================================================
 const EXPENSE_CATS = [
-  { key: '製造原価',     color: '#e07b39' },
-  { key: '梱包・資材費', color: '#c49010' },
-  { key: '人件費',       color: '#5A6870' },
-  { key: '広告宣伝費',   color: '#4a90d9' },
-  { key: '送料・物流費', color: '#8AABBA' },
-  { key: '旅費交通費',   color: '#9A9A9A' },
-  { key: '外注費',       color: '#7B68EE' },
-  { key: '知財・法務費', color: '#e05c5c' },
-  { key: '通信費',       color: '#00a878' },
-  { key: '消耗品・雑費', color: '#C8C8C8' },
+  { key: '製造原価',         color: '#e07b39' },
+  { key: '梱包・資材費',     color: '#c49010' },
+  { key: '人件費',           color: '#5A6870' },
+  { key: '広告宣伝費',       color: '#4a90d9' },
+  { key: '外部イベント出展費', color: '#d98cc4' },
+  { key: '送料・物流費',     color: '#8AABBA' },
+  { key: '旅費交通費',       color: '#9A9A9A' },
+  { key: '外注費',           color: '#7B68EE' },
+  { key: '知財・法務費',     color: '#e05c5c' },
+  { key: '通信費',           color: '#00a878' },
+  { key: '消耗品・雑費',     color: '#C8C8C8' },
 ];
 
 let currentFY  = 'FY2026';
@@ -1250,7 +1251,7 @@ function renderExpenseTable(expenses) {
     wrap.innerHTML = `<div class="ledger-empty">
       まだ支出データがありません。<br>
       Slack で <strong>/expense</strong> コマンドを使うか、Google Sheets の「支出」シートに入力してください。<br>
-      <strong>列構成：</strong> 日付 ／ カテゴリ ／ 項目 ／ 金額 ／ 支払者 ／ メモ ／ 区分 ／ 費用タイプ ／ 対象商品
+      <strong>列構成：</strong> 日付 ／ 費用科目 ／ 内容 ／ 金額 ／ 支払者 ／ メモ ／ 区分 ／ 費用タイプ ／ 対象商品
     </div>`;
     return;
   }
@@ -1305,7 +1306,7 @@ function renderExpenseTable(expenses) {
     <table class="ledger-table">
       <thead><tr>
         <th style="width:90px;">日付</th>
-        <th>項目</th>
+        <th>内容</th>
         <th style="width:140px;">区分</th>
         <th style="width:90px;">支払者</th>
         <th>メモ</th>
@@ -1325,8 +1326,8 @@ function renderIncomeTable(income) {
   if (income.length === 0) {
     wrap.innerHTML = `<div class="ledger-empty">
       まだ収入データがありません。<br>
-      Google Sheets の「収入」シートに入力してください。<br>
-      <strong>列構成：</strong> 日付 ／ 種別（売上 or 助成金）／ 項目 ／ 金額 ／ メモ
+      Slack で <strong>/income</strong> コマンドを使うか、Google Sheets の「収入」シートに入力してください。<br>
+      <strong>列構成：</strong> 日付 ／ 種別（売上 or 助成金）／ 内容 ／ 金額 ／ メモ
     </div>`;
     return;
   }
@@ -1352,7 +1353,7 @@ function renderIncomeTable(income) {
       <thead><tr>
         <th style="width:90px;">日付</th>
         <th style="width:70px;">種別</th>
-        <th>項目</th>
+        <th>内容</th>
         <th>メモ</th>
         <th class="r" style="width:110px;">金額</th>
       </tr></thead>
