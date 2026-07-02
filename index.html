@@ -273,6 +273,7 @@
 
   /* ========= TEAM MEMBER CARDS ========= */
   .grid-5 { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; margin-bottom: 24px; }
+  .grid-6 { display: grid; grid-template-columns: repeat(6, 1fr); gap: 10px; margin-bottom: 24px; }
   .member-card {
     background: #fff;
     border: 1px solid #E0E0DC;
@@ -342,6 +343,106 @@
   .member-hours .h-num small { font-size: 9px; color: #9A9A9A; font-weight: 400; margin-left: 1px; }
   .member-hours .h-bar-wrap { background: rgba(255,255,255,0.6); height: 5px; border-radius: 3px; overflow: hidden; }
   .member-hours .h-bar { height: 100%; border-radius: 3px; }
+
+  /* ========= HISTORY POPUP ========= */
+  .member-name { cursor: pointer; transition: color 220ms; }
+  .member-name:hover { color: #5A6870; }
+  .member-name::after {
+    content: ' 📊';
+    font-size: 9px;
+    color: #C8C8C8;
+    vertical-align: middle;
+  }
+  .history-modal-overlay {
+    display: none;
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(35,35,35,0.5);
+    z-index: 300;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
+  .history-modal-overlay.active { display: flex; }
+  .history-modal {
+    background: #fff;
+    border-radius: 14px;
+    padding: 24px 26px;
+    max-width: 460px;
+    width: 100%;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.18);
+    position: relative;
+    max-height: 80vh;
+    overflow-y: auto;
+  }
+  .history-close {
+    position: absolute; top: 12px; right: 14px;
+    background: none; border: none; cursor: pointer;
+    font-size: 22px; color: #9A9A9A; padding: 0;
+    line-height: 1; font-family: inherit;
+  }
+  .history-close:hover { color: #232323; }
+  .history-title {
+    font-size: 15px; font-weight: 700; color: #232323;
+    margin-bottom: 2px;
+  }
+  .history-subtitle {
+    font-size: 11px; color: #9A9A9A;
+    margin-bottom: 18px; letter-spacing: 0.04em;
+  }
+  .history-row {
+    display: grid;
+    grid-template-columns: 90px 1fr 70px;
+    align-items: center;
+    gap: 12px;
+    padding: 9px 0;
+    border-bottom: 1px solid #F0F0EC;
+    font-size: 12px;
+  }
+  .history-row:last-child { border-bottom: none; }
+  .history-row.current {
+    background: rgba(138,171,186,0.08);
+    border-radius: 6px;
+    padding: 9px 8px;
+    margin: 2px -4px;
+    border-bottom: none;
+  }
+  .history-row .h-month { font-weight: 600; color: #6B6B6B; font-size: 11px; }
+  .history-row .h-month small { color: #9A9A9A; font-weight: 400; font-size: 10px; margin-left: 4px; }
+  .history-row .h-total {
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+    font-weight: 700; font-size: 13px;
+    color: #232323;
+  }
+  .history-row .h-total small {
+    color: #9A9A9A; font-weight: 400; font-size: 10px; margin-left: 2px;
+  }
+  .history-bar-wrap {
+    background: #F0F0EC; height: 8px;
+    border-radius: 4px; overflow: hidden;
+  }
+  .history-bar { height: 100%; border-radius: 4px; }
+  .history-total-row {
+    margin-top: 14px; padding-top: 12px;
+    border-top: 2px solid #232323;
+    display: flex; justify-content: space-between;
+    align-items: baseline;
+    font-size: 12px; color: #6B6B6B;
+  }
+  .history-total-row .t-val {
+    font-size: 18px; font-weight: 700; color: #232323;
+    font-variant-numeric: tabular-nums;
+  }
+  .history-note {
+    margin-top: 14px;
+    font-size: 10px; color: #9A9A9A;
+    line-height: 1.6;
+    background: #F5F5F2;
+    padding: 8px 10px;
+    border-radius: 6px;
+  }
 
   /* ========= TEAM HOURS SUMMARY ========= */
   .hours-card { padding: 16px 18px; }
@@ -478,12 +579,12 @@
   </div>
   <div class="kpi yellow">
     <div class="label">🟡 進行中</div>
-    <div class="value">8</div>
+    <div class="value">9</div>
     <div class="sub">アクションが必要</div>
   </div>
   <div class="kpi green">
     <div class="label">✅ 完了</div>
-    <div class="value">12</div>
+    <div class="value">13</div>
     <div class="sub">直近で完了済み</div>
   </div>
   <div class="kpi blue">
@@ -495,12 +596,12 @@
 
 <!-- TEAM SECTION -->
 <div class="section-title">👥 チーム別タスク進捗</div>
-<div class="grid-5">
+<div class="grid-6">
 
   <!-- Daiki: Engine -->
   <div class="member-card" style="border-top-color:#e05c5c;">
     <span class="member-role-tag" style="background:rgba(224,92,92,0.10);color:#e05c5c;">⚙️ ENGINE</span>
-    <div class="member-name">早川 大貴</div>
+    <div class="member-name" onclick="showHistory('daiki')">早川 大貴</div>
     <div class="member-name-en">Daiki Hayakawa</div>
     <div class="member-desc">事業推進のための価値を作る</div>
     <div class="member-task-list">
@@ -627,7 +728,7 @@
   <!-- Kota: Drive -->
   <div class="member-card" style="border-top-color:#4a90d9;">
     <span class="member-role-tag" style="background:rgba(74,144,217,0.10);color:#4a90d9;">🚀 DRIVE</span>
-    <div class="member-name">伊藤 孝太</div>
+    <div class="member-name" onclick="showHistory('kota')">伊藤 孝太</div>
     <div class="member-name-en">Kota Ito</div>
     <div class="member-desc">事業の推進を行う</div>
     <div class="member-task-list">
@@ -712,7 +813,7 @@
   <!-- Misaki: Handle -->
   <div class="member-card" style="border-top-color:#5B7B8A;">
     <span class="member-role-tag" style="background:rgba(91,123,138,0.10);color:#5B7B8A;">🎯 HANDLE</span>
-    <div class="member-name">玉田 実咲</div>
+    <div class="member-name" onclick="showHistory('misaki')">玉田 実咲</div>
     <div class="member-name-en">Misaki Tamada</div>
     <div class="member-desc">事業の印象を操作・整理する</div>
     <div class="member-task-list">
@@ -776,7 +877,7 @@
   <!-- Yuki: Wheel -->
   <div class="member-card" style="border-top-color:#00a878;">
     <span class="member-role-tag" style="background:rgba(0,168,120,0.10);color:#00a878;">🛞 WHEEL</span>
-    <div class="member-name">薮田 有希</div>
+    <div class="member-name" onclick="showHistory('yuki')">薮田 有希</div>
     <div class="member-name-en">Yuki Yabuta</div>
     <div class="member-desc">事業を移動させる</div>
     <div class="member-task-list">
@@ -833,7 +934,7 @@
   <!-- Ikumi: Load -->
   <div class="member-card" style="border-top-color:#e07b39;">
     <span class="member-role-tag" style="background:rgba(224,123,57,0.10);color:#e07b39;">📦 LOAD</span>
-    <div class="member-name">髙田 郁実</div>
+    <div class="member-name" onclick="showHistory('ikumi')">髙田 郁実</div>
     <div class="member-name-en">Ikumi Takada</div>
     <div class="member-desc">事業の道筋を整える</div>
     <div class="member-task-list">
@@ -887,38 +988,81 @@
     </div>
   </div>
 
+  <!-- Nakamura: Turbo -->
+  <div class="member-card" style="border-top-color:#8AABBA;">
+    <span class="member-role-tag" style="background:rgba(138,171,186,0.15);color:#5A6870;">🌀 TURBO</span>
+    <div class="member-name" onclick="showHistory('nakamura')">中村 和弥</div>
+    <div class="member-name-en">Kazuya Nakamura</div>
+    <div class="member-desc">事業推進を加速させる（マーケ／3gatsu）</div>
+    <div class="member-task-list">
+      <div class="member-task-item">
+        <div class="mtask-dot warn"></div>
+        <div class="mtask-body">
+          <div class="mtask-text">SNS投稿用原稿作成</div>
+          <div class="mtask-date">進行中</div>
+        </div>
+      </div>
+      <div class="member-task-item">
+        <div class="mtask-dot ok done"></div>
+        <div class="mtask-body">
+          <div class="mtask-text done">Daiki・伊藤とマーケ方針議論</div>
+          <div class="mtask-date">完了 / 0.5h</div>
+        </div>
+      </div>
+      <div class="member-task-item">
+        <div class="mtask-dot ok"></div>
+        <div class="mtask-body">
+          <div class="mtask-text">マーケ観点で良さそうなことをまとめる</div>
+          <div class="mtask-date">今後予定</div>
+        </div>
+      </div>
+    </div>
+    <div class="member-stat">
+      <div class="member-stat-item"><div class="s-num" style="color:#e05c5c;">0</div><div class="s-label">緊急</div></div>
+      <div class="member-stat-item"><div class="s-num" style="color:#d4a017;">1</div><div class="s-label">進行中</div></div>
+      <div class="member-stat-item"><div class="s-num" style="color:#00a878;">1</div><div class="s-label">完了</div></div>
+    </div>
+    <div class="member-hours">
+      <div class="h-top">
+        <span class="h-label">⏱ 今月累計</span>
+        <span class="h-num">0.5<small>h / 20h</small></span>
+      </div>
+      <div class="h-bar-wrap"><div class="h-bar" style="width:2.5%;background:#8AABBA;"></div></div>
+    </div>
+  </div>
+
 </div>
 
 <!-- TEAM HOURS SUMMARY -->
 <div class="section-title">⏱️ 今月の累計稼働時間サマリー（最大 20h / 月）</div>
 <div class="card hours-card" style="margin-bottom: 24px;">
   <div class="hours-row">
-    <div class="h-name">早川 大貴<small>ENGINE</small></div>
+    <div class="h-name" style="cursor:pointer;" onclick="showHistory('daiki')">早川 大貴<small>ENGINE 📊</small></div>
     <div class="h-value" style="color:#e05c5c;">19.0<small style="font-size:10px;color:#9A9A9A;font-weight:400;"> / 20h</small></div>
     <div class="h-bar-wrap"><div class="h-bar" style="width:95%;background:#e05c5c;"></div></div>
   </div>
   <div class="hours-row">
-    <div class="h-name">伊藤 孝太<small>DRIVE ／ 7/2未提出</small></div>
+    <div class="h-name" style="cursor:pointer;" onclick="showHistory('kota')">伊藤 孝太<small>DRIVE ／ 7/2未提出 📊</small></div>
     <div class="h-value" style="color:#C8C8C8;">0.0<small style="font-size:10px;color:#9A9A9A;font-weight:400;"> / 20h</small></div>
     <div class="h-bar-wrap"><div class="h-bar" style="width:0%;background:#4a90d9;"></div></div>
   </div>
   <div class="hours-row">
-    <div class="h-name">玉田 実咲<small>HANDLE</small></div>
+    <div class="h-name" style="cursor:pointer;" onclick="showHistory('misaki')">玉田 実咲<small>HANDLE 📊</small></div>
     <div class="h-value" style="color:#5B7B8A;">7.0<small style="font-size:10px;color:#9A9A9A;font-weight:400;"> / 20h</small></div>
     <div class="h-bar-wrap"><div class="h-bar" style="width:35%;background:#5B7B8A;"></div></div>
   </div>
   <div class="hours-row">
-    <div class="h-name">薮田 有希<small>WHEEL</small></div>
+    <div class="h-name" style="cursor:pointer;" onclick="showHistory('yuki')">薮田 有希<small>WHEEL 📊</small></div>
     <div class="h-value" style="color:#00a878;">9.5<small style="font-size:10px;color:#9A9A9A;font-weight:400;"> / 20h</small></div>
     <div class="h-bar-wrap"><div class="h-bar" style="width:47.5%;background:#00a878;"></div></div>
   </div>
   <div class="hours-row">
-    <div class="h-name">髙田 郁実<small>LOAD</small></div>
+    <div class="h-name" style="cursor:pointer;" onclick="showHistory('ikumi')">髙田 郁実<small>LOAD 📊</small></div>
     <div class="h-value" style="color:#e07b39;">0.5<small style="font-size:10px;color:#9A9A9A;font-weight:400;"> / 20h</small></div>
     <div class="h-bar-wrap"><div class="h-bar" style="width:2.5%;background:#e07b39;"></div></div>
   </div>
   <div class="hours-row">
-    <div class="h-name">中村 和弥<small>3gatsu / コラボ</small></div>
+    <div class="h-name" style="cursor:pointer;" onclick="showHistory('nakamura')">中村 和弥<small>TURBO 📊</small></div>
     <div class="h-value" style="color:#8AABBA;">0.5<small style="font-size:10px;color:#9A9A9A;font-weight:400;"> / 20h</small></div>
     <div class="h-bar-wrap"><div class="h-bar" style="width:2.5%;background:#8AABBA;"></div></div>
   </div>
@@ -1428,6 +1572,125 @@
   <span class="source-badge">#06-engineko-all</span>
   <span class="source-badge">Generated by Claude · 2026-07-03</span>
 </div>
+
+<!-- ========= HISTORY POPUP ========= -->
+<div id="history-modal" class="history-modal-overlay">
+  <div class="history-modal">
+    <button class="history-close" onclick="closeHistory()">×</button>
+    <div class="history-title" id="hist-title"></div>
+    <div class="history-subtitle" id="hist-subtitle"></div>
+    <div id="hist-body"></div>
+    <div class="history-total-row" id="hist-total"></div>
+    <div class="history-note">
+      月別稼働は Weekly Report の <code style="background:#fff;padding:1px 4px;border-radius:3px;">/Xh</code> 記載を合算した集計値（時給 ¥2,000換算の想定額を併記）。5月前半は時間記載が始まる前の期間があり、タスク量からの推定を含みます。
+    </div>
+  </div>
+</div>
+
+<script>
+const memberHistory = {
+  daiki: {
+    name: '早川 大貴（Daiki Hayakawa）',
+    role: '⚙️ ENGINE — 事業推進のための価値を作る',
+    color: '#e05c5c',
+    months: [
+      {label: '5月', sub: '（推定）', hours: 50.0, isCurrent: false},
+      {label: '6月', sub: '', hours: 38.0, isCurrent: false},
+      {label: '7月', sub: '今月', hours: 19.0, isCurrent: true}
+    ]
+  },
+  kota: {
+    name: '伊藤 孝太（Kota Ito）',
+    role: '🚀 DRIVE — 事業の推進を行う',
+    color: '#4a90d9',
+    months: [
+      {label: '5月', sub: '（推定）', hours: 15.0, isCurrent: false},
+      {label: '6月', sub: '', hours: 12.0, isCurrent: false},
+      {label: '7月', sub: '今月・未提出', hours: 0.0, isCurrent: true}
+    ]
+  },
+  misaki: {
+    name: '玉田 実咲（Misaki Tamada）',
+    role: '🎯 HANDLE — 事業の印象を操作・整理する',
+    color: '#5B7B8A',
+    months: [
+      {label: '5月', sub: '（推定）', hours: 8.0, isCurrent: false},
+      {label: '6月', sub: '', hours: 12.0, isCurrent: false},
+      {label: '7月', sub: '今月', hours: 7.0, isCurrent: true}
+    ]
+  },
+  yuki: {
+    name: '薮田 有希（Yuki Yabuta）',
+    role: '🛞 WHEEL — 事業を移動させる',
+    color: '#00a878',
+    months: [
+      {label: '5月', sub: '（推定）', hours: 10.0, isCurrent: false},
+      {label: '6月', sub: '', hours: 10.0, isCurrent: false},
+      {label: '7月', sub: '今月', hours: 9.5, isCurrent: true}
+    ]
+  },
+  ikumi: {
+    name: '髙田 郁実（Ikumi Takada）',
+    role: '📦 LOAD — 事業の道筋を整える',
+    color: '#e07b39',
+    months: [
+      {label: '5月', sub: '（推定）', hours: 13.0, isCurrent: false},
+      {label: '6月', sub: '', hours: 15.0, isCurrent: false},
+      {label: '7月', sub: '今月', hours: 0.5, isCurrent: true}
+    ]
+  },
+  nakamura: {
+    name: '中村 和弥（Kazuya Nakamura）',
+    role: '🌀 TURBO — 事業推進を加速させる（マーケ／3gatsu）',
+    color: '#8AABBA',
+    months: [
+      {label: '5月', sub: '', hours: 3.0, isCurrent: false},
+      {label: '6月', sub: '', hours: 4.5, isCurrent: false},
+      {label: '7月', sub: '今月', hours: 0.5, isCurrent: true}
+    ]
+  }
+};
+
+function showHistory(id) {
+  const data = memberHistory[id];
+  if (!data) return;
+  document.getElementById('hist-title').textContent = data.name;
+  document.getElementById('hist-subtitle').textContent = data.role + ' ／ 月別稼働時間';
+
+  const body = document.getElementById('hist-body');
+  const maxHours = Math.max(...data.months.map(m => m.hours), 20);
+  body.innerHTML = data.months.map(m => `
+    <div class="history-row${m.isCurrent ? ' current' : ''}">
+      <span class="h-month">${m.label}<small>${m.sub}</small></span>
+      <div class="history-bar-wrap"><div class="history-bar" style="width:${(m.hours/maxHours*100).toFixed(1)}%;background:${data.color};"></div></div>
+      <span class="h-total">${m.hours.toFixed(1)}<small>h</small></span>
+    </div>
+  `).join('');
+
+  const totalHours = data.months.reduce((sum, m) => sum + m.hours, 0);
+  const totalYen = Math.round(totalHours * 2000).toLocaleString('ja-JP');
+  document.getElementById('hist-total').innerHTML = `
+    <span>累計（5–7月）／ ¥2,000/h 想定</span>
+    <span class="t-val">${totalHours.toFixed(1)}h ／ ¥${totalYen}</span>
+  `;
+
+  document.getElementById('history-modal').classList.add('active');
+}
+
+function closeHistory() {
+  document.getElementById('history-modal').classList.remove('active');
+}
+
+// クリック（オーバーレイ）で閉じる
+document.getElementById('history-modal').addEventListener('click', function(e) {
+  if (e.target === this) closeHistory();
+});
+
+// ESCキーで閉じる
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') closeHistory();
+});
+</script>
 
 </body>
 </html>
