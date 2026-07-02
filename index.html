@@ -467,6 +467,50 @@
   }
   .hours-total .t-num { font-size: 18px; font-weight: 700; color: #232323; font-variant-numeric: tabular-nums; }
 
+  /* ========= HOURS ACCORDION ========= */
+  .hours-accordion-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #fff;
+    border: 1px solid #E0E0DC;
+    border-radius: 10px;
+    padding: 10px 16px;
+    margin-bottom: 12px;
+    cursor: pointer;
+    transition: background 220ms, border-color 220ms;
+    user-select: none;
+  }
+  .hours-accordion-toggle:hover { background: #F5F5F2; border-color: #C8C8C8; }
+  .hours-accordion-toggle .toggle-label {
+    display: flex; align-items: center; gap: 10px;
+    font-size: 11px; text-transform: uppercase;
+    letter-spacing: 0.1em; color: #9A9A9A; font-weight: 600;
+  }
+  .hours-accordion-toggle .toggle-meta {
+    font-size: 11px; color: #6B6B6B;
+    font-variant-numeric: tabular-nums;
+  }
+  .hours-accordion-toggle .toggle-meta strong {
+    color: #232323; font-size: 13px; font-weight: 700;
+  }
+  .hours-accordion-toggle .toggle-arrow {
+    display: inline-block;
+    transition: transform 220ms;
+    font-size: 10px; color: #9A9A9A;
+    margin-left: 8px;
+  }
+  .hours-accordion.open .toggle-arrow { transform: rotate(180deg); }
+  .hours-accordion-content {
+    display: none;
+    animation: hoursFadeIn 240ms ease;
+  }
+  .hours-accordion.open .hours-accordion-content { display: block; }
+  @keyframes hoursFadeIn {
+    from { opacity: 0; transform: translateY(-4px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
   /* ========= CLAUDE INSTRUCTIONS ========= */
   .claude-log {
     background: #fff;
@@ -1033,42 +1077,49 @@
 
 </div>
 
-<!-- TEAM HOURS SUMMARY -->
-<div class="section-title">⏱️ 今月の累計稼働時間サマリー（最大 20h / 月）</div>
-<div class="card hours-card" style="margin-bottom: 24px;">
-  <div class="hours-row">
-    <div class="h-name" style="cursor:pointer;" onclick="showHistory('daiki')">早川 大貴<small>ENGINE 📊</small></div>
-    <div class="h-value" style="color:#e05c5c;">19.0<small style="font-size:10px;color:#9A9A9A;font-weight:400;"> / 20h</small></div>
-    <div class="h-bar-wrap"><div class="h-bar" style="width:95%;background:#e05c5c;"></div></div>
+<!-- TEAM HOURS SUMMARY (Accordion) -->
+<div class="hours-accordion" id="hours-accordion">
+  <div class="hours-accordion-toggle" onclick="document.getElementById('hours-accordion').classList.toggle('open')">
+    <span class="toggle-label">⏱️ 今月の累計稼働時間サマリー（最大 20h / 月）</span>
+    <span class="toggle-meta">チーム合計 <strong>36.5h</strong> / 月 <span class="toggle-arrow">▼</span></span>
   </div>
-  <div class="hours-row">
-    <div class="h-name" style="cursor:pointer;" onclick="showHistory('kota')">伊藤 孝太<small>DRIVE ／ 7/2未提出 📊</small></div>
-    <div class="h-value" style="color:#C8C8C8;">0.0<small style="font-size:10px;color:#9A9A9A;font-weight:400;"> / 20h</small></div>
-    <div class="h-bar-wrap"><div class="h-bar" style="width:0%;background:#4a90d9;"></div></div>
-  </div>
-  <div class="hours-row">
-    <div class="h-name" style="cursor:pointer;" onclick="showHistory('misaki')">玉田 実咲<small>HANDLE 📊</small></div>
-    <div class="h-value" style="color:#5B7B8A;">7.0<small style="font-size:10px;color:#9A9A9A;font-weight:400;"> / 20h</small></div>
-    <div class="h-bar-wrap"><div class="h-bar" style="width:35%;background:#5B7B8A;"></div></div>
-  </div>
-  <div class="hours-row">
-    <div class="h-name" style="cursor:pointer;" onclick="showHistory('yuki')">薮田 有希<small>WHEEL 📊</small></div>
-    <div class="h-value" style="color:#00a878;">9.5<small style="font-size:10px;color:#9A9A9A;font-weight:400;"> / 20h</small></div>
-    <div class="h-bar-wrap"><div class="h-bar" style="width:47.5%;background:#00a878;"></div></div>
-  </div>
-  <div class="hours-row">
-    <div class="h-name" style="cursor:pointer;" onclick="showHistory('ikumi')">髙田 郁実<small>LOAD 📊</small></div>
-    <div class="h-value" style="color:#e07b39;">0.5<small style="font-size:10px;color:#9A9A9A;font-weight:400;"> / 20h</small></div>
-    <div class="h-bar-wrap"><div class="h-bar" style="width:2.5%;background:#e07b39;"></div></div>
-  </div>
-  <div class="hours-row">
-    <div class="h-name" style="cursor:pointer;" onclick="showHistory('nakamura')">中村 和弥<small>TURBO 📊</small></div>
-    <div class="h-value" style="color:#8AABBA;">0.5<small style="font-size:10px;color:#9A9A9A;font-weight:400;"> / 20h</small></div>
-    <div class="h-bar-wrap"><div class="h-bar" style="width:2.5%;background:#8AABBA;"></div></div>
-  </div>
-  <div class="hours-total">
-    <span>チーム合計（7月分・7/3 時点／Kotaのみ未提出）</span>
-    <span><span class="t-num">36.5</span>h / 月</span>
+  <div class="hours-accordion-content">
+    <div class="card hours-card" style="margin-bottom: 24px;">
+      <div class="hours-row">
+        <div class="h-name" style="cursor:pointer;" onclick="showHistory('daiki')">早川 大貴<small>ENGINE 📊</small></div>
+        <div class="h-value" style="color:#e05c5c;">19.0<small style="font-size:10px;color:#9A9A9A;font-weight:400;"> / 20h</small></div>
+        <div class="h-bar-wrap"><div class="h-bar" style="width:95%;background:#e05c5c;"></div></div>
+      </div>
+      <div class="hours-row">
+        <div class="h-name" style="cursor:pointer;" onclick="showHistory('kota')">伊藤 孝太<small>DRIVE ／ 7/2未提出 📊</small></div>
+        <div class="h-value" style="color:#C8C8C8;">0.0<small style="font-size:10px;color:#9A9A9A;font-weight:400;"> / 20h</small></div>
+        <div class="h-bar-wrap"><div class="h-bar" style="width:0%;background:#4a90d9;"></div></div>
+      </div>
+      <div class="hours-row">
+        <div class="h-name" style="cursor:pointer;" onclick="showHistory('misaki')">玉田 実咲<small>HANDLE 📊</small></div>
+        <div class="h-value" style="color:#5B7B8A;">7.0<small style="font-size:10px;color:#9A9A9A;font-weight:400;"> / 20h</small></div>
+        <div class="h-bar-wrap"><div class="h-bar" style="width:35%;background:#5B7B8A;"></div></div>
+      </div>
+      <div class="hours-row">
+        <div class="h-name" style="cursor:pointer;" onclick="showHistory('yuki')">薮田 有希<small>WHEEL 📊</small></div>
+        <div class="h-value" style="color:#00a878;">9.5<small style="font-size:10px;color:#9A9A9A;font-weight:400;"> / 20h</small></div>
+        <div class="h-bar-wrap"><div class="h-bar" style="width:47.5%;background:#00a878;"></div></div>
+      </div>
+      <div class="hours-row">
+        <div class="h-name" style="cursor:pointer;" onclick="showHistory('ikumi')">髙田 郁実<small>LOAD 📊</small></div>
+        <div class="h-value" style="color:#e07b39;">0.5<small style="font-size:10px;color:#9A9A9A;font-weight:400;"> / 20h</small></div>
+        <div class="h-bar-wrap"><div class="h-bar" style="width:2.5%;background:#e07b39;"></div></div>
+      </div>
+      <div class="hours-row">
+        <div class="h-name" style="cursor:pointer;" onclick="showHistory('nakamura')">中村 和弥<small>TURBO 📊</small></div>
+        <div class="h-value" style="color:#8AABBA;">0.5<small style="font-size:10px;color:#9A9A9A;font-weight:400;"> / 20h</small></div>
+        <div class="h-bar-wrap"><div class="h-bar" style="width:2.5%;background:#8AABBA;"></div></div>
+      </div>
+      <div class="hours-total">
+        <span>チーム合計（7月分・7/3 時点／Kotaのみ未提出）</span>
+        <span><span class="t-num">36.5</span>h / 月</span>
+      </div>
+    </div>
   </div>
 </div>
 
